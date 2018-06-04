@@ -1,0 +1,65 @@
+//
+//  placement.dart
+//  layout_editory
+//
+//  Created by William Shakour on March 31, 2018.
+//  Copyright © 2018 WillShex Limited. All rights reserved.
+//
+
+import 'package:willshex/willshex.dart';
+
+class Placement extends DataType {
+  int x;
+  int y;
+  String name;
+
+  Placement({
+    this.x,
+    this.y,
+    this.name,
+    int id,
+    DateTime created,
+    bool deleted,
+  })
+      : super(
+          id: id,
+          created: created,
+          deleted: deleted,
+        );
+
+  @override
+  void fromJson(Map<String, dynamic> json) {
+    super.fromJson(json);
+
+    if (json["x"] != null) {
+      x = json["x"];
+    }
+
+    if (json["y"] != null) {
+      y = json["y"];
+    }
+
+    if (json["name"] != null) {
+      name = json["name"];
+    }
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = super.toJson();
+
+    if (x != null) {
+      json["x"] = x;
+    }
+
+    if (y != null) {
+      json["y"] = y;
+    }
+
+    if (name != null) {
+      json["name"] = name;
+    }
+
+    return json;
+  }
+}
