@@ -20,12 +20,14 @@ class Placement extends DataType {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           id: id,
           created: created,
           deleted: deleted,
         );
+
+  Placement.json(Map<String, dynamic> json) : super.json(json);
+  Placement.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

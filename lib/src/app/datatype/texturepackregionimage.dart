@@ -30,8 +30,7 @@ class TexturePackRegionImage extends Image {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           name: name,
           path: path,
           width: width,
@@ -40,6 +39,9 @@ class TexturePackRegionImage extends Image {
           created: created,
           deleted: deleted,
         );
+
+  TexturePackRegionImage.json(Map<String, dynamic> json) : super.json(json);
+  TexturePackRegionImage.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

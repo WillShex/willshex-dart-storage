@@ -26,8 +26,7 @@ class RectanglePlacement extends Placement {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           x: x,
           y: y,
           name: name,
@@ -35,6 +34,9 @@ class RectanglePlacement extends Placement {
           created: created,
           deleted: deleted,
         );
+
+  RectanglePlacement.json(Map<String, dynamic> json) : super.json(json);
+  RectanglePlacement.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

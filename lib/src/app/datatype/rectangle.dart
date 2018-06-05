@@ -18,12 +18,14 @@ class Rectangle extends DataType {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           id: id,
           created: created,
           deleted: deleted,
         );
+
+  Rectangle.json(Map<String, dynamic> json) : super.json(json);
+  Rectangle.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

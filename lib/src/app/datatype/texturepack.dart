@@ -21,12 +21,14 @@ class TexturePack extends DataType {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           id: id,
           created: created,
           deleted: deleted,
         );
+
+  TexturePack.json(Map<String, dynamic> json) : super.json(json);
+  TexturePack.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

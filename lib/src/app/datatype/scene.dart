@@ -33,12 +33,14 @@ class Scene extends DataType {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           id: id,
           created: created,
           deleted: deleted,
         );
+
+  Scene.json(Map<String, dynamic> json) : super.json(json);
+  Scene.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

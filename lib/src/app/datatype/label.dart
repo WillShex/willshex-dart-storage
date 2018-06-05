@@ -24,12 +24,14 @@ class Label extends DataType {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           id: id,
           created: created,
           deleted: deleted,
         );
+
+  Label.json(Map<String, dynamic> json) : super.json(json);
+  Label.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

@@ -26,8 +26,7 @@ class ImagePlacement extends Placement {
     int id,
     DateTime created,
     bool deleted,
-  })
-      : super(
+  }) : super(
           x: x,
           y: y,
           name: name,
@@ -35,6 +34,9 @@ class ImagePlacement extends Placement {
           created: created,
           deleted: deleted,
         );
+
+  ImagePlacement.json(Map<String, dynamic> json) : super.json(json);
+  ImagePlacement.string(String string) : super.string(string);
 
   @override
   void fromJson(Map<String, dynamic> json) {

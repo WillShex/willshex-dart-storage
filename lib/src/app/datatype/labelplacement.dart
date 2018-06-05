@@ -35,6 +35,9 @@ class LabelPlacement extends Placement {
           deleted: deleted,
         );
 
+  LabelPlacement.json(Map<String, dynamic> json) : super.json(json);
+  LabelPlacement.string(String string) : super.string(string);
+
   @override
   void fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
