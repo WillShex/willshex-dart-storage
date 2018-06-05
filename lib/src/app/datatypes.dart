@@ -43,6 +43,6 @@ abstract class DataTypes {
     ..register(TEXTURE_PACK_REGION_IMAGE, () => new TexturePackRegionImage());
 
   static Future<String> _path() {
-    return Future.value("./data");
+    return new Future.value("./data");
   }
 }
