@@ -15,3 +15,4 @@ doc/api/
 /data/
 .project
 /.flutter-plugins
+.vscode
