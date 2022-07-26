@@ -7,24 +7,26 @@
 //
 
 import 'package:willshex/willshex.dart';
+
 import 'texturepackregionimage.dart';
 
+const Class<TexturePack> TEXTURE_PACK =
+    const Class("TexturePack", TexturePack.new);
+
 class TexturePack extends DataType {
-  List<TexturePackRegionImage> images;
-  String name;
-  String path;
+  List<TexturePackRegionImage>? images;
+  String? name;
+  String? path;
 
   TexturePack({
     this.images,
     this.name,
     this.path,
-    int id,
-    DateTime created,
-    bool deleted,
+    super.id,
+    super.created,
+    super.deleted,
   }) : super(
-          id: id,
-          created: created,
-          deleted: deleted,
+          sc: TEXTURE_PACK,
         );
 
   TexturePack.json(Map<String, dynamic> json) : super.json(json);
@@ -58,7 +60,7 @@ class TexturePack extends DataType {
 
     if (images != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (TexturePackRegionImage item in images) {
+      for (TexturePackRegionImage item in images!) {
         jsonArray.add(item.toJson());
       }
       json["images"] = jsonArray;

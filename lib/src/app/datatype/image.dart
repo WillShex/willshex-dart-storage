@@ -8,24 +8,24 @@
 
 import 'package:willshex/willshex.dart';
 
+const Class<Image> IMAGE = const Class("Image", Image.new);
+
 class Image extends DataType {
-  String name;
-  String path;
-  int width;
-  int height;
+  String? name;
+  String? path;
+  int? width;
+  int? height;
 
   Image({
     this.name,
     this.path,
     this.width,
     this.height,
-    int id,
-    DateTime created,
-    bool deleted,
+    super.id,
+    super.created,
+    super.deleted,
   }) : super(
-          id: id,
-          created: created,
-          deleted: deleted,
+          sc: IMAGE,
         );
 
   Image.json(Map<String, dynamic> json) : super.json(json);

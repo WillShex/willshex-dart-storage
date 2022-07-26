@@ -8,12 +8,14 @@
 
 import 'package:willshex/willshex.dart';
 
+const Class<Label> LABEL = const Class("Label", Label.new);
+
 class Label extends DataType {
-  double size;
-  String text;
-  String fontName;
-  bool bold;
-  bool italic;
+  double? size;
+  String? text;
+  String? fontName;
+  bool? bold;
+  bool? italic;
 
   Label({
     this.size,
@@ -21,14 +23,10 @@ class Label extends DataType {
     this.fontName,
     this.bold,
     this.italic,
-    int id,
-    DateTime created,
-    bool deleted,
-  }) : super(
-          id: id,
-          created: created,
-          deleted: deleted,
-        );
+    super.id,
+    super.created,
+    super.deleted,
+  }) : super(sc: LABEL);
 
   Label.json(Map<String, dynamic> json) : super.json(json);
   Label.string(String string) : super.string(string);

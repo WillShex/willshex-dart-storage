@@ -6,15 +6,20 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
+import 'package:willshex/willshex.dart';
+
 import 'image.dart';
 
+const Class<TexturePackRegionImage> TEXTURE_PACK_REGION_IMAGE =
+    const Class("TexturePackRegionImage", TexturePackRegionImage.new);
+
 class TexturePackRegionImage extends Image {
-  int x;
-  int y;
-  int offsetX;
-  int offsetY;
-  int frameWidth;
-  int frameHeight;
+  int? x;
+  int? y;
+  int? offsetX;
+  int? offsetY;
+  int? frameWidth;
+  int? frameHeight;
 
   TexturePackRegionImage({
     this.x,
@@ -23,22 +28,16 @@ class TexturePackRegionImage extends Image {
     this.offsetY,
     this.frameWidth,
     this.frameHeight,
-    String name,
-    String path,
-    int width,
-    int height,
-    int id,
-    DateTime created,
-    bool deleted,
-  }) : super(
-          name: name,
-          path: path,
-          width: width,
-          height: height,
-          id: id,
-          created: created,
-          deleted: deleted,
-        );
+    super.name,
+    super.path,
+    super.width,
+    super.height,
+    super.id,
+    super.created,
+    super.deleted,
+  }) {
+    super.sc = TEXTURE_PACK_REGION_IMAGE;
+  }
 
   TexturePackRegionImage.json(Map<String, dynamic> json) : super.json(json);
   TexturePackRegionImage.string(String string) : super.string(string);

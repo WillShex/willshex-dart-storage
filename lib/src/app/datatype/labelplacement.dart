@@ -6,34 +6,34 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'placement.dart';
+import 'package:willshex/willshex.dart';
+
 import 'label.dart';
+import 'placement.dart';
+
+const Class<LabelPlacement> LABEL_PLACEMENT =
+    const Class("LabelPlacement", LabelPlacement.new);
 
 class LabelPlacement extends Placement {
-  Label label;
-  double size;
-  bool mutable;
-  String colour;
+  Label? label;
+  double? size;
+  bool? mutable;
+  String? colour;
 
   LabelPlacement({
     this.label,
     this.size,
     this.mutable,
     this.colour,
-    int x,
-    int y,
-    String name,
-    int id,
-    DateTime created,
-    bool deleted,
-  }) : super(
-          x: x,
-          y: y,
-          name: name,
-          id: id,
-          created: created,
-          deleted: deleted,
-        );
+    super.x,
+    super.y,
+    super.name,
+    super.id,
+    super.created,
+    super.deleted,
+  }) {
+    super.sc = LABEL_PLACEMENT;
+  }
 
   LabelPlacement.json(Map<String, dynamic> json) : super.json(json);
   LabelPlacement.string(String string) : super.string(string);
@@ -64,7 +64,7 @@ class LabelPlacement extends Placement {
     Map<String, dynamic> json = super.toJson();
 
     if (label != null) {
-      json["label"] = label.toJson();
+      json["label"] = label!.toJson();
     }
 
     if (size != null) {

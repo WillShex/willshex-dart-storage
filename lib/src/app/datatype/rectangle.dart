@@ -8,20 +8,20 @@
 
 import 'package:willshex/willshex.dart';
 
+const Class<Rectangle> RECTANGLE = const Class("Rectangle", Rectangle.new);
+
 class Rectangle extends DataType {
-  int width;
-  int height;
+  int? width;
+  int? height;
 
   Rectangle({
     this.width,
     this.height,
-    int id,
-    DateTime created,
-    bool deleted,
+    super.id,
+    super.created,
+    super.deleted,
   }) : super(
-          id: id,
-          created: created,
-          deleted: deleted,
+          sc: RECTANGLE,
         );
 
   Rectangle.json(Map<String, dynamic> json) : super.json(json);

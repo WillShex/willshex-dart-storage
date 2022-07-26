@@ -8,22 +8,22 @@
 
 import 'package:willshex/willshex.dart';
 
+const Class<Placement> PLACEMENT = const Class("Placement", Placement.new);
+
 class Placement extends DataType {
-  int x;
-  int y;
-  String name;
+  int? x;
+  int? y;
+  String? name;
 
   Placement({
     this.x,
     this.y,
     this.name,
-    int id,
-    DateTime created,
-    bool deleted,
+    super.id,
+    super.created,
+    super.deleted,
   }) : super(
-          id: id,
-          created: created,
-          deleted: deleted,
+          sc: PLACEMENT,
         );
 
   Placement.json(Map<String, dynamic> json) : super.json(json);

@@ -6,34 +6,34 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'placement.dart';
+import 'package:willshex/willshex.dart';
+
 import 'image.dart';
+import 'placement.dart';
+
+const Class<ImagePlacement> IMAGE_PLACEMENT =
+    const Class("ImagePlacement", ImagePlacement.new);
 
 class ImagePlacement extends Placement {
-  Image image;
-  double scale;
-  bool flipX;
-  bool flipY;
+  Image? image;
+  double? scale;
+  bool? flipX;
+  bool? flipY;
 
   ImagePlacement({
     this.image,
     this.scale,
     this.flipX,
     this.flipY,
-    int x,
-    int y,
-    String name,
-    int id,
-    DateTime created,
-    bool deleted,
-  }) : super(
-          x: x,
-          y: y,
-          name: name,
-          id: id,
-          created: created,
-          deleted: deleted,
-        );
+    super.x,
+    super.y,
+    super.name,
+    super.id,
+    super.created,
+    super.deleted,
+  }) {
+    super.sc = IMAGE_PLACEMENT;
+  }
 
   ImagePlacement.json(Map<String, dynamic> json) : super.json(json);
   ImagePlacement.string(String string) : super.string(string);
@@ -64,7 +64,7 @@ class ImagePlacement extends Placement {
     Map<String, dynamic> json = super.toJson();
 
     if (image != null) {
-      json["image"] = image.toJson();
+      json["image"] = image!.toJson();
     }
 
     if (scale != null) {

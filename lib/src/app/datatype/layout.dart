@@ -7,14 +7,17 @@
 //
 
 import 'package:willshex/willshex.dart';
+
 import 'placement.dart';
 
+const Class<Layout> LAYOUT = const Class("Layout", Layout.new);
+
 class Layout extends DataType {
-  List<Placement> items;
-  String name;
-  int width;
-  int height;
-  bool locked;
+  List<Placement>? items;
+  String? name;
+  int? width;
+  int? height;
+  bool? locked;
 
   Layout({
     this.items,
@@ -22,13 +25,11 @@ class Layout extends DataType {
     this.width,
     this.height,
     this.locked,
-    int id,
-    DateTime created,
-    bool deleted,
+    super.id,
+    super.created,
+    super.deleted,
   }) : super(
-          id: id,
-          created: created,
-          deleted: deleted,
+          sc: LAYOUT,
         );
 
   Layout.json(Map<String, dynamic> json) : super.json(json);
@@ -70,7 +71,7 @@ class Layout extends DataType {
 
     if (items != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Placement item in items) {
+      for (Placement item in items!) {
         jsonArray.add(item.toJson());
       }
       json["items"] = jsonArray;

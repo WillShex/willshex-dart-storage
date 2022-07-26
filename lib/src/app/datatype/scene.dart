@@ -7,20 +7,23 @@
 //
 
 import 'package:willshex/willshex.dart';
-import 'layout.dart';
+
 import 'image.dart';
 import 'label.dart';
-import 'texturepack.dart';
+import 'layout.dart';
 import 'rectangle.dart';
+import 'texturepack.dart';
+
+const Class<Scene> SCENE = const Class("Scene", Scene.new);
 
 class Scene extends DataType {
-  List<Layout> layouts;
-  List<Image> images;
-  List<Label> labels;
-  List<TexturePack> texturePacks;
-  List<Rectangle> rectangles;
-  String name;
-  String fileName;
+  List<Layout>? layouts;
+  List<Image>? images;
+  List<Label>? labels;
+  List<TexturePack>? texturePacks;
+  List<Rectangle>? rectangles;
+  String? name;
+  String? fileName;
 
   Scene({
     this.layouts,
@@ -30,13 +33,11 @@ class Scene extends DataType {
     this.rectangles,
     this.name,
     this.fileName,
-    int id,
-    DateTime created,
-    bool deleted,
+    super.id,
+    super.created,
+    super.deleted,
   }) : super(
-          id: id,
-          created: created,
-          deleted: deleted,
+          sc: SCENE,
         );
 
   Scene.json(Map<String, dynamic> json) : super.json(json);
@@ -106,7 +107,7 @@ class Scene extends DataType {
 
     if (layouts != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Layout item in layouts) {
+      for (Layout item in layouts!) {
         jsonArray.add(item.toJson());
       }
       json["layouts"] = jsonArray;
@@ -114,7 +115,7 @@ class Scene extends DataType {
 
     if (images != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Image item in images) {
+      for (Image item in images!) {
         jsonArray.add(item.toJson());
       }
       json["images"] = jsonArray;
@@ -122,7 +123,7 @@ class Scene extends DataType {
 
     if (labels != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Label item in labels) {
+      for (Label item in labels!) {
         jsonArray.add(item.toJson());
       }
       json["labels"] = jsonArray;
@@ -130,7 +131,7 @@ class Scene extends DataType {
 
     if (texturePacks != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (TexturePack item in texturePacks) {
+      for (TexturePack item in texturePacks!) {
         jsonArray.add(item.toJson());
       }
       json["texturePacks"] = jsonArray;
@@ -138,7 +139,7 @@ class Scene extends DataType {
 
     if (rectangles != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Rectangle item in rectangles) {
+      for (Rectangle item in rectangles!) {
         jsonArray.add(item.toJson());
       }
       json["rectangles"] = jsonArray;

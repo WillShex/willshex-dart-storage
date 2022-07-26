@@ -6,34 +6,34 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
+import 'package:willshex/willshex.dart';
+
 import 'placement.dart';
 import 'rectangle.dart';
 
+const Class<RectanglePlacement> RECTANGLE_PLACEMENT =
+    const Class("RectanglePlacement", RectanglePlacement.new);
+
 class RectanglePlacement extends Placement {
-  Rectangle rectangle;
-  String colour;
-  int cornerRadius;
-  int alpha;
+  Rectangle? rectangle;
+  String? colour;
+  int? cornerRadius;
+  int? alpha;
 
   RectanglePlacement({
     this.rectangle,
     this.colour,
     this.cornerRadius,
     this.alpha,
-    int x,
-    int y,
-    String name,
-    int id,
-    DateTime created,
-    bool deleted,
-  }) : super(
-          x: x,
-          y: y,
-          name: name,
-          id: id,
-          created: created,
-          deleted: deleted,
-        );
+    super.x,
+    super.y,
+    super.name,
+    super.id,
+    super.created,
+    super.deleted,
+  }) {
+    super.sc = RECTANGLE_PLACEMENT;
+  }
 
   RectanglePlacement.json(Map<String, dynamic> json) : super.json(json);
   RectanglePlacement.string(String string) : super.string(string);
@@ -64,7 +64,7 @@ class RectanglePlacement extends Placement {
     Map<String, dynamic> json = super.toJson();
 
     if (rectangle != null) {
-      json["rectangle"] = rectangle.toJson();
+      json["rectangle"] = rectangle!.toJson();
     }
 
     if (colour != null) {
