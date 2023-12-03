@@ -8,15 +8,11 @@
 
 import 'dart:async';
 
-import 'package:willshex_dart_storage/src/storage/class.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/loader.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/loadtype.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/query.dart';
 import 'package:willshex_dart_storage/src/storage/impl/loaderimpl.dart';
 import 'package:willshex_dart_storage/src/storage/impl/queryable.dart';
 import 'package:willshex_dart_storage/src/storage/impl/queryimpl.dart';
 import 'package:willshex_dart_storage/src/storage/impl/simplequeryimpl.dart';
-import 'package:willshex/willshex.dart';
+import 'package:willshex_dart_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)

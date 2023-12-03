@@ -8,10 +8,7 @@
 
 import 'dart:async';
 
-import 'package:willshex/src/datatype.dart';
-import 'package:willshex_dart_storage/src/storage/class.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/loadtype.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/simplequery.dart';
+import 'package:willshex_dart_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)

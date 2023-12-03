@@ -9,10 +9,8 @@
 import 'dart:async';
 
 import 'package:universal_file/universal_file.dart';
-import 'package:willshex/willshex.dart';
-import '../../../../storage.dart';
-import 'package:willshex_dart_storage/src/storage/class.dart';
 import 'package:willshex_dart_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_dart_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)

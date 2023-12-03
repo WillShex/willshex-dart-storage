@@ -8,7 +8,8 @@
 
 import 'dart:async';
 
-import 'package:willshex/willshex.dart';
+import 'package:willshex_dart_storage/storage.dart';
+
 
 ///
 /// @author William Shakour (billy1380)

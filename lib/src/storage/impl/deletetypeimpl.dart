@@ -8,10 +8,8 @@
 
 import 'dart:async';
 
-import 'package:willshex/willshex.dart';
-import 'package:willshex_dart_storage/src/storage/class.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/deletetype.dart';
 import 'package:willshex_dart_storage/src/storage/impl/deleterimpl.dart';
+import 'package:willshex_dart_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)

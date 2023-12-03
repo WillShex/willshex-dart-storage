@@ -8,10 +8,8 @@
 
 import 'dart:async';
 
-import '../../../../storage.dart';
-import 'package:willshex_dart_storage/src/storage/class.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/compactor.dart';
 import 'package:willshex_dart_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_dart_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)
