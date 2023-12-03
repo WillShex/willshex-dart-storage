@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex/willshex.dart';
+import 'package:willshex_dart_storage/storage.dart';
 
 const Class<Label> LABEL = const Class("Label", Label.new);
 

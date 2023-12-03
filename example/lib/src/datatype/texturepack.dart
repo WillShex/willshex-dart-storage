@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex/willshex.dart';
+import 'package:willshex_dart_storage/storage.dart';
 
 import 'texturepackregionimage.dart';
 

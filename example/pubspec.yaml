@@ -1,5 +1,5 @@
-name: willshex_dart_storage
-description: A library for storing and querying data
+name: willshex_dart_storage_example
+description: A command line tool example that uses willshex_dart_storage
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -9,6 +9,8 @@ dependencies:
   meta: ^1.1.2
   willshex:
     path: ../willshex-dart
+  willshex_dart_storage:
+    path: ../willshex-dart-storage
 
 #dev_dependencies:
   
