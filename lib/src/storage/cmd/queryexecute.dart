@@ -8,8 +8,8 @@
 
 import 'dart:async';
 
-typedef Future<List<T>> ListFunction<T>();
-typedef Future<T> FirstFunction<T>();
+typedef ListFunction<T> = Future<List<T>> Function();
+typedef FirstFunction<T> = Future<T> Function();
 
 ///
 /// @author William Shakour (billy1380)
