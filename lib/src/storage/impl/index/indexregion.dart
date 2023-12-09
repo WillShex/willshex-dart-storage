@@ -7,7 +7,7 @@
 //
 
 import 'package:willshex/src/abstracttree.dart';
-import 'package:willshex_dart_storage/src/storage/impl/index/pair.dart';
+import 'package:willshex_storage/src/storage/impl/index/pair.dart';
 
 class IndexRegion<T extends num> implements Region<Pair<T, int>> {
   final T start;

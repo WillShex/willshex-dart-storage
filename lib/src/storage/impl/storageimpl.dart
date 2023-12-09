@@ -9,12 +9,12 @@
 import 'dart:async';
 
 import 'package:universal_file/universal_file.dart';
-import 'package:willshex_dart_storage/src/storage/impl/compactorimpl.dart';
-import 'package:willshex_dart_storage/src/storage/impl/deleterimpl.dart';
-import 'package:willshex_dart_storage/src/storage/impl/loaderimpl.dart';
-import 'package:willshex_dart_storage/src/storage/impl/saverimpl.dart';
-import 'package:willshex_dart_storage/src/storage/impl/writeengine.dart';
-import 'package:willshex_dart_storage/storage.dart';
+import 'package:willshex_storage/src/storage/impl/compactorimpl.dart';
+import 'package:willshex_storage/src/storage/impl/deleterimpl.dart';
+import 'package:willshex_storage/src/storage/impl/loaderimpl.dart';
+import 'package:willshex_storage/src/storage/impl/saverimpl.dart';
+import 'package:willshex_storage/src/storage/impl/writeengine.dart';
+import 'package:willshex_storage/storage.dart';
 
 typedef Future<String> PathProvider();
 

@@ -7,7 +7,7 @@
 //
 
 import 'package:willshex/src/abstracttree.dart';
-import 'package:willshex_dart_storage/src/storage/impl/index/keyregion.dart';
+import 'package:willshex_storage/src/storage/impl/index/keyregion.dart';
 
 class Key extends AbstractTree<int> {
   static const int max = 4294967296;

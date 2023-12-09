@@ -6,10 +6,10 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_dart_storage/src/storage/cmd/compactor.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/deleter.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/loader.dart';
-import 'package:willshex_dart_storage/src/storage/cmd/saver.dart';
+import 'package:willshex_storage/src/storage/cmd/compactor.dart';
+import 'package:willshex_storage/src/storage/cmd/deleter.dart';
+import 'package:willshex_storage/src/storage/cmd/loader.dart';
+import 'package:willshex_storage/src/storage/cmd/saver.dart';
 
 ///
 /// @author William Shakour (billy1380)

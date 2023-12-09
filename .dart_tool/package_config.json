@@ -290,7 +290,7 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "willshex_dart_storage",
+      "name": "willshex_storage",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.17"

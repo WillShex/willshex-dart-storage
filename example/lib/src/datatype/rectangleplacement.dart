@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_dart_storage/storage.dart';
+import 'package:willshex_storage/storage.dart';
 
 import 'placement.dart';
 import 'rectangle.dart';

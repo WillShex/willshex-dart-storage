@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:universal_file/universal_file.dart';
-import 'package:willshex_dart_storage/storage.dart';
+import 'package:willshex_storage/storage.dart';
 
 class Test1Type extends DataType {
   Test1Type({int? id, DateTime? created, bool? deleted})

@@ -8,9 +8,9 @@
 
 import 'dart:async';
 
-import 'package:willshex_dart_storage/src/storage/impl/deletetypeimpl.dart';
-import 'package:willshex_dart_storage/src/storage/impl/storageimpl.dart';
-import 'package:willshex_dart_storage/storage.dart';
+import 'package:willshex_storage/src/storage/impl/deletetypeimpl.dart';
+import 'package:willshex_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)

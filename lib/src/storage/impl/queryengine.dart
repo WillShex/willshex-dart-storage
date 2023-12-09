@@ -12,12 +12,12 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:universal_file/universal_file.dart';
-import 'package:willshex_dart_storage/src/storage/impl/helper/queryhelper.dart';
-import 'package:willshex_dart_storage/src/storage/impl/loaderimpl.dart';
-import 'package:willshex_dart_storage/src/storage/impl/order.dart';
-import 'package:willshex_dart_storage/src/storage/impl/queryimpl.dart';
-import 'package:willshex_dart_storage/src/storage/impl/storageimpl.dart';
-import 'package:willshex_dart_storage/storage.dart';
+import 'package:willshex_storage/src/storage/impl/helper/queryhelper.dart';
+import 'package:willshex_storage/src/storage/impl/loaderimpl.dart';
+import 'package:willshex_storage/src/storage/impl/order.dart';
+import 'package:willshex_storage/src/storage/impl/queryimpl.dart';
+import 'package:willshex_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)
