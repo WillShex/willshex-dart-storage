@@ -2,17 +2,14 @@ name: willshex_storage
 description: A library for storing and querying data
 
 environment:
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  http: ^0.13.3
-  meta: ^1.1.2
+  http: ^1.1.2
   willshex:
     path: ../willshex-dart
 
 dev_dependencies:
   test: ^1.22.1
-  
-
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
