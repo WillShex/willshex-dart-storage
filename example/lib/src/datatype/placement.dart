@@ -8,7 +8,12 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Placement> PLACEMENT = const Class("Placement", Placement.new);
+const Class<Placement> PLACEMENT = const Class(
+  "Placement",
+  Placement.new,
+  Placement.string,
+  Placement.json,
+);
 
 class Placement extends DataType {
   int? x;

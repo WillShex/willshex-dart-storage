@@ -10,7 +10,12 @@ import 'package:willshex_storage/storage.dart';
 
 import 'placement.dart';
 
-const Class<Layout> LAYOUT = const Class("Layout", Layout.new);
+const Class<Layout> LAYOUT = const Class(
+  "Layout",
+  Layout.new,
+  Layout.string,
+  Layout.json,
+);
 
 class Layout extends DataType {
   List<Placement>? items;

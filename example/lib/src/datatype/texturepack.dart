@@ -10,8 +10,12 @@ import 'package:willshex_storage/storage.dart';
 
 import 'texturepackregionimage.dart';
 
-const Class<TexturePack> TEXTURE_PACK =
-    const Class("TexturePack", TexturePack.new);
+const Class<TexturePack> TEXTURE_PACK = const Class(
+  "TexturePack",
+  TexturePack.new,
+  TexturePack.string,
+  TexturePack.json,
+);
 
 class TexturePack extends DataType {
   List<TexturePackRegionImage>? images;

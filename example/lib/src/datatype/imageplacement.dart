@@ -11,8 +11,12 @@ import 'package:willshex_storage/storage.dart';
 import 'image.dart';
 import 'placement.dart';
 
-const Class<ImagePlacement> IMAGE_PLACEMENT =
-    const Class("ImagePlacement", ImagePlacement.new);
+const Class<ImagePlacement> IMAGE_PLACEMENT = const Class(
+  "ImagePlacement",
+  ImagePlacement.new,
+  ImagePlacement.string,
+  ImagePlacement.json,
+);
 
 class ImagePlacement extends Placement {
   Image? image;

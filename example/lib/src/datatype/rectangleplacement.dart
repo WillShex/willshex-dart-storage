@@ -11,8 +11,12 @@ import 'package:willshex_storage/storage.dart';
 import 'placement.dart';
 import 'rectangle.dart';
 
-const Class<RectanglePlacement> RECTANGLE_PLACEMENT =
-    const Class("RectanglePlacement", RectanglePlacement.new);
+const Class<RectanglePlacement> RECTANGLE_PLACEMENT = const Class(
+  "RectanglePlacement",
+  RectanglePlacement.new,
+  RectanglePlacement.string,
+  RectanglePlacement.json,
+);
 
 class RectanglePlacement extends Placement {
   Rectangle? rectangle;

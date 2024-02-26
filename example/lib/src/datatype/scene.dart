@@ -14,7 +14,12 @@ import 'layout.dart';
 import 'rectangle.dart';
 import 'texturepack.dart';
 
-const Class<Scene> SCENE = const Class("Scene", Scene.new);
+const Class<Scene> SCENE = const Class(
+  "Scene",
+  Scene.new,
+  Scene.string,
+  Scene.json,
+);
 
 class Scene extends DataType {
   List<Layout>? layouts;

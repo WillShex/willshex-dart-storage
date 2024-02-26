@@ -11,8 +11,12 @@ import 'package:willshex_storage/storage.dart';
 import 'label.dart';
 import 'placement.dart';
 
-const Class<LabelPlacement> LABEL_PLACEMENT =
-    const Class("LabelPlacement", LabelPlacement.new);
+const Class<LabelPlacement> LABEL_PLACEMENT = const Class(
+  "LabelPlacement",
+  LabelPlacement.new,
+  LabelPlacement.string,
+  LabelPlacement.json,
+);
 
 class LabelPlacement extends Placement {
   Label? label;

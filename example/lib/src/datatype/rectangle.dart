@@ -8,7 +8,12 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Rectangle> RECTANGLE = const Class("Rectangle", Rectangle.new);
+const Class<Rectangle> RECTANGLE = const Class(
+  "Rectangle",
+  Rectangle.new,
+  Rectangle.string,
+  Rectangle.json,
+);
 
 class Rectangle extends DataType {
   int? width;

@@ -8,7 +8,12 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Image> IMAGE = const Class("Image", Image.new);
+const Class<Image> IMAGE = const Class(
+  "Image",
+  Image.new,
+  Image.string,
+  Image.json,
+);
 
 class Image extends DataType {
   String? name;

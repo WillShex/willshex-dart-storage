@@ -8,7 +8,12 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Label> LABEL = const Class("Label", Label.new);
+const Class<Label> LABEL = const Class(
+  "Label",
+  Label.new,
+  Label.string,
+  Label.json,
+);
 
 class Label extends DataType {
   double? size;
