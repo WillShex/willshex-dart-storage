@@ -75,9 +75,9 @@
     },
     {
       "name": "http",
-      "rootUri": "file:///Users/billy1380/.pub-cache/hosted/pub.dev/http-1.1.2",
+      "rootUri": "file:///Users/billy1380/.pub-cache/hosted/pub.dev/http-1.2.1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "http_multi_server",
@@ -267,9 +267,9 @@
     },
     {
       "name": "web",
-      "rootUri": "file:///Users/billy1380/.pub-cache/hosted/pub.dev/web-0.4.0",
+      "rootUri": "file:///Users/billy1380/.pub-cache/hosted/pub.dev/web-0.5.0",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "web_socket_channel",
@@ -302,7 +302,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-01-11T12:18:34.283015Z",
+  "generated": "2024-02-26T13:22:53.053662Z",
   "generator": "pub",
-  "generatorVersion": "3.2.3"
+  "generatorVersion": "3.3.0"
 }

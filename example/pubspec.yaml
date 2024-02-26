@@ -5,12 +5,12 @@ environment:
   sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
-  http: ^0.13.3
+  http: ^1.2.1
   meta: ^1.1.2
   willshex:
-    path: ../willshex-dart
+    path: ../../willshex-dart
   willshex_storage:
-    path: ../willshex-dart-storage
+    path: ../../willshex-dart-storage
 
 #dev_dependencies:
   
