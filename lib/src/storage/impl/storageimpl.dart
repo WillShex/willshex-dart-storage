@@ -16,7 +16,7 @@ import 'package:willshex_storage/src/storage/impl/saverimpl.dart';
 import 'package:willshex_storage/src/storage/impl/writeengine.dart';
 import 'package:willshex_storage/storage.dart';
 
-typedef Future<String> PathProvider();
+typedef PathProvider = FutureOr<String> Function();
 
 ///
 /// @author William Shakour (billy1380)
