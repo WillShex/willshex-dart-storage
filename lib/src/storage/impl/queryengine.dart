@@ -36,10 +36,8 @@ class QueryEngine {
 
   Future<List<int>> queryIds<T extends DataType>(QueryImpl<T> q) async {
     List<T> entities = await query(q);
-    List<int> ids = <int>[]..length = entities.length;
-    for (T entity in entities) {
-      ids.add(entity.id!);
-    }
+    List<int> ids = entities.map((e) => e.id!).toList();
+
     return ids;
   }
 
