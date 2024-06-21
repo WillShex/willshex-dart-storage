@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex/src/abstracttree.dart';
+import 'package:willshex/src/abstract_tree.dart';
 import 'package:willshex_storage/src/storage/impl/index/keyregion.dart';
 
 class Key extends AbstractTree<int> {

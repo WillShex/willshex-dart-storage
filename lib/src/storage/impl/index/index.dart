@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex/src/abstracttree.dart';
+import 'package:willshex/src/abstract_tree.dart';
 
 class Index<T> extends AbstractTree<T> {
   Index() : super(_creator, 2);
