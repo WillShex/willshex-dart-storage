@@ -13,6 +13,8 @@ doc/api/
 
 /.idea/
 /data/
+/data_query/
+/example/data/*
 .project
 /.flutter-plugins
 .vscode

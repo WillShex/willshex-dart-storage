@@ -82,7 +82,42 @@ class QueryEngine {
 
     _log.fine("Matched count ${query.dataClass?.name}: $matchedCount");
 
-    // TODO: process distinct and group
+    if (query.allGroups?.isNotEmpty ?? false) {
+      final groupedObjects = <String, Map<String, dynamic>>{};
+
+      for (final object in objects) {
+        final keyParts = <String>[];
+
+        for (final field in query.allGroups!) {
+          keyParts.add(object[field]?.toString() ?? 'null');
+        }
+
+        final groupKey = keyParts.join('-');
+
+        if (!groupedObjects.containsKey(groupKey)) {
+          groupedObjects[groupKey] = object;
+        }
+      }
+
+      objects = groupedObjects.values.toList();
+    } else if (query.isDistinct) {
+      final distinctKeys = <String>{};
+
+      final distinctObjects = <Map<String, dynamic>>[];
+      for (final object in objects) {
+        final objectForDistinct = Map<String, dynamic>.from(object);
+
+        objectForDistinct.remove("id");
+
+        final key = jsonEncode(objectForDistinct);
+
+        if (distinctKeys.add(key)) {
+          distinctObjects.add(object);
+        }
+      }
+      
+      objects = distinctObjects;
+    }
 
     QueryHelper.sort(
         objects, query.allOrders == null ? DEFAULT_ORDER : query.allOrders);
