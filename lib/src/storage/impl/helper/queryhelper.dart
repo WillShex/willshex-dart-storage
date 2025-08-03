@@ -68,6 +68,14 @@ class QueryHelper {
     if (a1.length != a2.length) {
       return a1.length > a2.length ? -1 : 1;
     }
+
+    int result;
+    for (int i = 0; i < a1.length; i++) {
+      if ((result = compareElements(a1[i], a2[i])) != 0) {
+        return result;
+      }
+    }
+
     return 0;
   }
 
@@ -137,8 +145,12 @@ class QueryHelper {
           } else if (against is DataType && against.id != null) {
             passed = (toCompare["id"] == against.id);
           }
+        } else if (toCompare is List && against is List) {
+          passed = compareArrays(toCompare, against) == 0;
+        } else {
+          passed = (toCompare == against);
         }
-        // TODO: 6- possibly with lists of primitives that contain the same elements
+
         break;
       case FilterOperation.GreaterThan:
         passed = _isJsonPrimitive(toCompare) &&
