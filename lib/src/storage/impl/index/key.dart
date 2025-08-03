@@ -6,20 +6,15 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex/src/abstract_tree.dart';
+import 'package:willshex_storage/src/storage/impl/index/index.dart';
 import 'package:willshex_storage/src/storage/impl/index/keyregion.dart';
 
-class Key extends AbstractTree<int> {
+class Key extends Index<int> {
   static const int max = 4294967296;
+  static const String indexName = "id";
 
-  Key._() : super(_creator, 2);
+  Key._() : super(indexName);
 
-  static Key _creator() {
-    return Key._();
-  }
-
-  static Key createKey([int capacity = 10]) {
-    return AbstractTree.createTree(KeyRegion(0, max), capacity, _creator)
-        as Key;
-  }
+  static Key createKey([int capacity = 10]) =>
+      Index.createIndex(indexName, KeyRegion(0, max), capacity) as Key;
 }

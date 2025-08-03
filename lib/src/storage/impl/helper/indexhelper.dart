@@ -26,8 +26,8 @@ class IndexHelper {
 
   static Future<Index<I>?> loadIndex<T, I>({
     required StorageImpl<Storage> storage,
-    Class<T>? type,
-    String? colName,
+    required Class<T> type,
+    required String colName,
     String? path,
   }) async {
     // TODO: load index
@@ -36,20 +36,45 @@ class IndexHelper {
 
   static Future<void> saveIndex<T, I>({
     required StorageImpl<Storage> storage,
-    Index<I>? index,
-    Class<T>? type,
-    String? colName,
+    required Index<I> index,
+    required Class<T> type,
+    required String colName,
     String? path,
   }) async {
-    // TODO: save index
-  }
+    Directory indexFolder = Directory(
+        "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
 
-  static Future<Key?> loadKey<T>({
-    required StorageImpl<Storage> storage,
-    Class<T>? type,
-    String? path,
-  }) async {
-    return null;
+    // remove .index folder
+    if (await indexFolder.exists() && path == null) {
+      await indexFolder.delete(
+        recursive: true,
+      );
+
+      // recreate the folder
+      await indexFolder.create();
+    }
+
+    if (index.points != null) {
+      File pointsFile =
+          File("${indexFolder.absolute.path}${colName}${path ?? ""}");
+      pointsFile = await pointsFile.create(
+        recursive: true,
+      );
+
+      await pointsFile.writeAsBytes(
+          utf8.encode((index.points!.map((I e) => e.toString()).join("\n"))));
+
+      for (int i = 0; i < index.children.length; i++) {
+        if (index.children[i] != null) {
+          await saveIndex(
+              storage: storage,
+              index: index.children[i] as Index<I>,
+              type: type,
+              colName: colName,
+              path: _path(path, i));
+        }
+      }
+    }
   }
 
   static Future<void> saveKey<T>({
@@ -57,43 +82,31 @@ class IndexHelper {
     required Key key,
     required Class<T> type,
     String? path,
-  }) async {
-    Directory keyFolder = Directory(
-        "${(await storage.ensureFolder(type.simpleName)).path}/.key/");
+  }) {
+    return saveIndex(
+      storage: storage,
+      index: key,
+      type: type,
+      colName: key.name,
+      path: path,
+    );
+  }
 
-    // remove .key folder
-    if (await keyFolder.exists() && path == null) {
-      await keyFolder.delete(
-        recursive: true,
-      );
-
-      // recreate the folder
-      await keyFolder.create();
-    }
-
-    if (key.points != null) {
-      File pointsFile = File("${keyFolder.absolute.path}ids${path ?? ""}");
-      pointsFile = await pointsFile.create(
-        recursive: true,
-      );
-
-      await pointsFile.writeAsBytes(
-          utf8.encode((key.points!.map((int e) => e.toString()).join("\n"))));
-
-      for (int i = 0; i < key.children.length; i++) {
-        if (key.children[i] != null) {
-          await saveKey(
-              storage: storage,
-              key: key.children[i] as Key,
-              type: type,
-              path: _path(path, i));
-        }
-      }
-    }
+  static Future<Key?> loadKey<T>({
+    required StorageImpl<Storage> storage,
+    required Class<T> type,
+    required String colName,
+    String? path,
+  }) {
+    return loadIndex(
+      storage: storage,
+      type: type,
+      colName: Key.indexName,
+    ) as Future<Key?>;
   }
 
   static String _path(String? path, int index) {
-    return path == null ? "${index}" : "${path}${index}";
+    return path == null ? "${index}" : "${path}_${index}";
   }
 
   static double weigh(String s) {

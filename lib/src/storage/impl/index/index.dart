@@ -9,13 +9,16 @@
 import 'package:willshex/src/abstract_tree.dart';
 
 class Index<T> extends AbstractTree<T> {
-  Index() : super(_creator, 2);
+  final String name;
 
-  static Index<T> _creator<T>() {
-    return Index<T>();
+  Index(this.name) : super(() => _creator(name), 2);
+
+  static Index<T> _creator<T>(String name) {
+    return Index<T>(name);
   }
 
-  static Index<T> createIndex<T>(Region<T> region, int capacity) {
-    return AbstractTree.createTree(region, capacity, _creator) as Index<T>;
+  static Index<T> createIndex<T>(String name, Region<T> region, int capacity) {
+    return AbstractTree.createTree(region, capacity, () => _creator(name))
+        as Index<T>;
   }
 }
