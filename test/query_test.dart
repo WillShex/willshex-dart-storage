@@ -7,21 +7,14 @@ import 'package:willshex_storage/storage.dart';
 
 import 'fixtures.dart';
 
-void setupLogging() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((rec) {
-    print('[${rec.level.name}] ${rec.time}: ${rec.message}');
-  });
-}
-
 void main() {
   setupLogging();
 
-  final Logger log = Logger("test:advanced");
+  final Logger log = Logger("test:query");
 
-  group("Advanced Storage Tests", () {
+  group("Query Tests", () {
     late Storage cached;
-    Future<String> path() async => "./data/advanced";
+    Future<String> path() async => "./data/query";
 
     setUp(() async {
       Directory output = Directory(await path());
@@ -35,7 +28,7 @@ void main() {
 
       cached = StorageProvider.provide(path).cache(true);
 
-      // Add initial data
+      // Add test data
       await cached.save.entities([
         TestEntity(name: "A", value: 10, tags: ["one", "two"]),
         TestEntity(name: "B", value: 20, tags: ["two", "three"]),
@@ -100,26 +93,6 @@ void main() {
       expect(count, 5);
     });
 
-    test("Deleter Entities", () async {
-      final toDelete = await cached.load.type(TE).filter("name", "A").list;
-      await cached.delete.entities(toDelete);
-
-      final count = await cached.load.type(TE).count;
-      expect(count, 4);
-
-      final deleted = await cached.load.type(TE).filter("name", "A").list;
-      expect(deleted, isEmpty);
-    });
-
-    test("Deleter Type IDs", () async {
-      final toDelete = await cached.load.type(TE).filter("name", "B").list;
-      final ids = toDelete.map((e) => e.id!).toList();
-      await cached.delete.type(TE).ids(ids);
-
-      final count = await cached.load.type(TE).count;
-      expect(count, 4);
-    });
-
     test("Query Filter Greater Than (String)", () async {
       final query = cached.load.type(TE).filter("name >", "C");
       final results = await query.list;
@@ -128,24 +101,12 @@ void main() {
     });
 
     test("Query Filter Greater Than (Array)", () async {
-      // Assuming array comparison checks length or lexicographical order?
-      // Based on QueryHelper.compareArrays:
-      // if (a1.length != a2.length) return a1.length > a2.length ? 1 : -1;
-      // So it compares length first.
-      // "three", "four" (length 2) > "one" (length 1)
       final query = cached.load.type(TE).filter("tags >", ["one"]);
       final results = await query.list;
-      // All entities have tags length 2, except maybe none?
-      // Wait, ["one"] has length 1. All our tags have length 2.
-      // So all should be greater than ["one"].
       expect(results.length, 5);
     });
 
     test("Query Filter Greater Than (Type)", () async {
-      // Comparing TestEntity objects by ID.
-      // Child of D has ID 100. Child of E has ID 101.
-      // We want entities where child > TestEntity(id: 100).
-      // Should match E.
       final query = cached.load.type(TE).filter("child >", TestEntity(id: 100));
       final results = await query.list;
       expect(results.length, 1);
@@ -188,16 +149,12 @@ void main() {
     });
     
     test("Query Filter Less Than (Array)", () async {
-      // ["five", "six"] (length 2) < ["one", "two", "three"] (length 3)
       final query = cached.load.type(TE).filter("tags <", ["one", "two", "three"]);
       final results = await query.list;
       expect(results.length, 5);
     });
 
     test("Query Filter Less Than (Type)", () async {
-      // Child of D has ID 100. Child of E has ID 101.
-      // We want entities where child < TestEntity(id: 101).
-      // Should match D.
       final query = cached.load.type(TE).filter("child <", TestEntity(id: 101));
       final results = await query.list;
       expect(results.length, 1);
@@ -217,5 +174,82 @@ void main() {
       expect(results.length, 3);
       expect(results.map((e) => e.name), containsAll(["A", "C", "E"]));
     });
+
+    test("Test distinct", () async {
+      // Clear existing data to ensure clean state for this test
+      // Or just append? The setUp adds 5 entities.
+      // Let's add specific data for these tests.
+      await cached.save.entities([
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 3),
+      ]);
+      
+      // Filter by name "a" or "b" to exclude the setUp data (A, B, C, D, E)
+      // Note: "a" != "A" (case sensitive usually)
+      final query = cached.load.type(TE).filter("name in", ["a", "b"]).distinct(true);
+      final results = await query.list;
+      expect(results.length, 4);
+    });
+
+    test("Test group by 'name'", () async {
+      // Ensure data exists (it persists across tests in the same file if not cleared, 
+      // but setUp runs before each test and clears directory? 
+      // YES. setUp deletes the directory!
+      // So we need to re-add the data for EACH test or move it to setUp.
+      
+      await cached.save.entities([
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 3),
+      ]);
+
+      final query = cached.load.type(TE).filter("name in", ["a", "b"]).group("name");
+      final results = await query.list;
+      expect(results.length, 2);
+    });
+
+    test("Test group by 'value'", () async {
+      await cached.save.entities([
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 3),
+      ]);
+
+      final query = cached.load.type(TE).filter("name in", ["a", "b"]).group("value");
+      final results = await query.list;
+      expect(results.length, 3);
+    });
+
+    test("Test group by 'name' and 'value'", () async {
+      await cached.save.entities([
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 3),
+      ]);
+
+      final query = cached.load.type(TE).filter("name in", ["a", "b"]).group("name").group("value");
+      final results = await query.list;
+      expect(results.length, 4);
+    });
+  });
+}
+
+void setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((rec) {
+    print('[${rec.level.name}] ${rec.time}: ${rec.message}');
   });
 }

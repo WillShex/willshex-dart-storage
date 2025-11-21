@@ -10,11 +10,11 @@ import 'fixtures.dart';
 void main() {
   setupLogging();
 
-  final Logger log = Logger("test:main");
+  final Logger log = Logger("test:storage");
 
   group("Storage Tests", () {
     late Storage cached, uncached;
-    Future<String> path() async => "./data/simple";
+    Future<String> path() async => "./data/storage";
 
     setUpAll(() async {
       Directory output = Directory(await path());
@@ -56,5 +56,12 @@ void main() {
       expect((loaded = (await uncached.load.type(T4).id(id))!).id, saved.id);
       expect(false, saved == loaded);
     });
+  });
+}
+
+void setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((rec) {
+    print('[${rec.level.name}] ${rec.time}: ${rec.message}');
   });
 }
