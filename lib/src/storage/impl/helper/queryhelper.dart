@@ -26,15 +26,15 @@ class QueryHelper {
 
           if ((result = compareElements(value, value2)) > 0) {
             if (item.direction == SortDirectionType.ascending) {
-              return -1;
-            } else {
               return 1;
+            } else {
+              return -1;
             }
           } else if (result < 0) {
             if (item.direction == SortDirectionType.ascending) {
-              return 1;
-            } else {
               return -1;
+            } else {
+              return 1;
             }
           }
         }
@@ -57,6 +57,12 @@ class QueryHelper {
       return compareArrays(e, e2);
     } else if (e is Map && e2 is Map) {
       return compareElements(e["id"], e2["id"]);
+    } else if (e is DataType && e2 is Map) {
+      return compareElements(e.id, e2["id"]);
+    } else if (e is Map && e2 is DataType) {
+      return compareElements(e["id"], e2.id);
+    } else if (e is DataType && e2 is DataType) {
+      return compareElements(e.id, e2.id);
     } else if (_isJsonPrimitive(e)) {
       return comparePrimitives(e, e2);
     } else
@@ -66,7 +72,7 @@ class QueryHelper {
 
   static int compareArrays(List<dynamic> a1, List<dynamic> a2) {
     if (a1.length != a2.length) {
-      return a1.length > a2.length ? -1 : 1;
+      return a1.length > a2.length ? 1 : -1;
     }
 
     int result;
@@ -86,7 +92,7 @@ class QueryHelper {
       }
     } else if (p1 is num && p2 is num) {
       if (p1 != p2) {
-        return p1 > p2 ? -1 : 1;
+        return p1 > p2 ? 1 : -1;
       }
     } else if (p1 is String && p2 is String) {
       return p1.compareTo(p2);
@@ -153,8 +159,7 @@ class QueryHelper {
 
         break;
       case FilterOperation.GreaterThan:
-        passed = _isJsonPrimitive(toCompare) &&
-            comparePrimitives(toCompare, against) > 0;
+        passed = compareElements(toCompare, against) > 0;
         break;
       case FilterOperation.GreaterThanOrEqual:
         passed = !isMatch(toCompare, FilterOperation.LessThan, against);
@@ -170,8 +175,7 @@ class QueryHelper {
         }
         break;
       case FilterOperation.LessThan:
-        passed = _isJsonPrimitive(toCompare) &&
-            comparePrimitives(toCompare, against) < 0;
+        passed = compareElements(toCompare, against) < 0;
         break;
       case FilterOperation.LessThanOrEqual:
         passed = !isMatch(toCompare, FilterOperation.GreaterThan, against);

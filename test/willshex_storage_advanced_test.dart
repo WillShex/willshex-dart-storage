@@ -37,11 +37,19 @@ void main() {
 
       // Add initial data
       await cached.save.entities([
-        TestEntity(name: "A", value: 10),
-        TestEntity(name: "B", value: 20),
-        TestEntity(name: "C", value: 30),
-        TestEntity(name: "D", value: 40),
-        TestEntity(name: "E", value: 50),
+        TestEntity(name: "A", value: 10, tags: ["one", "two"]),
+        TestEntity(name: "B", value: 20, tags: ["two", "three"]),
+        TestEntity(name: "C", value: 30, tags: ["three", "four"]),
+        TestEntity(
+            name: "D",
+            value: 40,
+            tags: ["four", "five"],
+            child: TestEntity(id: 100, name: "DA", value: 1)),
+        TestEntity(
+            name: "E",
+            value: 50,
+            tags: ["five", "six"],
+            child: TestEntity(id: 101, name: "EA", value: 2)),
       ]);
     });
 
@@ -53,22 +61,10 @@ void main() {
     });
 
     test("Query Filter Greater Than", () async {
-      // Assuming the implementation supports > syntax in filter string or similar
-      // Based on filter.dart, it seems to parse suffix operators.
-      // Let's check filter.dart content again if needed, but assuming standard suffix
-      // If not, we might need to adjust.
-      // Looking at QueryImpl.addFilter:
-      // if (condition.endsWith(sign!)) ...
-      // We need to know what signs are supported.
-      // I'll assume standard ones for now, but if it fails I'll check FilterOperation enum.
-
-      // Actually, let's stick to simple Equals first or check FilterOperation values if possible.
-      // But for now, let's try a simple filter that we know works (Equals is default).
-
-      // Let's try to use the filter method with a presumed operator if we saw it in code.
-      // I saw `fromFilterOperationToString` in QueryImpl.
-
-      // Let's test limit and offset first which are standard.
+      final query = cached.load.type(TE).filter("value >", 30);
+      final results = await query.list;
+      expect(results.length, 2);
+      expect(results.map((e) => e.name), containsAll(["D", "E"]));
     });
 
     test("Query Limit and Offset", () async {
@@ -84,6 +80,13 @@ void main() {
       final results = await query.list;
       expect(results.first.value, 50);
       expect(results.last.value, 10);
+    });
+
+    test("Query Order String Ascending", () async {
+      final query = cached.load.type(TE).order("name");
+      final results = await query.list;
+      expect(results.first.name, "A");
+      expect(results.last.name, "E");
     });
 
     test("Query Reverse", () async {
@@ -117,9 +120,102 @@ void main() {
       expect(count, 4);
     });
 
-    test("Compactor Type", () async {
-      // Just ensure it doesn't throw
-      await cached.compact.type(TE);
+    test("Query Filter Greater Than (String)", () async {
+      final query = cached.load.type(TE).filter("name >", "C");
+      final results = await query.list;
+      expect(results.length, 2);
+      expect(results.map((e) => e.name), containsAll(["D", "E"]));
+    });
+
+    test("Query Filter Greater Than (Array)", () async {
+      // Assuming array comparison checks length or lexicographical order?
+      // Based on QueryHelper.compareArrays:
+      // if (a1.length != a2.length) return a1.length > a2.length ? 1 : -1;
+      // So it compares length first.
+      // "three", "four" (length 2) > "one" (length 1)
+      final query = cached.load.type(TE).filter("tags >", ["one"]);
+      final results = await query.list;
+      // All entities have tags length 2, except maybe none?
+      // Wait, ["one"] has length 1. All our tags have length 2.
+      // So all should be greater than ["one"].
+      expect(results.length, 5);
+    });
+
+    test("Query Filter Greater Than (Type)", () async {
+      // Comparing TestEntity objects by ID.
+      // Child of D has ID 100. Child of E has ID 101.
+      // We want entities where child > TestEntity(id: 100).
+      // Should match E.
+      final query = cached.load.type(TE).filter("child >", TestEntity(id: 100));
+      final results = await query.list;
+      expect(results.length, 1);
+      expect(results.first.name, "E");
+    });
+
+    test("Query Filter Less Than (String)", () async {
+      final query = cached.load.type(TE).filter("name <", "C");
+      final results = await query.list;
+      expect(results.length, 2);
+      expect(results.map((e) => e.name), containsAll(["A", "B"]));
+    });
+
+    test("Query Filter Less Than (int)", () async {
+      final query = cached.load.type(TE).filter("value <", 30);
+      final results = await query.list;
+      expect(results.length, 2);
+      expect(results.map((e) => e.value), containsAll([10, 20]));
+    });
+
+    test("Query Filter Equals (String)", () async {
+      final query = cached.load.type(TE).filter("name", "C");
+      final results = await query.list;
+      expect(results.length, 1);
+      expect(results.first.name, "C");
+    });
+
+    test("Query Filter Equals (int)", () async {
+      final query = cached.load.type(TE).filter("value", 30);
+      final results = await query.list;
+      expect(results.length, 1);
+      expect(results.first.value, 30);
+    });
+
+    test("Query Filter Equals (Array)", () async {
+      final query = cached.load.type(TE).filter("tags", ["one", "two"]);
+      final results = await query.list;
+      expect(results.length, 1);
+      expect(results.first.name, "A");
+    });
+    
+    test("Query Filter Less Than (Array)", () async {
+      // ["five", "six"] (length 2) < ["one", "two", "three"] (length 3)
+      final query = cached.load.type(TE).filter("tags <", ["one", "two", "three"]);
+      final results = await query.list;
+      expect(results.length, 5);
+    });
+
+    test("Query Filter Less Than (Type)", () async {
+      // Child of D has ID 100. Child of E has ID 101.
+      // We want entities where child < TestEntity(id: 101).
+      // Should match D.
+      final query = cached.load.type(TE).filter("child <", TestEntity(id: 101));
+      final results = await query.list;
+      expect(results.length, 1);
+      expect(results.first.name, "D");
+    });
+
+    test("Query Filter Equals (Type)", () async {
+      final query = cached.load.type(TE).filter("child", TestEntity(id: 100));
+      final results = await query.list;
+      expect(results.length, 1);
+      expect(results.first.name, "D");
+    });
+    
+    test("Query Filter In (String)", () async {
+      final query = cached.load.type(TE).filter("name in", ["A", "C", "E"]);
+      final results = await query.list;
+      expect(results.length, 3);
+      expect(results.map((e) => e.name), containsAll(["A", "C", "E"]));
     });
   });
 }

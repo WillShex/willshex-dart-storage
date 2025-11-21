@@ -5,8 +5,16 @@ import 'package:willshex_storage/storage.dart';
 class TestEntity extends DataType {
   String? name;
   int? value;
+  List<String>? tags;
+  TestEntity? child;
 
-  TestEntity({int? id, this.name, this.value}) : super(sc: TE, id: id);
+  TestEntity({
+    int? id,
+    this.name,
+    this.value,
+    this.tags,
+    this.child,
+  }) : super(sc: TE, id: id);
 
   TestEntity.json(super.json) : super.json() {
     sc = TE;
@@ -21,6 +29,12 @@ class TestEntity extends DataType {
     super.fromJson(json);
     name = json["name"];
     value = json["value"];
+    if (json["tags"] != null) {
+      tags = List<String>.from(json["tags"]);
+    }
+    if (json["child"] != null) {
+      child = TestEntity.json(json["child"]);
+    }
   }
 
   @override
@@ -28,6 +42,12 @@ class TestEntity extends DataType {
     final json = super.toJson();
     json["name"] = name;
     json["value"] = value;
+    if (tags != null) {
+      json["tags"] = tags;
+    }
+    if (child != null) {
+      json["child"] = child!.toJson();
+    }
     return json;
   }
 }
