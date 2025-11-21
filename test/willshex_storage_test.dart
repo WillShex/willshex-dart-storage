@@ -5,82 +5,7 @@ import 'package:test/test.dart';
 import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/storage.dart';
 
-class Test1Type extends DataType {
-  Test1Type({int? id, DateTime? created, bool? deleted})
-      : super(sc: T1, id: id, created: created, deleted: deleted) {}
-
-  Test1Type.json(super.json) : super.json() {
-    sc = T1;
-  }
-
-  Test1Type.string(super.string) : super.string() {
-    sc = T1;
-  }
-}
-
-class Test2Type extends DataType {
-  Test2Type() : super(sc: T2);
-  Test2Type.json(super.json) : super.json() {
-    sc = T2;
-  }
-
-  Test2Type.string(super.string) : super.string() {
-    sc = T2;
-  }
-}
-
-class Test3Type extends DataType {
-  Test3Type() : super(sc: T3);
-  Test3Type.json(super.json) : super.json() {
-    sc = T3;
-  }
-
-  Test3Type.string(super.string) : super.string() {
-    sc = T3;
-  }
-}
-
-class Test4Type extends DataType {
-  Test4Type() : super(sc: T4);
-  Test4Type.json(super.json) : super.json() {
-    sc = T4;
-  }
-
-  Test4Type.string(super.string) : super.string() {
-    sc = T4;
-  }
-}
-
-const Class<Test1Type> T1 = Class<Test1Type>(
-  "Test1Type",
-  Test1Type.new,
-  Test1Type.string,
-  Test1Type.json,
-);
-
-Test2Type t2() => Test2Type();
-const Class<Test2Type> T2 = Class<Test2Type>(
-  "Test2Type",
-  Test2Type.new,
-  Test2Type.string,
-  Test2Type.json,
-);
-
-Test3Type t3() => Test3Type();
-const Class<Test3Type> T3 = Class<Test3Type>(
-  "Test3Type",
-  Test3Type.new,
-  Test3Type.string,
-  Test3Type.json,
-);
-
-Test4Type t4() => Test4Type();
-const Class<Test4Type> T4 = Class<Test4Type>(
-  "Test4Type",
-  Test4Type.new,
-  Test4Type.string,
-  Test4Type.json,
-);
+import 'fixtures.dart';
 
 void main() {
   setupLogging();
@@ -89,13 +14,15 @@ void main() {
 
   group("Storage Tests", () {
     late Storage cached, uncached;
-    Future<String> path() async => "./data";
+    Future<String> path() async => "./data/simple";
 
     setUpAll(() async {
-      Directory output = Directory(await path())
-        ..delete(
+      Directory output = Directory(await path());
+      if (output.existsSync()) {
+        output.deleteSync(
           recursive: true,
         );
+      }
 
       log.info("Data path ${output.absolute.path}");
 
@@ -105,8 +32,8 @@ void main() {
     });
 
     test("Store data with set id", () async {
-      expect(await cached.save.entity(Test1Type(id: 1)), 1);
-      expect(await cached.save.entity(Test1Type(id: 4)), 4);
+      expect(await cached.save.entity(SimpleEntity(id: 1)), 1);
+      expect(await cached.save.entity(SimpleEntity(id: 4)), 4);
     });
 
     test("Store data with unset ids (auto-increment)", () async {

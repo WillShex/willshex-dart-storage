@@ -5,43 +5,7 @@ import 'package:test/test.dart';
 import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/storage.dart';
 
-class Test1Type extends DataType {
-  String? a;
-  int? b;
-
-  Test1Type({int? id, DateTime? created, bool? deleted, this.a, this.b})
-      : super(sc: T1, id: id, created: created, deleted: deleted) {}
-
-  Test1Type.json(super.json) : super.json() {
-    sc = T1;
-  }
-
-  Test1Type.string(super.string) : super.string() {
-    sc = T1;
-  }
-
-  @override
-  void fromJson(Map<String, dynamic> json) {
-    super.fromJson(json);
-    a = json["a"];
-    b = json["b"];
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    json["a"] = a;
-    json["b"] = b;
-    return json;
-  }
-}
-
-const Class<Test1Type> T1 = Class<Test1Type>(
-  "Test1Type",
-  Test1Type.new,
-  Test1Type.string,
-  Test1Type.json,
-);
+import 'fixtures.dart';
 
 void setupLogging() {
   Logger.root.level = Level.ALL;
@@ -57,7 +21,7 @@ void main() {
 
   group("Storage Query Tests", () {
     late Storage cached;
-    Future<String> path() async => "./data_query";
+    Future<String> path() async => "./data/query";
 
     setUp(() async {
       Directory output = Directory(await path());
@@ -73,35 +37,35 @@ void main() {
 
       // Add test data
       await cached.save.entities([
-        Test1Type(a: "a", b: 1),
-        Test1Type(a: "a", b: 1),
-        Test1Type(a: "a", b: 2),
-        Test1Type(a: "b", b: 2),
-        Test1Type(a: "b", b: 2),
-        Test1Type(a: "b", b: 3),
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 1),
+        TestEntity(name: "a", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 2),
+        TestEntity(name: "b", value: 3),
       ]);
     });
 
     test("Test distinct", () async {
-      final query = cached.load.type(T1).distinct(true);
+      final query = cached.load.type(TE).distinct(true);
       final results = await query.list;
       expect(results.length, 4);
     });
 
-    test("Test group by 'a'", () async {
-      final query = cached.load.type(T1).group("a");
+    test("Test group by 'name'", () async {
+      final query = cached.load.type(TE).group("name");
       final results = await query.list;
       expect(results.length, 2);
     });
 
-    test("Test group by 'b'", () async {
-      final query = cached.load.type(T1).group("b");
+    test("Test group by 'value'", () async {
+      final query = cached.load.type(TE).group("value");
       final results = await query.list;
       expect(results.length, 3);
     });
 
-    test("Test group by 'a' and 'b'", () async {
-      final query = cached.load.type(T1).group("a").group("b");
+    test("Test group by 'name' and 'value'", () async {
+      final query = cached.load.type(TE).group("name").group("value");
       final results = await query.list;
       expect(results.length, 4);
     });

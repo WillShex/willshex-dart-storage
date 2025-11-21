@@ -115,7 +115,7 @@ class QueryEngine {
           distinctObjects.add(object);
         }
       }
-      
+
       objects = distinctObjects;
     }
 
@@ -127,7 +127,7 @@ class QueryEngine {
     }
 
     int end;
-    if ((end = query.stopAfter + 1) < objects.length) {
+    if ((end = query.stopAfter) < objects.length) {
       objects = objects.sublist(0, end);
     }
 

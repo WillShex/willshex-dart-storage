@@ -315,8 +315,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.8.1",
+  "generatorVersion": "3.9.2",
   "flutterRoot": "file:///Users/billy1380/git/flutter_stable",
-  "flutterVersion": "3.32.6",
+  "flutterVersion": "3.35.7",
   "pubCache": "file:///Users/billy1380/.pub-cache"
 }

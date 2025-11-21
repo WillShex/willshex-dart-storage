@@ -10,7 +10,6 @@ import 'dart:async';
 
 import 'package:willshex_storage/storage.dart';
 
-
 ///
 /// @author William Shakour (billy1380)
 ///
