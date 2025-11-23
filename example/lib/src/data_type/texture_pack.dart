@@ -10,12 +10,7 @@ import 'package:willshex_storage/storage.dart';
 
 import 'texture_pack_region_image.dart';
 
-Class<TexturePack> TEXTURE_PACK = Class(
-  "TexturePack",
-  TexturePack.new,
-  TexturePack.string,
-  TexturePack.json,
-);
+part 'texture_pack.sc.dart';
 
 class TexturePack extends DataType {
   List<TexturePackRegionImage>? images;
@@ -30,7 +25,7 @@ class TexturePack extends DataType {
     super.created,
     super.deleted,
   }) : super(
-          sc: TEXTURE_PACK,
+          sc: texturePackStorageClass,
         );
 
   TexturePack.json(Map<String, dynamic> json) : super.json(json);

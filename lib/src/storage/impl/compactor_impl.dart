@@ -20,5 +20,7 @@ class CompactorImpl implements Compactor {
   CompactorImpl(this.store);
 
   @override
-  Future<void> type<E>(Class<E> type) async {}
+  Future<void> type<E>(Class<E> type) async {
+    // TODO: optimise the gaps in index files
+  }
 }

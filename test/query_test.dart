@@ -47,21 +47,21 @@ void main() {
     });
 
     test("Query Filter Equals", () async {
-      final query = cached.load.type(TE).filter("name", "C");
+      final query = cached.load.testEntity.filter("name", "C");
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "C");
     });
 
     test("Query Filter Greater Than", () async {
-      final query = cached.load.type(TE).filter("value >", 30);
+      final query = cached.load.testEntity.filter("value >", 30);
       final results = await query.list;
       expect(results.length, 2);
       expect(results.map((e) => e.name), containsAll(["D", "E"]));
     });
 
     test("Query Limit and Offset", () async {
-      final query = cached.load.type(TE).order("value").limit(2).offset(1);
+      final query = cached.load.testEntity.order("value").limit(2).offset(1);
       final results = await query.list;
       expect(results.length, 2);
       expect(results[0].name, "B");
@@ -69,80 +69,80 @@ void main() {
     });
 
     test("Query Order Descending", () async {
-      final query = cached.load.type(TE).order("-value");
+      final query = cached.load.testEntity.order("-value");
       final results = await query.list;
       expect(results.first.value, 50);
       expect(results.last.value, 10);
     });
 
     test("Query Order String Ascending", () async {
-      final query = cached.load.type(TE).order("name");
+      final query = cached.load.testEntity.order("name");
       final results = await query.list;
       expect(results.first.name, "A");
       expect(results.last.name, "E");
     });
 
     test("Query Reverse", () async {
-      final query = cached.load.type(TE).order("value").reverse();
+      final query = cached.load.testEntity.order("value").reverse();
       final results = await query.list;
       expect(results.first.value, 50);
     });
 
     test("Query Count", () async {
-      final count = await cached.load.type(TE).count;
+      final count = await cached.load.testEntity.count;
       expect(count, 5);
     });
 
     test("Query Filter Greater Than (String)", () async {
-      final query = cached.load.type(TE).filter("name >", "C");
+      final query = cached.load.testEntity.filter("name >", "C");
       final results = await query.list;
       expect(results.length, 2);
       expect(results.map((e) => e.name), containsAll(["D", "E"]));
     });
 
     test("Query Filter Greater Than (Array)", () async {
-      final query = cached.load.type(TE).filter("tags >", ["one"]);
+      final query = cached.load.testEntity.filter("tags >", ["one"]);
       final results = await query.list;
       expect(results.length, 5);
     });
 
     test("Query Filter Greater Than (Type)", () async {
-      final query = cached.load.type(TE).filter("child >", TestEntity(id: 100));
+      final query = cached.load.testEntity.filter("child >", TestEntity(id: 100));
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "E");
     });
 
     test("Query Filter Less Than (String)", () async {
-      final query = cached.load.type(TE).filter("name <", "C");
+      final query = cached.load.testEntity.filter("name <", "C");
       final results = await query.list;
       expect(results.length, 2);
       expect(results.map((e) => e.name), containsAll(["A", "B"]));
     });
 
     test("Query Filter Less Than (int)", () async {
-      final query = cached.load.type(TE).filter("value <", 30);
+      final query = cached.load.testEntity.filter("value <", 30);
       final results = await query.list;
       expect(results.length, 2);
       expect(results.map((e) => e.value), containsAll([10, 20]));
     });
 
     test("Query Filter Equals (String)", () async {
-      final query = cached.load.type(TE).filter("name", "C");
+      final query = cached.load.testEntity.filter("name", "C");
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "C");
     });
 
     test("Query Filter Equals (int)", () async {
-      final query = cached.load.type(TE).filter("value", 30);
+      final query = cached.load.testEntity.filter("value", 30);
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.value, 30);
     });
 
     test("Query Filter Equals (Array)", () async {
-      final query = cached.load.type(TE).filter("tags", ["one", "two"]);
+      final query = cached.load.testEntity.filter("tags", ["one", "two"]);
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "A");
@@ -150,27 +150,27 @@ void main() {
 
     test("Query Filter Less Than (Array)", () async {
       final query =
-          cached.load.type(TE).filter("tags <", ["one", "two", "three"]);
+          cached.load.testEntity.filter("tags <", ["one", "two", "three"]);
       final results = await query.list;
       expect(results.length, 5);
     });
 
     test("Query Filter Less Than (Type)", () async {
-      final query = cached.load.type(TE).filter("child <", TestEntity(id: 101));
+      final query = cached.load.testEntity.filter("child <", TestEntity(id: 101));
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "D");
     });
 
     test("Query Filter Equals (Type)", () async {
-      final query = cached.load.type(TE).filter("child", TestEntity(id: 100));
+      final query = cached.load.testEntity.filter("child", TestEntity(id: 100));
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "D");
     });
 
     test("Query Filter In (String)", () async {
-      final query = cached.load.type(TE).filter("name in", ["A", "C", "E"]);
+      final query = cached.load.testEntity.filter("name in", ["A", "C", "E"]);
       final results = await query.list;
       expect(results.length, 3);
       expect(results.map((e) => e.name), containsAll(["A", "C", "E"]));
@@ -192,7 +192,7 @@ void main() {
       // Filter by name "a" or "b" to exclude the setUp data (A, B, C, D, E)
       // Note: "a" != "A" (case sensitive usually)
       final query =
-          cached.load.type(TE).filter("name in", ["a", "b"]).distinct(true);
+          cached.load.testEntity.filter("name in", ["a", "b"]).distinct(true);
       final results = await query.list;
       expect(results.length, 4);
     });
@@ -213,7 +213,7 @@ void main() {
       ]);
 
       final query =
-          cached.load.type(TE).filter("name in", ["a", "b"]).group("name");
+          cached.load.testEntity.filter("name in", ["a", "b"]).group("name");
       final results = await query.list;
       expect(results.length, 2);
     });
@@ -229,7 +229,7 @@ void main() {
       ]);
 
       final query =
-          cached.load.type(TE).filter("name in", ["a", "b"]).group("value");
+          cached.load.testEntity.filter("name in", ["a", "b"]).group("value");
       final results = await query.list;
       expect(results.length, 3);
     });
@@ -245,7 +245,7 @@ void main() {
       ]);
 
       final query = cached.load
-          .type(TE)
+          .testEntity
           .filter("name in", ["a", "b"])
           .group("name")
           .group("value");

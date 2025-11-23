@@ -11,12 +11,7 @@ import 'package:willshex_storage/storage.dart';
 import 'placement.dart';
 import 'rectangle.dart';
 
-const Class<RectanglePlacement> RECTANGLE_PLACEMENT = const Class(
-  "RectanglePlacement",
-  RectanglePlacement.new,
-  RectanglePlacement.string,
-  RectanglePlacement.json,
-);
+part 'rectangle_placement.sc.dart';
 
 class RectanglePlacement extends Placement {
   Rectangle? rectangle;
@@ -36,7 +31,7 @@ class RectanglePlacement extends Placement {
     super.created,
     super.deleted,
   }) {
-    super.sc = RECTANGLE_PLACEMENT;
+    super.sc = rectanglePlacementStorageClass;
   }
 
   RectanglePlacement.json(Map<String, dynamic> json) : super.json(json);

@@ -11,12 +11,7 @@ import 'package:willshex_storage/storage.dart';
 import 'image.dart';
 import 'placement.dart';
 
-const Class<ImagePlacement> IMAGE_PLACEMENT = const Class(
-  "ImagePlacement",
-  ImagePlacement.new,
-  ImagePlacement.string,
-  ImagePlacement.json,
-);
+part 'image_placement.sc.dart';
 
 class ImagePlacement extends Placement {
   Image? image;
@@ -36,7 +31,7 @@ class ImagePlacement extends Placement {
     super.created,
     super.deleted,
   }) {
-    super.sc = IMAGE_PLACEMENT;
+    super.sc = imagePlacementStorageClass;
   }
 
   ImagePlacement.json(Map<String, dynamic> json) : super.json(json);

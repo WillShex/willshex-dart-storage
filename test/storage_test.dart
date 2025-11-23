@@ -44,7 +44,7 @@ void main() {
     test("Read object (cached)", () async {
       final Test3Type saved = Test3Type();
       expect(await cached.save.entity(saved), 1);
-      expect(await cached.load.id(T3, 1), saved);
+      expect(await cached.load.id(test3TypeStorageClass, 1), saved);
     });
 
     test("Read object (uncached)", () async {
@@ -53,7 +53,7 @@ void main() {
       expect(await uncached.save.entity(saved), id);
 
       Test4Type loaded;
-      expect((loaded = (await uncached.load.type(T4).id(id))!).id, saved.id);
+      expect((loaded = (await uncached.load.test4Type.id(id))!).id, saved.id);
       expect(false, saved == loaded);
     });
   });

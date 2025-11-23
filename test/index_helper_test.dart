@@ -40,13 +40,13 @@ void main() {
       await IndexHelper.saveIndex(
         storage: cached as StorageImpl,
         index: index,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndex",
       );
 
       final loadedIndex = await IndexHelper.loadIndex<TestEntity, String>(
         storage: cached as StorageImpl,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndex",
       );
 
@@ -60,12 +60,12 @@ void main() {
       await IndexHelper.saveIndex(
         storage: cached as StorageImpl,
         index: indexInt,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndexInt",
       );
       final loadedInt = await IndexHelper.loadIndex<TestEntity, int>(
         storage: cached as StorageImpl,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndexInt",
       );
       expect(loadedInt!.points, orderedEquals([1, 2, 3]));
@@ -75,12 +75,12 @@ void main() {
       await IndexHelper.saveIndex(
         storage: cached as StorageImpl,
         index: indexDouble,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndexDouble",
       );
       final loadedDouble = await IndexHelper.loadIndex<TestEntity, double>(
         storage: cached as StorageImpl,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndexDouble",
       );
       expect(loadedDouble!.points, orderedEquals([1.1, 2.2, 3.3]));
@@ -90,12 +90,12 @@ void main() {
       await IndexHelper.saveIndex(
         storage: cached as StorageImpl,
         index: indexBool,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndexBool",
       );
       final loadedBool = await IndexHelper.loadIndex<TestEntity, bool>(
         storage: cached as StorageImpl,
-        type: TE,
+        type: testEntityStorageClass,
         colName: "testIndexBool",
       );
       expect(loadedBool!.points, orderedEquals([true, false, true]));
@@ -108,12 +108,12 @@ void main() {
       await IndexHelper.saveKey(
         storage: cached as StorageImpl,
         key: key,
-        type: TE,
+        type: testEntityStorageClass,
       );
 
       final loadedKey = await IndexHelper.loadKey<TestEntity>(
         storage: cached as StorageImpl,
-        type: TE,
+        type: testEntityStorageClass,
         colName: Key.indexName,
       );
 

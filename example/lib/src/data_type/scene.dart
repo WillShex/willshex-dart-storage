@@ -14,12 +14,7 @@ import 'layout.dart';
 import 'rectangle.dart';
 import 'texture_pack.dart';
 
-Class<Scene> SCENE = Class(
-  "Scene",
-  Scene.new,
-  Scene.string,
-  Scene.json,
-);
+part 'scene.sc.dart';
 
 class Scene extends DataType {
   List<Layout>? layouts;
@@ -42,7 +37,7 @@ class Scene extends DataType {
     super.created,
     super.deleted,
   }) : super(
-          sc: SCENE,
+          sc: sceneStorageClass,
         );
 
   Scene.json(Map<String, dynamic> json) : super.json(json);

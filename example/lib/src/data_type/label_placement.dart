@@ -11,12 +11,7 @@ import 'package:willshex_storage/storage.dart';
 import 'label.dart';
 import 'placement.dart';
 
-const Class<LabelPlacement> LABEL_PLACEMENT = const Class(
-  "LabelPlacement",
-  LabelPlacement.new,
-  LabelPlacement.string,
-  LabelPlacement.json,
-);
+part 'label_placement.sc.dart';
 
 class LabelPlacement extends Placement {
   Label? label;
@@ -36,7 +31,7 @@ class LabelPlacement extends Placement {
     super.created,
     super.deleted,
   }) {
-    super.sc = LABEL_PLACEMENT;
+    super.sc = labelPlacementStorageClass;
   }
 
   LabelPlacement.json(Map<String, dynamic> json) : super.json(json);

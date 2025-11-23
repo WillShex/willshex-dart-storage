@@ -24,39 +24,37 @@ Future<Null> main(List<String> args) async {
     ..toString()}");
 
   printTestTitle("1a) load by id");
-  Image? idLoaded = await DataTypes.store.load.type(IMAGE).id(image.id!);
+  Image? idLoaded = await DataTypes.store.load.image.id(image.id!);
   print("Loaded image with id ${image.id.toString()} ${idLoaded.toString()}");
 
   printTestTitle(
       "1b) load by id using filter id - this is comparatively inefficient");
   Image? filterIdLoaded =
-      await DataTypes.store.load.type(IMAGE).filterId("=", image.id).first;
+      await DataTypes.store.load.image.filterId("=", image.id).first;
   print(
       "Loaded image with filter id ${image.id.toString()} ${filterIdLoaded.toString()}");
 
   printTestTitle("2a) load more than 1 id");
   Map<int, Image> idsLoaded =
-      await DataTypes.store.load.type(IMAGE).ids(images.keys);
+      await DataTypes.store.load.image.ids(images.keys);
   print(
       "Loaded image with ids ${images.keys.toString()} ${idsLoaded.toString()}");
 
   printTestTitle("2b) load more than 1 id using filter id in");
   List<Image> filteridsLoaded =
-      await DataTypes.store.load.type(IMAGE).filterId("in", images.keys).list;
+      await DataTypes.store.load.image.filterId("in", images.keys).list;
   print(
       "Loaded image with filter ids ${images.keys.toString()} ${filteridsLoaded.toString()}");
 
   printTestTitle("3a) run a query based on a property");
   int width;
-  List<Image> widthImages = await DataTypes.store.load
-      .type(IMAGE)
+  List<Image> widthImages = await DataTypes.store.load.image
       .filter("width >=", width = images.values.first.width!)
       .list;
   print("Loaded images with width >= $width ${widthImages.toString()}");
 
   printTestTitle("3b) run a query based on a property and an id");
-  List<Image> widthAndIdImages = await DataTypes.store.load
-      .type(IMAGE)
+  List<Image> widthAndIdImages = await DataTypes.store.load.image
       .filterId(">", images.values.first.id)
       .filter("width >=", width = images.values.first.width!)
       .list;
@@ -64,8 +62,7 @@ Future<Null> main(List<String> args) async {
       "Loaded image with width >= $width and id > ${images.values.first.id} ${widthAndIdImages.toString()}");
 
   printTestTitle("4) run a query that uses an offset");
-  List<Image> offsetImages = await DataTypes.store.load
-      .type(IMAGE)
+  List<Image> offsetImages = await DataTypes.store.load.image
       .offset(2)
       .filterId(">", images.values.first.id)
       .list;
@@ -73,8 +70,7 @@ Future<Null> main(List<String> args) async {
       "Loaded images with id > ${images.values.first.id} offset by 2 ${offsetImages.toString()}");
 
   printTestTitle("5) run a query that uses a limit");
-  List<Image> limitImages = await DataTypes.store.load
-      .type(IMAGE)
+  List<Image> limitImages = await DataTypes.store.load.image
       .filterId(">", images.values.first.id)
       .offset(3)
       .limit(2)
@@ -84,8 +80,7 @@ Future<Null> main(List<String> args) async {
 
   printTestTitle("6) change a property and save");
   await DataTypes.store.save.entity(image..deleted = true);
-  Image? deletedFlagImage =
-      await DataTypes.store.load.type(IMAGE).id(image.id!);
+  Image? deletedFlagImage = await DataTypes.store.load.image.id(image.id!);
   print("Image with updated property deleted ${deletedFlagImage.toString()}");
 
   printTestTitle("delete single entity");

@@ -31,7 +31,7 @@ void main() {
 
     test("Compactor Type", () async {
       // Just ensure it doesn't throw
-      await cached.compact.type(TE);
+      await cached.compact.testEntity;
     });
   });
 }

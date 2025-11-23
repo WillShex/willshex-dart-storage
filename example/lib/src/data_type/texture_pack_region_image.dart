@@ -10,12 +10,7 @@ import 'package:willshex_storage/storage.dart';
 
 import 'image.dart';
 
-const Class<TexturePackRegionImage> TEXTURE_PACK_REGION_IMAGE = const Class(
-  "TexturePackRegionImage",
-  TexturePackRegionImage.new,
-  TexturePackRegionImage.string,
-  TexturePackRegionImage.json,
-);
+part 'texture_pack_region_image.sc.dart';
 
 class TexturePackRegionImage extends Image {
   int? x;
@@ -40,7 +35,7 @@ class TexturePackRegionImage extends Image {
     super.created,
     super.deleted,
   }) {
-    super.sc = TEXTURE_PACK_REGION_IMAGE;
+    super.sc = texturePackRegionImageStorageClass;
   }
 
   TexturePackRegionImage.json(Map<String, dynamic> json) : super.json(json);

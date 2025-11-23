@@ -17,4 +17,4 @@ doc/api/
 .project
 /.flutter-plugins
 .vscode
-.dart_tool/
+**/.dart_tool/

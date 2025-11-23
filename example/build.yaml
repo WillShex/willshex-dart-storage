@@ -1,0 +1,5 @@
+targets:
+  $default:
+    builders:
+      willshex_storage|data_type_generator:
+        enabled: true

@@ -10,12 +10,7 @@ import 'package:willshex_storage/storage.dart';
 
 import 'placement.dart';
 
-const Class<Layout> LAYOUT = const Class(
-  "Layout",
-  Layout.new,
-  Layout.string,
-  Layout.json,
-);
+part 'layout.sc.dart';
 
 class Layout extends DataType {
   List<Placement>? items;
@@ -34,7 +29,7 @@ class Layout extends DataType {
     super.created,
     super.deleted,
   }) : super(
-          sc: LAYOUT,
+          sc: layoutStorageClass,
         );
 
   Layout.json(Map<String, dynamic> json) : super.json(json);

@@ -8,12 +8,7 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Label> LABEL = const Class(
-  "Label",
-  Label.new,
-  Label.string,
-  Label.json,
-);
+part 'label.sc.dart';
 
 class Label extends DataType {
   double? size;
@@ -31,7 +26,7 @@ class Label extends DataType {
     super.id,
     super.created,
     super.deleted,
-  }) : super(sc: LABEL);
+  }) : super(sc: labelStorageClass);
 
   Label.json(Map<String, dynamic> json) : super.json(json);
   Label.string(String string) : super.string(string);

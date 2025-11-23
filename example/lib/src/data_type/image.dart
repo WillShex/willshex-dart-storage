@@ -8,12 +8,7 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Image> IMAGE = const Class(
-  "Image",
-  Image.new,
-  Image.string,
-  Image.json,
-);
+part 'image.sc.dart';
 
 class Image extends DataType {
   String? name;
@@ -30,7 +25,7 @@ class Image extends DataType {
     super.created,
     super.deleted,
   }) : super(
-          sc: IMAGE,
+          sc: imageStorageClass,
         );
 
   Image.json(Map<String, dynamic> json) : super.json(json);

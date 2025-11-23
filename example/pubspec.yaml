@@ -12,8 +12,8 @@ dependencies:
   willshex_storage:
     path: ../../willshex-dart-storage
 
-#dev_dependencies:
-  
+dev_dependencies:
+  build_runner: ^2.4.10
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

@@ -8,12 +8,7 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Rectangle> RECTANGLE = const Class(
-  "Rectangle",
-  Rectangle.new,
-  Rectangle.string,
-  Rectangle.json,
-);
+part 'rectangle.sc.dart';
 
 class Rectangle extends DataType {
   int? width;
@@ -26,7 +21,7 @@ class Rectangle extends DataType {
     super.created,
     super.deleted,
   }) : super(
-          sc: RECTANGLE,
+          sc: rectangleStorageClass,
         );
 
   Rectangle.json(Map<String, dynamic> json) : super.json(json);

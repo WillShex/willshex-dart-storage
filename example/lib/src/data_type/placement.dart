@@ -8,12 +8,7 @@
 
 import 'package:willshex_storage/storage.dart';
 
-const Class<Placement> PLACEMENT = const Class(
-  "Placement",
-  Placement.new,
-  Placement.string,
-  Placement.json,
-);
+part 'placement.sc.dart';
 
 class Placement extends DataType {
   int? x;
@@ -28,7 +23,7 @@ class Placement extends DataType {
     super.created,
     super.deleted,
   }) : super(
-          sc: PLACEMENT,
+          sc: placementStorageClass,
         );
 
   Placement.json(Map<String, dynamic> json) : super.json(json);

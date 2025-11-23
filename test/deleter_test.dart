@@ -37,22 +37,22 @@ void main() {
     });
 
     test("Deleter Entities", () async {
-      final toDelete = await cached.load.type(TE).filter("name", "A").list;
+      final toDelete = await cached.load.testEntity.filter("name", "A").list;
       await cached.delete.entities(toDelete);
 
-      final count = await cached.load.type(TE).count;
+      final count = await cached.load.testEntity.count;
       expect(count, 2);
 
-      final deleted = await cached.load.type(TE).filter("name", "A").list;
+      final deleted = await cached.load.testEntity.filter("name", "A").list;
       expect(deleted, isEmpty);
     });
 
     test("Deleter Type IDs", () async {
-      final toDelete = await cached.load.type(TE).filter("name", "B").list;
+      final toDelete = await cached.load.testEntity.filter("name", "B").list;
       final ids = toDelete.map((e) => e.id!).toList();
-      await cached.delete.type(TE).ids(ids);
+      await cached.delete.testEntity.ids(ids);
 
-      final count = await cached.load.type(TE).count;
+      final count = await cached.load.testEntity.count;
       expect(count, 2);
     });
   });
