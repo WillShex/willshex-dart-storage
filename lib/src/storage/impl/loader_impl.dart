@@ -8,13 +8,13 @@
 
 import 'dart:async';
 
-import 'package:willshex_storage/src/storage/impl/loadengine.dart';
-import 'package:willshex_storage/src/storage/impl/loadtypeimpl.dart';
+import 'package:willshex_storage/src/storage/impl/load_engine.dart';
+import 'package:willshex_storage/src/storage/impl/load_type_impl.dart';
 import 'package:willshex_storage/src/storage/impl/queryable.dart';
-import 'package:willshex_storage/src/storage/impl/queryengine.dart';
-import 'package:willshex_storage/src/storage/impl/queryimpl.dart';
-import 'package:willshex_storage/src/storage/impl/simplequeryimpl.dart';
-import 'package:willshex_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_storage/src/storage/impl/query_engine.dart';
+import 'package:willshex_storage/src/storage/impl/query_impl.dart';
+import 'package:willshex_storage/src/storage/impl/simple_query_impl.dart';
+import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///

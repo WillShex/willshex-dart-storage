@@ -7,7 +7,7 @@
 //
 
 import 'package:willshex_storage/src/storage/storage.dart';
-import 'package:willshex_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 
 ///
 /// @author William Shakour (billy1380)

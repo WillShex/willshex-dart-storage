@@ -7,7 +7,7 @@
 //
 
 import 'package:willshex_storage/src/storage/impl/index/index.dart';
-import 'package:willshex_storage/src/storage/impl/index/keyregion.dart';
+import 'package:willshex_storage/src/storage/impl/index/key_region.dart';
 
 class Key extends Index<int> {
   static const int max = 4294967296;

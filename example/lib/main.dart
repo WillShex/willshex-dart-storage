@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'src/datatype/image.dart';
-import 'src/datatypes.dart';
+import 'src/data_type/image.dart';
+import 'src/data_types.dart';
 
 Random generator = new Random();
 const String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

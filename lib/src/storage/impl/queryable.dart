@@ -8,9 +8,9 @@
 
 import 'dart:async';
 
-import 'package:willshex_storage/src/storage/impl/loaderimpl.dart';
-import 'package:willshex_storage/src/storage/impl/queryimpl.dart';
-import 'package:willshex_storage/src/storage/impl/simplequeryimpl.dart';
+import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
+import 'package:willshex_storage/src/storage/impl/query_impl.dart';
+import 'package:willshex_storage/src/storage/impl/simple_query_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///

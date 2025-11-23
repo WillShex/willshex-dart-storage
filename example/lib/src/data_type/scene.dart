@@ -12,9 +12,9 @@ import 'image.dart';
 import 'label.dart';
 import 'layout.dart';
 import 'rectangle.dart';
-import 'texturepack.dart';
+import 'texture_pack.dart';
 
-const Class<Scene> SCENE = const Class(
+Class<Scene> SCENE = Class(
   "Scene",
   Scene.new,
   Scene.string,

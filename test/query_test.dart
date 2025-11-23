@@ -147,9 +147,10 @@ void main() {
       expect(results.length, 1);
       expect(results.first.name, "A");
     });
-    
+
     test("Query Filter Less Than (Array)", () async {
-      final query = cached.load.type(TE).filter("tags <", ["one", "two", "three"]);
+      final query =
+          cached.load.type(TE).filter("tags <", ["one", "two", "three"]);
       final results = await query.list;
       expect(results.length, 5);
     });
@@ -167,7 +168,7 @@ void main() {
       expect(results.length, 1);
       expect(results.first.name, "D");
     });
-    
+
     test("Query Filter In (String)", () async {
       final query = cached.load.type(TE).filter("name in", ["A", "C", "E"]);
       final results = await query.list;
@@ -187,20 +188,21 @@ void main() {
         TestEntity(name: "b", value: 2),
         TestEntity(name: "b", value: 3),
       ]);
-      
+
       // Filter by name "a" or "b" to exclude the setUp data (A, B, C, D, E)
       // Note: "a" != "A" (case sensitive usually)
-      final query = cached.load.type(TE).filter("name in", ["a", "b"]).distinct(true);
+      final query =
+          cached.load.type(TE).filter("name in", ["a", "b"]).distinct(true);
       final results = await query.list;
       expect(results.length, 4);
     });
 
     test("Test group by 'name'", () async {
-      // Ensure data exists (it persists across tests in the same file if not cleared, 
-      // but setUp runs before each test and clears directory? 
+      // Ensure data exists (it persists across tests in the same file if not cleared,
+      // but setUp runs before each test and clears directory?
       // YES. setUp deletes the directory!
       // So we need to re-add the data for EACH test or move it to setUp.
-      
+
       await cached.save.entities([
         TestEntity(name: "a", value: 1),
         TestEntity(name: "a", value: 1),
@@ -210,7 +212,8 @@ void main() {
         TestEntity(name: "b", value: 3),
       ]);
 
-      final query = cached.load.type(TE).filter("name in", ["a", "b"]).group("name");
+      final query =
+          cached.load.type(TE).filter("name in", ["a", "b"]).group("name");
       final results = await query.list;
       expect(results.length, 2);
     });
@@ -225,7 +228,8 @@ void main() {
         TestEntity(name: "b", value: 3),
       ]);
 
-      final query = cached.load.type(TE).filter("name in", ["a", "b"]).group("value");
+      final query =
+          cached.load.type(TE).filter("name in", ["a", "b"]).group("value");
       final results = await query.list;
       expect(results.length, 3);
     });
@@ -240,7 +244,11 @@ void main() {
         TestEntity(name: "b", value: 3),
       ]);
 
-      final query = cached.load.type(TE).filter("name in", ["a", "b"]).group("name").group("value");
+      final query = cached.load
+          .type(TE)
+          .filter("name in", ["a", "b"])
+          .group("name")
+          .group("value");
       final results = await query.list;
       expect(results.length, 4);
     });

@@ -12,11 +12,11 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:universal_file/universal_file.dart';
-import 'package:willshex_storage/src/storage/impl/helper/queryhelper.dart';
-import 'package:willshex_storage/src/storage/impl/loaderimpl.dart';
+import 'package:willshex_storage/src/storage/impl/helper/query_helper.dart';
+import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
 import 'package:willshex_storage/src/storage/impl/order.dart';
-import 'package:willshex_storage/src/storage/impl/queryimpl.dart';
-import 'package:willshex_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_storage/src/storage/impl/query_impl.dart';
+import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///

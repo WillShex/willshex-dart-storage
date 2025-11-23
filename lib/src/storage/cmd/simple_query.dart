@@ -7,7 +7,7 @@
 //
 
 import 'dart:async';
-import 'package:willshex_storage/src/storage/cmd/queryexecute.dart';
+import 'package:willshex_storage/src/storage/cmd/query_execute.dart';
 
 ///
 /// @author William Shakour (billy1380)

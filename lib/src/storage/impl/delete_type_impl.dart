@@ -8,7 +8,7 @@
 
 import 'dart:async';
 
-import 'package:willshex_storage/src/storage/impl/deleterimpl.dart';
+import 'package:willshex_storage/src/storage/impl/deleter_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///

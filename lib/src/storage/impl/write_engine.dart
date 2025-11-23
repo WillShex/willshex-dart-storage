@@ -9,7 +9,7 @@
 import 'dart:async';
 
 import 'package:universal_file/universal_file.dart';
-import 'package:willshex_storage/src/storage/impl/storageimpl.dart';
+import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///

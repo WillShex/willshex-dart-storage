@@ -8,9 +8,9 @@
 
 import 'package:willshex_storage/storage.dart';
 
-import 'texturepackregionimage.dart';
+import 'texture_pack_region_image.dart';
 
-const Class<TexturePack> TEXTURE_PACK = const Class(
+Class<TexturePack> TEXTURE_PACK = Class(
   "TexturePack",
   TexturePack.new,
   TexturePack.string,
