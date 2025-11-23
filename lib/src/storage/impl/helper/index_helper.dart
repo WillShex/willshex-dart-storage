@@ -15,6 +15,7 @@ import 'package:meta/meta.dart';
 import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/index/index.dart';
 import 'package:willshex_storage/src/storage/impl/index/key.dart';
+import 'package:willshex_storage/src/storage/impl/index/pair.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 
 import '../../../../../storage.dart';
@@ -62,9 +63,21 @@ class IndexHelper {
     } else if (I == bool) {
       index.points =
           lines.map((l) => l.toLowerCase() == "true").toList() as List<I>;
+    } else if (I == Pair<String, int>) {
+      index.points =
+          lines.map((l) => Pair.fromString<String, int>(l)).toList() as List<I>;
+    } else if (I == Pair<int, int>) {
+      index.points =
+          lines.map((l) => Pair.fromString<int, int>(l)).toList() as List<I>;
+    } else if (I == Pair<double, int>) {
+      index.points =
+          lines.map((l) => Pair.fromString<double, int>(l)).toList() as List<I>;
+    } else if (I == Pair<bool, int>) {
+      index.points =
+          lines.map((l) => Pair.fromString<bool, int>(l)).toList() as List<I>;
     } else {
       throw UnsupportedError("Loading index for type $I is not supported. "
-          "Only String, int, double, num, bool are supported.");
+          "Only String, int, double, num, bool and Pair<*, int> are supported.");
     }
 
     final String prefix = path == null ? "" : "${path}_";
@@ -121,17 +134,11 @@ class IndexHelper {
     Directory indexFolder = Directory(
         "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
 
-    // remove .index folder
-    if (await indexFolder.exists() && path == null) {
-      await indexFolder.delete(
-        recursive: true,
-      );
-
-      // recreate the folder
-      await indexFolder.create();
-    }
-
     if (index.points != null) {
+      if (!await indexFolder.exists()) {
+        await indexFolder.create();
+      }
+
       File pointsFile =
           File("${indexFolder.absolute.path}${colName}${path ?? ""}");
       pointsFile = await pointsFile.create(

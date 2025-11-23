@@ -107,7 +107,8 @@ void main() {
     });
 
     test("Query Filter Greater Than (Type)", () async {
-      final query = cached.load.testEntity.filter("child >", TestEntity(id: 100));
+      final query =
+          cached.load.testEntity.filter("child >", TestEntity(id: 100));
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "E");
@@ -156,7 +157,8 @@ void main() {
     });
 
     test("Query Filter Less Than (Type)", () async {
-      final query = cached.load.testEntity.filter("child <", TestEntity(id: 101));
+      final query =
+          cached.load.testEntity.filter("child <", TestEntity(id: 101));
       final results = await query.list;
       expect(results.length, 1);
       expect(results.first.name, "D");
@@ -244,8 +246,7 @@ void main() {
         TestEntity(name: "b", value: 3),
       ]);
 
-      final query = cached.load
-          .testEntity
+      final query = cached.load.testEntity
           .filter("name in", ["a", "b"])
           .group("name")
           .group("value");

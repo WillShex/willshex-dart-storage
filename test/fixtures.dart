@@ -56,7 +56,11 @@ class TestEntity extends DataType {
 
 class SimpleEntity extends DataType {
   SimpleEntity({int? id, DateTime? created, bool? deleted})
-      : super(sc: simpleEntityStorageClass, id: id, created: created, deleted: deleted);
+      : super(
+            sc: simpleEntityStorageClass,
+            id: id,
+            created: created,
+            deleted: deleted);
 
   SimpleEntity.json(super.json) : super.json() {
     sc = simpleEntityStorageClass;

@@ -145,6 +145,29 @@ Future<Null> main(List<String> args) async {
   Image? deletedCheck = await DataTypes.store.load.image.id(toDelete.id!);
   print("Image after delete by id (should be null): $deletedCheck");
 
+  printTestTitle("14) IN operator filter");
+  if (images.isNotEmpty) {
+    List<String> namesToFind =
+        images.values.take(2).map((e) => e.name!).toList();
+    List<Image> inFiltered =
+        await DataTypes.store.load.image.filter("name in", namesToFind).list;
+    print("Images with name in $namesToFind: ${inFiltered.length}");
+  }
+
+  printTestTitle("15) Not Equals filter (width != 10)");
+  List<Image> notEqualsFiltered =
+      await DataTypes.store.load.image.filter("width !=", 10).list;
+  print("Images with width != 10: ${notEqualsFiltered.length}");
+
+  printTestTitle("16) Group By (width)");
+  List<Image> grouped = await DataTypes.store.load.image.group("width").list;
+  print("Grouped by width: ${grouped.length} groups");
+
+  printTestTitle("17) Reverse");
+  List<Image> reversed =
+      await DataTypes.store.load.image.order("width").reverse().list;
+  print("Reversed (width desc): ${reversed.map((e) => e.width).toList()}");
+
   printTestTitle("delete single entity");
   DataTypes.store.delete.entity(image);
   print("done");

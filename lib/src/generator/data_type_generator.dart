@@ -28,15 +28,18 @@ class DataTypeGenerator extends Generator {
             'const Class<$className> $constantName = Class("$className", $className.new, $className.string, $className.json);');
         result.writeln();
         result.writeln('extension ${className}Loader on Loader {');
-        result.writeln('  LoadType<$className> get $camelCaseName => type<$className>($constantName);');
+        result.writeln(
+            '  LoadType<$className> get $camelCaseName => type<$className>($constantName);');
         result.writeln('}');
         result.writeln();
         result.writeln('extension ${className}Deleter on Deleter {');
-        result.writeln('  DeleteType get $camelCaseName => type($constantName);');
+        result
+            .writeln('  DeleteType get $camelCaseName => type($constantName);');
         result.writeln('}');
         result.writeln();
         result.writeln('extension ${className}Compactor on Compactor {');
-        result.writeln('  Future<void> get $camelCaseName => type($constantName);');
+        result.writeln(
+            '  Future<void> get $camelCaseName => type($constantName);');
         result.writeln('}');
       }
     }

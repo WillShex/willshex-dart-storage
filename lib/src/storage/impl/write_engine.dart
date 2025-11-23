@@ -10,6 +10,10 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 import 'package:universal_file/universal_file.dart';
+import 'package:path/path.dart' as path;
+import 'package:willshex_storage/src/storage/impl/helper/index_helper.dart';
+import 'package:willshex_storage/src/storage/impl/index/index.dart';
+import 'package:willshex_storage/src/storage/impl/index/key.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
@@ -58,10 +62,26 @@ class WriteEngine {
     });
   }
 
-  Future<void> delete<T>(final Class<T> type, final Iterable<int> ids) {
+  Future<void> delete<T extends DataType>(
+      final Class<T> type, final Iterable<int> ids) {
     return Future<void>(() async {
       File recordFileHandle;
       Directory folder = await store.ensureFolder(type.simpleName);
+
+      List<T> entities = <T>[];
+      for (int id in ids) {
+        recordFileHandle = File("${folder.path}/${id.toString()}.json");
+        if (await recordFileHandle.exists()) {
+          T entity = type.instance();
+          entity.fromString(await recordFileHandle.readAsString());
+          if (entity.id != null) {
+            entities.add(entity);
+          }
+        }
+      }
+
+      await _updateIndices<T>(type, entities, false);
+
       for (int id in ids) {
         recordFileHandle = File("${folder.path}/${id.toString()}.json");
         if (await recordFileHandle.exists()) {
@@ -139,6 +159,8 @@ class WriteEngine {
       id++;
     }
 
+    await _updateIndices(type, entities, true);
+
     return inserted;
   }
 
@@ -162,6 +184,74 @@ class WriteEngine {
       }
     }
 
+    await _updateIndices(type, entities, true);
+
     return updated;
+  }
+
+  Future<void> _updateIndices<T extends DataType>(
+      Class<T> type, List<T> entities, bool add) async {
+    Directory indexFolder = Directory(
+        "${(await store.ensureFolder(type.simpleName)).path}/.index/");
+
+    if (await indexFolder.exists()) {
+      List<FileSystemEntity> files = await indexFolder.list().toList();
+      for (FileSystemEntity file in files) {
+        if (file is File) {
+          String name = path.basename(file.path);
+          if (RegExp(r'_\d+$').hasMatch(name)) continue;
+
+          Index<String>? index = await IndexHelper.loadIndex<T, String>(
+            storage: store,
+            type: type,
+            colName: name,
+          );
+
+          if (index != null) {
+            bool modified = false;
+            for (T entity in entities) {
+              String? point;
+              if (name == Key.indexName) {
+                point = entity.id.toString();
+              } else {
+                var value = entity.toJson()[name];
+                if (value is Map && value.containsKey("id")) {
+                  value = value["id"];
+                }
+
+                if (value != null) {
+                  if (value is List || value is Map) {
+                    continue;
+                  }
+                  point = "$value:${entity.id}";
+                }
+              }
+
+              if (point != null) {
+                if (add) {
+                  if (!index.points!.contains(point)) {
+                    index.points!.add(point);
+                    modified = true;
+                  }
+                } else {
+                  if (index.points!.remove(point)) {
+                    modified = true;
+                  }
+                }
+              }
+            }
+
+            if (modified) {
+              await IndexHelper.saveIndex(
+                storage: store,
+                index: index,
+                type: type,
+                colName: name,
+              );
+            }
+          }
+        }
+      }
+    }
   }
 }
