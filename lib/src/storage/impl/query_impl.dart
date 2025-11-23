@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:willshex_storage/src/storage/impl/filter.dart';
 import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
 import 'package:willshex_storage/src/storage/impl/order.dart';
@@ -17,6 +18,7 @@ import 'package:willshex_storage/storage.dart';
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class QueryImpl<T extends DataType> extends SimpleQueryImpl<T>
     implements Query<T>, Cloneable<QueryImpl<T>> {
   // static final Logger _log = Logger("QueryImpl");

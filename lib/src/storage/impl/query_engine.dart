@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/helper/query_helper.dart';
@@ -22,6 +23,7 @@ import 'package:willshex_storage/storage.dart';
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class QueryEngine {
   Logger _log = Logger("QueryEngine");
 

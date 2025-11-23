@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/compactor_impl.dart';
 import 'package:willshex_storage/src/storage/impl/deleter_impl.dart';
@@ -21,6 +22,7 @@ typedef PathProvider = FutureOr<String> Function();
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class StorageImpl<S extends Storage> extends Storage {
   Directory? _storageHandle;
   PathProvider _pathProvider;

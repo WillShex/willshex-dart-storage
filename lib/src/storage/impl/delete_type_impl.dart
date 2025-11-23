@@ -8,12 +8,14 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:willshex_storage/src/storage/impl/deleter_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class DeleteTypeImpl implements DeleteType {
   DeleterImpl deleter;
   Class<DataType> type;

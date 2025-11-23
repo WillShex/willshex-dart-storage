@@ -6,9 +6,12 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
+import 'package:meta/meta.dart';
+
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 enum FilterOperation {
   NotEquals,
   GreaterThan,
@@ -19,6 +22,7 @@ enum FilterOperation {
   Equals,
 }
 
+@internal
 class Filter {
   FilterOperation operation;
   String fieldName;
@@ -31,6 +35,7 @@ class Filter {
   });
 }
 
+@internal
 String? fromFilterOperationToString(FilterOperation? value) {
   String? filterOperation;
 
@@ -63,6 +68,7 @@ String? fromFilterOperationToString(FilterOperation? value) {
   return filterOperation;
 }
 
+@internal
 FilterOperation? fromStringToFilterOperation(String? value) {
   FilterOperation? filterOperation;
 

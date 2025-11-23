@@ -8,12 +8,14 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class SaverImpl implements Saver {
   StorageImpl<Storage> store;
 

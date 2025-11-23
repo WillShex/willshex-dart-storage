@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
@@ -16,6 +17,7 @@ import 'package:willshex_storage/storage.dart';
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class LoadEngine {
   StorageImpl<Storage> store;
   LoaderImpl<Loader> loader;

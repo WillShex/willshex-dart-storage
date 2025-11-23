@@ -6,8 +6,10 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
+import 'package:meta/meta.dart';
 import 'package:willshex/src/abstract_tree.dart';
 
+@internal
 class Index<T> extends AbstractTree<T> {
   final String name;
 

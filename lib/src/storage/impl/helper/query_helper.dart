@@ -6,6 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
+import 'package:meta/meta.dart';
 import 'package:willshex_storage/src/storage/impl/filter.dart';
 import 'package:willshex_storage/src/storage/impl/order.dart';
 import 'package:willshex_storage/storage.dart';
@@ -13,6 +14,7 @@ import 'package:willshex_storage/storage.dart';
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class QueryHelper {
   static void sort(
       List<Map<String, dynamic>> objects, final List<Order>? order) {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'src/data_type/image.dart';
+import 'src/data_type/scene.dart';
 import 'src/data_types.dart';
 
 Random generator = new Random();
@@ -35,8 +36,7 @@ Future<Null> main(List<String> args) async {
       "Loaded image with filter id ${image.id.toString()} ${filterIdLoaded.toString()}");
 
   printTestTitle("2a) load more than 1 id");
-  Map<int, Image> idsLoaded =
-      await DataTypes.store.load.image.ids(images.keys);
+  Map<int, Image> idsLoaded = await DataTypes.store.load.image.ids(images.keys);
   print(
       "Loaded image with ids ${images.keys.toString()} ${idsLoaded.toString()}");
 
@@ -83,12 +83,80 @@ Future<Null> main(List<String> args) async {
   Image? deletedFlagImage = await DataTypes.store.load.image.id(image.id!);
   print("Image with updated property deleted ${deletedFlagImage.toString()}");
 
+  printTestTitle("7) count query");
+  int count = await DataTypes.store.load.image.count;
+  print("Count of images: $count");
+
+  printTestTitle("8) order query (ascending width)");
+  List<Image> orderedImages =
+      await DataTypes.store.load.image.order("width").list;
+  print(
+      "Images ordered by width: ${orderedImages.map((e) => e.width).toList()}");
+
+  printTestTitle("9) order query (descending width)");
+  List<Image> descOrderedImages =
+      await DataTypes.store.load.image.order("-width").list;
+  print(
+      "Images ordered by width desc: ${descOrderedImages.map((e) => e.width).toList()}");
+
+  printTestTitle("10) string filter (name > 'm')");
+  // Assuming randomFileName generates names starting with various letters
+  List<Image> stringFiltered =
+      await DataTypes.store.load.image.filter("name >", "m").list;
+  print("Images with name > 'm': ${stringFiltered.length}");
+
+  printTestTitle("11) distinct query");
+  Image img1 = createImage();
+  Image img2 = createImage();
+  // Sync properties to make them distinct-equivalent (except id, which is removed by distinct check)
+  img2.name = img1.name;
+  img2.path = img1.path;
+  img2.width = img1.width;
+  img2.height = img1.height;
+  img2.created = img1.created;
+  img2.deleted = img1.deleted;
+
+  await DataTypes.store.save.entity(img1);
+  await DataTypes.store.save.entity(img2);
+
+  int totalCount = await DataTypes.store.load.image.count;
+  List<Image> distinctImages =
+      await DataTypes.store.load.image.distinct(true).list;
+  print("Total: $totalCount, Distinct: ${distinctImages.length}");
+  // Note: Distinct logic depends on how strictly all fields match.
+
+  printTestTitle("12) Complex Object (Scene with embedded Images)");
+  Scene scene = createScene();
+  scene.images = [createImage(), createImage()];
+  scene.id = await DataTypes.store.save.entity(scene);
+  print(
+      "Saved scene with id ${scene.id} and ${scene.images!.length} embedded images.");
+
+  Scene? loadedScene = await DataTypes.store.load.scene.id(scene.id!);
+  print("Loaded scene has ${loadedScene?.images?.length} images.");
+  if (loadedScene?.images?.isNotEmpty ?? false) {
+    print("First image name: ${loadedScene?.images?.first.name}");
+  }
+
+  printTestTitle("13) delete by id");
+  Image toDelete = await insertImage();
+  print("Created image to delete by id: ${toDelete.id}");
+  await DataTypes.store.delete.image.id(toDelete.id!);
+  Image? deletedCheck = await DataTypes.store.load.image.id(toDelete.id!);
+  print("Image after delete by id (should be null): $deletedCheck");
+
   printTestTitle("delete single entity");
   DataTypes.store.delete.entity(image);
   print("done");
 
   printTestTitle("delete multiple entity");
   DataTypes.store.delete.entities(images.values);
+
+  // Clean up new tests
+  DataTypes.store.delete.entity(img1);
+  DataTypes.store.delete.entity(img2);
+  DataTypes.store.delete.entity(scene);
+
   printTestTitle("done");
 
   return null;
@@ -138,4 +206,12 @@ Image createImage() {
       width: random(10, 20),
       name: randomFileName("png"),
       path: "images/");
+}
+
+Scene createScene() {
+  return new Scene(
+      created: DateTime.now(),
+      deleted: false,
+      name: "Test Scene ${randomLettersAndNumbers(5)}",
+      fileName: "scene.json");
 }

@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
 import 'package:willshex_storage/src/storage/impl/query_impl.dart';
 import 'package:willshex_storage/src/storage/impl/simple_query_impl.dart';
@@ -16,6 +17,7 @@ import 'package:willshex_storage/storage.dart';
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 abstract class Queryable<T extends DataType> extends SimpleQueryImpl<T> {
   Queryable.protected() : super.protected();
 

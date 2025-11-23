@@ -6,8 +6,9 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-//import '../../../abstracttree.dart';
+import 'package:meta/meta.dart';
 
+@internal
 class Pair<K, V> {
   final K key;
   final V value;

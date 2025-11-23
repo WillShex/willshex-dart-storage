@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:willshex_storage/src/storage/impl/delete_type_impl.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
@@ -15,6 +16,7 @@ import 'package:willshex_storage/storage.dart';
 ///
 /// @author William Shakour (billy1380)
 ///
+@internal
 class DeleterImpl implements Deleter {
   StorageImpl<Storage> store;
 
