@@ -30,8 +30,83 @@ class IndexHelper {
     required String colName,
     String? path,
   }) async {
-    // TODO: load index
-    return null;
+    Directory indexFolder = Directory(
+        "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
+
+    File pointsFile =
+        File("${indexFolder.absolute.path}${colName}${path ?? ""}");
+
+    if (!await pointsFile.exists()) {
+      return null;
+    }
+
+    final Index<I> index;
+    if (colName == Key.indexName && I == int) {
+      index = Key.createKey() as Index<I>;
+    } else {
+      index = Index<I>(colName);
+    }
+
+    final List<String> lines = await pointsFile.readAsLines();
+
+    if (I == String) {
+      index.points = lines as List<I>;
+    } else if (I == int) {
+      index.points = lines.map((l) => int.parse(l)).toList() as List<I>;
+    } else if (I == double) {
+      index.points = lines.map((l) => double.parse(l)).toList() as List<I>;
+    } else if (I == num) {
+      index.points = lines.map((l) => num.parse(l)).toList() as List<I>;
+    } else if (I == bool) {
+      index.points =
+          lines.map((l) => l.toLowerCase() == "true").toList() as List<I>;
+    } else {
+      throw UnsupportedError("Loading index for type $I is not supported. "
+          "Only String, int, double, num, bool are supported.");
+    }
+
+    final String prefix = path == null ? "" : "${path}_";
+    final List<FileSystemEntity> allFiles = await indexFolder.list().toList();
+    final List<int> childIndices = [];
+    final String colPrefix = colName;
+
+    for (final file in allFiles) {
+      final String fileName =
+          file.absolute.path.substring(indexFolder.absolute.path.length);
+      if (!fileName.startsWith(colPrefix)) continue;
+
+      final String pathCandidate = fileName.substring(colPrefix.length);
+
+      if (pathCandidate.isEmpty || !pathCandidate.startsWith(prefix)) continue;
+
+      final String suffix = pathCandidate.substring(prefix.length);
+      if (suffix.isNotEmpty && !suffix.contains("_")) {
+        final int? childIndex = int.tryParse(suffix);
+
+        if (childIndex != null) {
+          childIndices.add(childIndex);
+        }
+      }
+    }
+    childIndices.sort();
+
+    if (childIndices.isNotEmpty) {
+      final int maxIndex = childIndices.last;
+      final List<Index<I>?> children = List.filled(maxIndex + 1, null);
+
+      for (final int i in childIndices) {
+        final String childPath = _path(path, i);
+        children[i] = await loadIndex(
+          storage: storage,
+          type: type,
+          colName: colName,
+          path: childPath,
+        );
+      }
+      index.children.addAll(children);
+    }
+
+    return index;
   }
 
   static Future<void> saveIndex<T, I>({
@@ -97,12 +172,14 @@ class IndexHelper {
     required Class<T> type,
     required String colName,
     String? path,
-  }) {
-    return loadIndex(
+  }) async {
+    final Index<int>? index = await loadIndex<T, int>(
       storage: storage,
       type: type,
       colName: Key.indexName,
-    ) as Future<Key?>;
+      path: path,
+    );
+    return index as Key?;
   }
 
   static String _path(String? path, int index) {

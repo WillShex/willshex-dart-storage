@@ -6,6 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
+import 'package:willshex/src/abstract_tree.dart';
 import 'package:willshex_storage/src/storage/impl/index/index.dart';
 import 'package:willshex_storage/src/storage/impl/index/key_region.dart';
 
@@ -15,6 +16,12 @@ class Key extends Index<int> {
 
   Key._() : super(indexName);
 
-  static Key createKey([int capacity = 10]) =>
-      Index.createIndex(indexName, KeyRegion(0, max), capacity) as Key;
+  static Key createKey([int capacity = 10]) {
+    return AbstractTree.createTree<int>(
+        KeyRegion(0, max), capacity, _keyCreator) as Key;
+  }
+
+  static Key _keyCreator() {
+    return Key._();
+  }
 }

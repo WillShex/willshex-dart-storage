@@ -18,7 +18,7 @@ class Index<T> extends AbstractTree<T> {
   }
 
   static Index<T> createIndex<T>(String name, Region<T> region, int capacity) {
-    return AbstractTree.createTree(region, capacity, () => _creator(name))
+    return AbstractTree.createTree<T>(region, capacity, () => _creator(name))
         as Index<T>;
   }
 }
