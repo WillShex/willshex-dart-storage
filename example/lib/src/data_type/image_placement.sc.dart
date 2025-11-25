@@ -6,18 +6,22 @@ part of 'image_placement.dart';
 // DataTypeGenerator
 // **************************************************************************
 
-const Class<ImagePlacement> imagePlacementStorageClass = Class("ImagePlacement",
-    ImagePlacement.new, ImagePlacement.string, ImagePlacement.json);
+const Class<ImagePlacement> imagePlacementStorageClass = Class<ImagePlacement>(
+  "ImagePlacement",
+  ImagePlacement.new,
+  ImagePlacement.string,
+  ImagePlacement.json,
+);
 
-extension ImagePlacementLoader on Loader {
+extension ImagePlacementLoaderEx on Loader {
   LoadType<ImagePlacement> get imagePlacement =>
       type<ImagePlacement>(imagePlacementStorageClass);
 }
 
-extension ImagePlacementDeleter on Deleter {
+extension ImagePlacementDeleterEx on Deleter {
   DeleteType get imagePlacement => type(imagePlacementStorageClass);
 }
 
-extension ImagePlacementCompactor on Compactor {
+extension ImagePlacementCompactorEx on Compactor {
   Future<void> get imagePlacement => type(imagePlacementStorageClass);
 }

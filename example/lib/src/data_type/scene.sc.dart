@@ -6,17 +6,21 @@ part of 'scene.dart';
 // DataTypeGenerator
 // **************************************************************************
 
-const Class<Scene> sceneStorageClass =
-    Class("Scene", Scene.new, Scene.string, Scene.json);
+const Class<Scene> sceneStorageClass = Class<Scene>(
+  "Scene",
+  Scene.new,
+  Scene.string,
+  Scene.json,
+);
 
-extension SceneLoader on Loader {
+extension SceneLoaderEx on Loader {
   LoadType<Scene> get scene => type<Scene>(sceneStorageClass);
 }
 
-extension SceneDeleter on Deleter {
+extension SceneDeleterEx on Deleter {
   DeleteType get scene => type(sceneStorageClass);
 }
 
-extension SceneCompactor on Compactor {
+extension SceneCompactorEx on Compactor {
   Future<void> get scene => type(sceneStorageClass);
 }

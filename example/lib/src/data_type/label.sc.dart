@@ -6,17 +6,21 @@ part of 'label.dart';
 // DataTypeGenerator
 // **************************************************************************
 
-const Class<Label> labelStorageClass =
-    Class("Label", Label.new, Label.string, Label.json);
+const Class<Label> labelStorageClass = Class<Label>(
+  "Label",
+  Label.new,
+  Label.string,
+  Label.json,
+);
 
-extension LabelLoader on Loader {
+extension LabelLoaderEx on Loader {
   LoadType<Label> get label => type<Label>(labelStorageClass);
 }
 
-extension LabelDeleter on Deleter {
+extension LabelDeleterEx on Deleter {
   DeleteType get label => type(labelStorageClass);
 }
 
-extension LabelCompactor on Compactor {
+extension LabelCompactorEx on Compactor {
   Future<void> get label => type(labelStorageClass);
 }

@@ -6,21 +6,23 @@ part of 'rectangle_placement.dart';
 // DataTypeGenerator
 // **************************************************************************
 
-const Class<RectanglePlacement> rectanglePlacementStorageClass = Class(
-    "RectanglePlacement",
-    RectanglePlacement.new,
-    RectanglePlacement.string,
-    RectanglePlacement.json);
+const Class<RectanglePlacement> rectanglePlacementStorageClass =
+    Class<RectanglePlacement>(
+  "RectanglePlacement",
+  RectanglePlacement.new,
+  RectanglePlacement.string,
+  RectanglePlacement.json,
+);
 
-extension RectanglePlacementLoader on Loader {
+extension RectanglePlacementLoaderEx on Loader {
   LoadType<RectanglePlacement> get rectanglePlacement =>
       type<RectanglePlacement>(rectanglePlacementStorageClass);
 }
 
-extension RectanglePlacementDeleter on Deleter {
+extension RectanglePlacementDeleterEx on Deleter {
   DeleteType get rectanglePlacement => type(rectanglePlacementStorageClass);
 }
 
-extension RectanglePlacementCompactor on Compactor {
+extension RectanglePlacementCompactorEx on Compactor {
   Future<void> get rectanglePlacement => type(rectanglePlacementStorageClass);
 }

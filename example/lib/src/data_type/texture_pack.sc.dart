@@ -6,18 +6,22 @@ part of 'texture_pack.dart';
 // DataTypeGenerator
 // **************************************************************************
 
-const Class<TexturePack> texturePackStorageClass =
-    Class("TexturePack", TexturePack.new, TexturePack.string, TexturePack.json);
+const Class<TexturePack> texturePackStorageClass = Class<TexturePack>(
+  "TexturePack",
+  TexturePack.new,
+  TexturePack.string,
+  TexturePack.json,
+);
 
-extension TexturePackLoader on Loader {
+extension TexturePackLoaderEx on Loader {
   LoadType<TexturePack> get texturePack =>
       type<TexturePack>(texturePackStorageClass);
 }
 
-extension TexturePackDeleter on Deleter {
+extension TexturePackDeleterEx on Deleter {
   DeleteType get texturePack => type(texturePackStorageClass);
 }
 
-extension TexturePackCompactor on Compactor {
+extension TexturePackCompactorEx on Compactor {
   Future<void> get texturePack => type(texturePackStorageClass);
 }

@@ -6,18 +6,22 @@ part of 'label_placement.dart';
 // DataTypeGenerator
 // **************************************************************************
 
-const Class<LabelPlacement> labelPlacementStorageClass = Class("LabelPlacement",
-    LabelPlacement.new, LabelPlacement.string, LabelPlacement.json);
+const Class<LabelPlacement> labelPlacementStorageClass = Class<LabelPlacement>(
+  "LabelPlacement",
+  LabelPlacement.new,
+  LabelPlacement.string,
+  LabelPlacement.json,
+);
 
-extension LabelPlacementLoader on Loader {
+extension LabelPlacementLoaderEx on Loader {
   LoadType<LabelPlacement> get labelPlacement =>
       type<LabelPlacement>(labelPlacementStorageClass);
 }
 
-extension LabelPlacementDeleter on Deleter {
+extension LabelPlacementDeleterEx on Deleter {
   DeleteType get labelPlacement => type(labelPlacementStorageClass);
 }
 
-extension LabelPlacementCompactor on Compactor {
+extension LabelPlacementCompactorEx on Compactor {
   Future<void> get labelPlacement => type(labelPlacementStorageClass);
 }

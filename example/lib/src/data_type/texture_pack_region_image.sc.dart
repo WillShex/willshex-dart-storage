@@ -6,23 +6,25 @@ part of 'texture_pack_region_image.dart';
 // DataTypeGenerator
 // **************************************************************************
 
-const Class<TexturePackRegionImage> texturePackRegionImageStorageClass = Class(
-    "TexturePackRegionImage",
-    TexturePackRegionImage.new,
-    TexturePackRegionImage.string,
-    TexturePackRegionImage.json);
+const Class<TexturePackRegionImage> texturePackRegionImageStorageClass =
+    Class<TexturePackRegionImage>(
+  "TexturePackRegionImage",
+  TexturePackRegionImage.new,
+  TexturePackRegionImage.string,
+  TexturePackRegionImage.json,
+);
 
-extension TexturePackRegionImageLoader on Loader {
+extension TexturePackRegionImageLoaderEx on Loader {
   LoadType<TexturePackRegionImage> get texturePackRegionImage =>
       type<TexturePackRegionImage>(texturePackRegionImageStorageClass);
 }
 
-extension TexturePackRegionImageDeleter on Deleter {
+extension TexturePackRegionImageDeleterEx on Deleter {
   DeleteType get texturePackRegionImage =>
       type(texturePackRegionImageStorageClass);
 }
 
-extension TexturePackRegionImageCompactor on Compactor {
+extension TexturePackRegionImageCompactorEx on Compactor {
   Future<void> get texturePackRegionImage =>
       type(texturePackRegionImageStorageClass);
 }
