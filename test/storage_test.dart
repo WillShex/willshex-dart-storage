@@ -18,8 +18,8 @@ void main() {
 
     setUpAll(() async {
       Directory output = Directory(await path());
-      if (output.existsSync()) {
-        output.deleteSync(
+      if (await output.exists()) {
+        await output.delete(
           recursive: true,
         );
       }

@@ -56,47 +56,80 @@ class QueryEngine {
     Set<int>? candidateIds;
 
     if (query.allFilters != null && query.allFilters!.isNotEmpty) {
-      for (var filter in query.allFilters!) {
-        String indexName = filter.fieldName;
-        if (indexName == "id") indexName = Key.indexName;
+      String? compoundIndexName = _getCompoundIndexName(query.allFilters!);
 
-        await _ensureIndex(query.dataClass!, indexName);
-        Index<String>? index = await IndexHelper.scanIndex<T, String>(
+      if (compoundIndexName != null) {
+        await _ensureIndex(query.dataClass!, compoundIndexName);
+        Index<String>? compoundIndex = await IndexHelper.scanIndex<T, String>(
           storage: store,
           type: query.dataClass!,
-          colName: indexName,
+          colName: compoundIndexName,
         );
 
-        if (index != null) {
+        if (compoundIndex != null) {
+          String compoundValue = _buildCompoundValue(query.allFilters!);
           Set<int> filterIds = <int>{};
-          index.scan((String point) {
-            if (indexName == Key.indexName) {
-              int id = int.parse(point);
-              if (_matchesFilter(id, filter.value, filter.operation)) {
-                filterIds.add(id);
-              }
-            } else {
-              Pair<String, int> pair = Pair.fromString<String, int>(point);
 
-              dynamic fVal = filter.value;
-              if (fVal is DataType) {
-                fVal = fVal.id;
-              } else if (fVal is Iterable) {
-                fVal = fVal.map((e) => e is DataType ? e.id : e).toList();
-              }
-
-              bool match = _matchesFilter(pair.key, fVal, filter.operation);
-              if (match) {
-                filterIds.add(pair.value);
-              }
+          await compoundIndex.scan((String point) {
+            Pair<String, int> pair = Pair.fromString<String, int>(point);
+            if (pair.key == compoundValue) {
+              filterIds.add(pair.value);
+            } else if (pair.key.compareTo(compoundValue) > 0) {
+              return false;
             }
             return true;
           });
 
-          if (candidateIds == null) {
-            candidateIds = filterIds;
-          } else {
-            candidateIds = candidateIds.intersection(filterIds);
+          candidateIds = filterIds;
+        }
+      }
+
+      if (candidateIds == null) {
+        for (final filter in query.allFilters!) {
+          String indexName = filter.fieldName;
+          if (indexName == "id") indexName = Key.indexName;
+
+          await _ensureIndex(query.dataClass!, indexName);
+          Index<String>? index = await IndexHelper.scanIndex<T, String>(
+            storage: store,
+            type: query.dataClass!,
+            colName: indexName,
+          );
+
+          if (index != null) {
+            Set<int> filterIds = <int>{};
+            await index.scan((String point) {
+              if (indexName == Key.indexName) {
+                int id = int.parse(point);
+                if (_matchesFilter(id, filter.value, filter.operation)) {
+                  filterIds.add(id);
+                }
+              } else {
+                Pair<String, int> pair = Pair.fromString<String, int>(point);
+
+                final Object filterValue = filter.value;
+                Object comparisonValue = filterValue;
+                if (filterValue is DataType) {
+                  comparisonValue = filterValue.id ?? filterValue;
+                } else if (filterValue is Iterable) {
+                  comparisonValue =
+                      filterValue.map((e) => e is DataType ? e.id : e).toList();
+                }
+
+                bool match =
+                    _matchesFilter(pair.key, comparisonValue, filter.operation);
+                if (match) {
+                  filterIds.add(pair.value);
+                }
+              }
+              return true;
+            });
+
+            if (candidateIds == null) {
+              candidateIds = filterIds;
+            } else {
+              candidateIds = candidateIds.intersection(filterIds);
+            }
           }
         }
       }
@@ -304,8 +337,34 @@ class QueryEngine {
           T entity = type.instance()..fromString(content);
           if (entity.id != null) {
             String? point;
+            bool isCompound =
+                indexName.contains("_") && indexName != Key.indexName;
+
             if (indexName == Key.indexName) {
               point = entity.id.toString();
+            } else if (isCompound) {
+              List<String> fieldNames = indexName.split("_");
+              List<String> values = [];
+              bool skip = false;
+
+              for (String fieldName in fieldNames) {
+                var value = entity.toJson()[fieldName];
+                if (value is Map && value.containsKey("id")) {
+                  value = value["id"];
+                }
+                if (value == null || value is List || value is Map) {
+                  skip = true;
+                  break;
+                }
+                values.add("$value");
+              }
+
+              if (!skip) {
+                point = "${values.join("&")}:${entity.id}";
+              } else {
+                indexable = false;
+                break;
+              }
             } else {
               var value = entity.toJson()[indexName];
               if (value is Map && value.containsKey("id")) {
@@ -337,6 +396,37 @@ class QueryEngine {
         );
       }
     }
+  }
+
+  String? _getCompoundIndexName(List<Filter> filters) {
+    List<String> eqFields = [];
+    for (final filter in filters) {
+      if (filter.operation == FilterOperation.Equals) {
+        eqFields.add(filter.fieldName);
+      }
+    }
+    if (eqFields.length < 2) return null;
+    eqFields.sort();
+    return eqFields.join("_");
+  }
+
+  String _buildCompoundValue(List<Filter> filters) {
+    List<String> parts = [];
+    List<Filter> eqFilters =
+        filters.where((f) => f.operation == FilterOperation.Equals).toList();
+    eqFilters.sort((a, b) => a.fieldName.compareTo(b.fieldName));
+
+    for (final filter in eqFilters) {
+      final Object filterValue = filter.value;
+      String valueStr;
+      if (filterValue is DataType) {
+        valueStr = "${filterValue.id}";
+      } else {
+        valueStr = "$filterValue";
+      }
+      parts.add(valueStr);
+    }
+    return parts.join("&");
   }
 
   Future<int> queryCount<T extends DataType>(QueryImpl<T> query) async {

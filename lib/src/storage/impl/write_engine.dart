@@ -209,21 +209,48 @@ class WriteEngine {
 
           if (index != null) {
             bool modified = false;
-            for (T entity in entities) {
+            bool isCompound =
+                name.contains("_") && !RegExp(r"_\d+$").hasMatch(name);
+
+            for (final entity in entities) {
               String? point;
               if (name == Key.indexName) {
                 point = entity.id.toString();
-              } else {
-                var value = entity.toJson()[name];
-                if (value is Map && value.containsKey("id")) {
-                  value = value["id"];
+              } else if (isCompound) {
+                List<String> fieldNames = name.split("_");
+                List<String> values = [];
+                bool skip = false;
+
+                for (final fieldName in fieldNames) {
+                  final Object? fieldValue = entity.toJson()[fieldName];
+                  Object? normalizedValue = fieldValue;
+                  if (fieldValue is Map && fieldValue.containsKey("id")) {
+                    normalizedValue = fieldValue["id"];
+                  }
+                  if (normalizedValue == null ||
+                      normalizedValue is List ||
+                      normalizedValue is Map) {
+                    skip = true;
+                    break;
+                  }
+                  values.add("$normalizedValue");
                 }
 
-                if (value != null) {
-                  if (value is List || value is Map) {
+                if (!skip) {
+                  point = "${values.join("&")}:${entity.id}";
+                }
+              } else {
+                final Object? fieldValue = entity.toJson()[name];
+                Object? normalizedValue = fieldValue;
+                if (fieldValue is Map && fieldValue.containsKey("id")) {
+                  normalizedValue = fieldValue["id"];
+                }
+
+                if (normalizedValue != null) {
+                  if (normalizedValue is List || normalizedValue is Map) {
                     continue;
                   }
-                  point = "$value:${entity.id}";
+                  point = "$normalizedValue:${entity.id}";
                 }
               }
 

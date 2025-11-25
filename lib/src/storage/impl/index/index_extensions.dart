@@ -6,20 +6,19 @@
 //  Copyright © 2024 WillShex Limited. All rights reserved.
 //
 
-import 'dart:io';
-
 import 'index.dart';
 import 'pair.dart';
 
 extension IndexScanningEx<T> on Index<T> {
-  void scan(bool Function(T item) callback) {
+  Future<void> scan(bool Function(T item) callback) async {
     if (indexFile == null || childFiles == null) {
       throw StateError(
           "Index not configured for scanning. Use IndexHelper.scanIndex()");
     }
 
-    for (File file in [indexFile!, ...childFiles!]) {
-      for (String line in file.readAsLinesSync()) {
+    for (final file in [indexFile!, ...childFiles!]) {
+      final lines = await file.readAsLines();
+      for (final line in lines) {
         if (line.trim().isEmpty) continue;
         T item = _parseLine<T>(line);
         if (!callback(item)) return;
