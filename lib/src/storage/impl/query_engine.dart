@@ -9,10 +9,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fs_shim/fs_shim.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
-import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/filter.dart';
 import 'package:willshex_storage/src/storage/impl/helper/index_helper.dart';
 import 'package:willshex_storage/src/storage/impl/helper/query_helper.dart';
@@ -22,6 +22,7 @@ import 'package:willshex_storage/src/storage/impl/index/pair.dart';
 import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
 import 'package:willshex_storage/src/storage/impl/order.dart';
 import 'package:willshex_storage/src/storage/impl/query_impl.dart';
+import 'package:willshex_storage/src/storage/impl/file_system_access.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/src/storage/impl/index/index_extensions.dart';
 import 'package:willshex_storage/storage.dart';
@@ -145,7 +146,7 @@ class QueryEngine {
       }
     } else {
       Directory folder = await store.ensureFolder(query.dataClass!.simpleName);
-      Stream<FileSystemEntity> records = Directory("${folder.path}").list();
+      Stream<FileSystemEntity> records = fs.directory("${folder.path}").list();
 
       int matchedCount = 0;
       bool canTerminateEarly =
@@ -320,15 +321,15 @@ class QueryEngine {
 
   Future<void> _ensureIndex<T extends DataType>(
       Class<T> type, String indexName) async {
-    Directory indexFolder = Directory(
+    Directory indexFolder = fs.directory(
         "${(await store.ensureFolder(type.simpleName)).path}/.index/");
-    File indexFile = File("${indexFolder.path}/$indexName");
+    File indexFile = fs.file("${indexFolder.path}/$indexName");
 
     if (!await indexFile.exists()) {
       Index<String> index = Index<String>(indexName);
       index.points = <String>[];
       Directory folder = await store.ensureFolder(type.simpleName);
-      Stream<FileSystemEntity> records = Directory("${folder.path}").list();
+      Stream<FileSystemEntity> records = fs.directory("${folder.path}").list();
 
       bool indexable = true;
       await for (final FileSystemEntity record in records) {

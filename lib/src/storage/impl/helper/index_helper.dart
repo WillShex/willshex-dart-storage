@@ -10,12 +10,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:fs_shim/fs_shim.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/index/index.dart';
 import 'package:willshex_storage/src/storage/impl/index/key.dart';
 import 'package:willshex_storage/src/storage/impl/index/pair.dart';
+import 'package:willshex_storage/src/storage/impl/file_system_access.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 
 import '../../../../../storage.dart';
@@ -32,10 +33,10 @@ class IndexHelper {
     required Class<T> type,
     required String colName,
   }) async {
-    Directory indexFolder = Directory(
+    Directory indexFolder = fs.directory(
         "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
 
-    File indexFile = File("${indexFolder.path}$colName");
+    File indexFile = fs.file("${indexFolder.path}$colName");
 
     if (!await indexFile.exists()) {
       return null;
@@ -82,11 +83,11 @@ class IndexHelper {
     required String colName,
     String? path,
   }) async {
-    Directory indexFolder = Directory(
+    Directory indexFolder = fs.directory(
         "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
 
     File pointsFile =
-        File("${indexFolder.absolute.path}${colName}${path ?? ""}");
+        fs.file("${indexFolder.absolute.path}${colName}${path ?? ""}");
 
     if (!await pointsFile.exists()) {
       return null;
@@ -99,7 +100,8 @@ class IndexHelper {
       index = Index<I>(colName);
     }
 
-    final List<String> lines = await pointsFile.readAsLines();
+    final String content = await pointsFile.readAsString();
+    final List<String> lines = const LineSplitter().convert(content);
 
     if (I == String) {
       index.points = lines as List<I>;
@@ -135,8 +137,7 @@ class IndexHelper {
     final String colPrefix = colName;
 
     for (final FileSystemEntity file in allFiles) {
-      final String fileName =
-          file.absolute.path.substring(indexFolder.absolute.path.length);
+      final String fileName = file.path.substring(indexFolder.path.length);
       if (!fileName.startsWith(colPrefix)) continue;
 
       final String pathCandidate = fileName.substring(colPrefix.length);
@@ -180,7 +181,7 @@ class IndexHelper {
     required String colName,
     String? path,
   }) async {
-    Directory indexFolder = Directory(
+    Directory indexFolder = fs.directory(
         "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
 
     if (index.points != null) {
@@ -189,7 +190,7 @@ class IndexHelper {
       }
 
       File pointsFile =
-          File("${indexFolder.absolute.path}${colName}${path ?? ""}");
+          fs.file("${indexFolder.absolute.path}${colName}${path ?? ""}");
       pointsFile = await pointsFile.create(
         recursive: true,
       );

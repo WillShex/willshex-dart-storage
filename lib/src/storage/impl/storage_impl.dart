@@ -8,12 +8,13 @@
 
 import 'dart:async';
 
+import 'package:fs_shim/fs_shim.dart';
 import 'package:meta/meta.dart';
-import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/compactor_impl.dart';
 import 'package:willshex_storage/src/storage/impl/deleter_impl.dart';
 import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
 import 'package:willshex_storage/src/storage/impl/saver_impl.dart';
+import 'package:willshex_storage/src/storage/impl/file_system_access.dart';
 import 'package:willshex_storage/src/storage/impl/write_engine.dart';
 import 'package:willshex_storage/storage.dart';
 
@@ -40,7 +41,7 @@ class StorageImpl<S extends Storage> extends Storage {
   Future<Directory> get folder async {
     if (_storageHandle == null) {
       String path = await _pathProvider();
-      _storageHandle = Directory("$path");
+      _storageHandle = fs.directory("$path");
       if (await _storageHandle!.exists()) {
         // do nothing
       } else {
@@ -53,7 +54,7 @@ class StorageImpl<S extends Storage> extends Storage {
 
   Future<Directory> ensureFolder(String name) async {
     Directory parent = await this.folder;
-    Directory folder = Directory("${parent.path}/$name");
+    Directory folder = fs.directory("${parent.path}/$name");
 
     if (await folder.exists()) {
       // do nothing

@@ -8,9 +8,10 @@
 
 import 'dart:async';
 
+import 'package:fs_shim/fs_shim.dart';
 import 'package:meta/meta.dart';
-import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
+import 'package:willshex_storage/src/storage/impl/file_system_access.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
@@ -39,7 +40,7 @@ class LoadEngine {
         }
 
         if (entity == null) {
-          recordFileHandle = File("${folder.path}/${id.toString()}.json");
+          recordFileHandle = fs.file("${folder.path}/${id.toString()}.json");
 
           if (await recordFileHandle.exists()) {
             (entity = type.instance())

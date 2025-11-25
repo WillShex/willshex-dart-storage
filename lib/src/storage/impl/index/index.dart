@@ -6,8 +6,8 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
+import 'package:fs_shim/fs_shim.dart';
 import 'package:meta/meta.dart';
-import 'package:universal_file/universal_file.dart';
 import 'package:willshex/src/abstract_tree.dart';
 
 @internal

@@ -8,12 +8,13 @@
 
 import 'dart:async';
 
+import 'package:fs_shim/fs_shim.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path;
-import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/helper/index_helper.dart';
 import 'package:willshex_storage/src/storage/impl/index/index.dart';
 import 'package:willshex_storage/src/storage/impl/index/key.dart';
+import 'package:willshex_storage/src/storage/impl/file_system_access.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
 import 'package:willshex_storage/storage.dart';
 
@@ -70,7 +71,7 @@ class WriteEngine {
 
       List<T> entities = <T>[];
       for (final int id in ids) {
-        recordFileHandle = File("${folder.path}/${id.toString()}.json");
+        recordFileHandle = fs.file("${folder.path}/${id.toString()}.json");
         if (await recordFileHandle.exists()) {
           T entity = type.instance();
           entity.fromString(await recordFileHandle.readAsString());
@@ -83,7 +84,7 @@ class WriteEngine {
       await _updateIndices<T>(type, entities, false);
 
       for (final int id in ids) {
-        recordFileHandle = File("${folder.path}/${id.toString()}.json");
+        recordFileHandle = fs.file("${folder.path}/${id.toString()}.json");
         if (await recordFileHandle.exists()) {
           await recordFileHandle.delete();
         }
@@ -123,7 +124,7 @@ class WriteEngine {
   Future<void> _setCounter<T extends DataType>(
       Class<T> type, String name, int value) async {
     Directory folder = await store.ensureFolder(type.simpleName);
-    File counterFileHandle = File("${folder.path}/_.$name");
+    File counterFileHandle = fs.file("${folder.path}/_.$name");
     await counterFileHandle.writeAsString(value.toString());
   }
 
@@ -131,7 +132,7 @@ class WriteEngine {
       Class<T> type, String name) async {
     int counter;
     Directory folder = await store.ensureFolder(type.simpleName);
-    File counterFileHandle = File("${folder.path}/_.$name");
+    File counterFileHandle = fs.file("${folder.path}/_.$name");
     if (await counterFileHandle.exists()) {
       counter = int.parse(await counterFileHandle.readAsString());
     } else {
@@ -148,7 +149,8 @@ class WriteEngine {
     id -= entities.length;
     for (final T entity in entities) {
       entity.id = id;
-      await File("${folder.path}/${id.toString()}.json")
+      await fs
+          .file("${folder.path}/${id.toString()}.json")
           .writeAsString(entity.toStorable());
       inserted[id] = entity;
 
@@ -175,7 +177,8 @@ class WriteEngine {
         await _setAutoIncrement(type, autoInc = entity.id!);
       }
 
-      await File("${folder.path}/${entity.id.toString()}.json")
+      await fs
+          .file("${folder.path}/${entity.id.toString()}.json")
           .writeAsString(entity.toStorable());
       updated[entity.id!] = entity;
 
@@ -191,7 +194,7 @@ class WriteEngine {
 
   Future<void> _updateIndices<T extends DataType>(
       Class<T> type, List<T> entities, bool add) async {
-    Directory indexFolder = Directory(
+    Directory indexFolder = fs.directory(
         "${(await store.ensureFolder(type.simpleName)).path}/.index/");
 
     if (await indexFolder.exists()) {

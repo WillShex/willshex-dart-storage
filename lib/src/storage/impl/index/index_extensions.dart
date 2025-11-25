@@ -6,7 +6,9 @@
 //  Copyright © 2024 WillShex Limited. All rights reserved.
 //
 
-import 'dart:io';
+import 'dart:convert';
+
+import 'package:fs_shim/fs_shim.dart';
 
 import 'index.dart';
 import 'pair.dart';
@@ -19,7 +21,8 @@ extension IndexScanningEx<T> on Index<T> {
     }
 
     for (final File file in [indexFile!, ...childFiles!]) {
-      final lines = await file.readAsLines();
+      final String content = await file.readAsString();
+      final List<String> lines = const LineSplitter().convert(content);
       for (final String line in lines) {
         if (line.trim().isEmpty) continue;
         T item = _parseLine<T>(line);

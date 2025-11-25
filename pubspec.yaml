@@ -1,13 +1,14 @@
 name: willshex_storage
 description: A library for storing and querying data
-version: 0.1.0
+version: 0.1.1
+publish_to: none
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   http: ^1.2.1
-  universal_file: ^1.0.0
+  fs_shim: ^2.3.0
   willshex:
     path: ../willshex-dart
 
