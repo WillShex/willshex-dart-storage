@@ -27,6 +27,55 @@ import '../../../../../storage.dart';
 class IndexHelper {
   static final Logger _log = Logger("IndexHelper");
 
+  static Future<Index<I>?> scanIndex<T, I>({
+    required StorageImpl<Storage> storage,
+    required Class<T> type,
+    required String colName,
+  }) async {
+    Directory indexFolder = Directory(
+        "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
+
+    File indexFile = File("${indexFolder.path}$colName");
+
+    if (!await indexFile.exists()) {
+      return null;
+    }
+
+    Index<I> index = Index<I>(colName);
+
+    List<File> childFiles = [];
+    await for (FileSystemEntity entity in indexFolder.list()) {
+      if (entity is File) {
+        String name = entity.path.substring(indexFolder.path.length);
+        if (name.startsWith("${colName}_") && RegExp(r"_\d+$").hasMatch(name)) {
+          childFiles.add(entity);
+        }
+      }
+    }
+
+    childFiles.sort((a, b) {
+      String aName = a.path.substring(indexFolder.path.length);
+      String bName = b.path.substring(indexFolder.path.length);
+      return aName.compareTo(bName);
+    });
+
+    index.indexFile = indexFile;
+    index.childFiles = childFiles;
+
+    return index;
+  }
+
+  static Future<Key?> scanKey<T>({
+    required StorageImpl<Storage> storage,
+    required Class<T> type,
+  }) async {
+    return await scanIndex<T, int>(
+      storage: storage,
+      type: type,
+      colName: Key.indexName,
+    ) as Key?;
+  }
+
   static Future<Index<I>?> loadIndex<T, I>({
     required StorageImpl<Storage> storage,
     required Class<T> type,

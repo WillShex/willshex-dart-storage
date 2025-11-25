@@ -23,6 +23,7 @@ import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
 import 'package:willshex_storage/src/storage/impl/order.dart';
 import 'package:willshex_storage/src/storage/impl/query_impl.dart';
 import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
+import 'package:willshex_storage/src/storage/impl/index/index_extensions.dart';
 import 'package:willshex_storage/storage.dart';
 
 ///
@@ -60,15 +61,15 @@ class QueryEngine {
         if (indexName == "id") indexName = Key.indexName;
 
         await _ensureIndex(query.dataClass!, indexName);
-        Index<String>? index = await IndexHelper.loadIndex<T, String>(
+        Index<String>? index = await IndexHelper.scanIndex<T, String>(
           storage: store,
           type: query.dataClass!,
           colName: indexName,
         );
 
-        if (index != null && index.points != null) {
+        if (index != null) {
           Set<int> filterIds = <int>{};
-          for (String point in index.points!) {
+          index.scan((String point) {
             if (indexName == Key.indexName) {
               int id = int.parse(point);
               if (_matchesFilter(id, filter.value, filter.operation)) {
@@ -89,7 +90,8 @@ class QueryEngine {
                 filterIds.add(pair.value);
               }
             }
-          }
+            return true;
+          });
 
           if (candidateIds == null) {
             candidateIds = filterIds;

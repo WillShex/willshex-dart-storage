@@ -7,11 +7,17 @@
 //
 
 import 'package:meta/meta.dart';
+import 'package:universal_file/universal_file.dart';
 import 'package:willshex/src/abstract_tree.dart';
 
 @internal
 class Index<T> extends AbstractTree<T> {
   final String name;
+
+  @internal
+  File? indexFile;
+  @internal
+  List<File>? childFiles;
 
   Index(this.name) : super(() => _creator(name), 2);
 
