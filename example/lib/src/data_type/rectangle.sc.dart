@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rectangle.dart';
+part of "rectangle.dart";
 
 // **************************************************************************
 // DataTypeGenerator

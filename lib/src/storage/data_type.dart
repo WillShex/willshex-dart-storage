@@ -6,9 +6,9 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:willshex/willshex.dart';
+import "package:willshex/willshex.dart";
 
 mixin Storable {
   Map<String, dynamic> toJsonStorable();

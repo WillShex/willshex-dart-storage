@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'texture_pack_region_image.dart';
+part of "texture_pack_region_image.dart";
 
 // **************************************************************************
 // DataTypeGenerator

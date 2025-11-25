@@ -6,9 +6,9 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-part 'label.sc.dart';
+part "label.sc.dart";
 
 class Label extends DataType {
   double? size;
@@ -28,8 +28,12 @@ class Label extends DataType {
     super.deleted,
   }) : super(sc: labelStorageClass);
 
-  Label.json(Map<String, dynamic> json) : super.json(json);
-  Label.string(String string) : super.string(string);
+  Label.json(Map<String, dynamic> json) : super.json(json) {
+    sc = labelStorageClass;
+  }
+  Label.string(String string) : super.string(string) {
+    sc = labelStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

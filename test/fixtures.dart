@@ -1,8 +1,8 @@
 library fixtures;
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-part 'fixtures.sc.dart';
+part "fixtures.sc.dart";
 
 class TestEntity extends DataType {
   String? name;
@@ -18,11 +18,11 @@ class TestEntity extends DataType {
     this.child,
   }) : super(sc: testEntityStorageClass, id: id);
 
-  TestEntity.json(super.json) : super.json() {
+  TestEntity.json(Map<String, dynamic> json) : super.json(json) {
     sc = testEntityStorageClass;
   }
 
-  TestEntity.string(super.string) : super.string() {
+  TestEntity.string(String string) : super.string(string) {
     sc = testEntityStorageClass;
   }
 
@@ -62,44 +62,44 @@ class SimpleEntity extends DataType {
             created: created,
             deleted: deleted);
 
-  SimpleEntity.json(super.json) : super.json() {
+  SimpleEntity.json(Map<String, dynamic> json) : super.json(json) {
     sc = simpleEntityStorageClass;
   }
 
-  SimpleEntity.string(super.string) : super.string() {
+  SimpleEntity.string(String string) : super.string(string) {
     sc = simpleEntityStorageClass;
   }
 }
 
 class Test2Type extends DataType {
   Test2Type() : super(sc: test2TypeStorageClass);
-  Test2Type.json(super.json) : super.json() {
+  Test2Type.json(Map<String, dynamic> json) : super.json(json) {
     sc = test2TypeStorageClass;
   }
 
-  Test2Type.string(super.string) : super.string() {
+  Test2Type.string(String string) : super.string(string) {
     sc = test2TypeStorageClass;
   }
 }
 
 class Test3Type extends DataType {
   Test3Type() : super(sc: test3TypeStorageClass);
-  Test3Type.json(super.json) : super.json() {
+  Test3Type.json(Map<String, dynamic> json) : super.json(json) {
     sc = test3TypeStorageClass;
   }
 
-  Test3Type.string(super.string) : super.string() {
+  Test3Type.string(String string) : super.string(string) {
     sc = test3TypeStorageClass;
   }
 }
 
 class Test4Type extends DataType {
   Test4Type() : super(sc: test4TypeStorageClass);
-  Test4Type.json(super.json) : super.json() {
+  Test4Type.json(Map<String, dynamic> json) : super.json(json) {
     sc = test4TypeStorageClass;
   }
 
-  Test4Type.string(super.string) : super.string() {
+  Test4Type.string(String string) : super.string(string) {
     sc = test4TypeStorageClass;
   }
 }

@@ -6,17 +6,17 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'dart:async';
+import "dart:async";
 
-import 'package:fs_shim/fs_shim.dart';
-import 'package:meta/meta.dart';
-import 'package:path/path.dart' as path;
-import 'package:willshex_storage/src/storage/impl/helper/index_helper.dart';
-import 'package:willshex_storage/src/storage/impl/index/index.dart';
-import 'package:willshex_storage/src/storage/impl/index/key.dart';
-import 'package:willshex_storage/src/storage/impl/file_system_access.dart';
-import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
-import 'package:willshex_storage/storage.dart';
+import "package:fs_shim/fs_shim.dart";
+import "package:meta/meta.dart";
+import "package:path/path.dart" as path;
+import "package:willshex_storage/src/storage/impl/helper/index_helper.dart";
+import "package:willshex_storage/src/storage/impl/index/index.dart";
+import "package:willshex_storage/src/storage/impl/index/key.dart";
+import "package:willshex_storage/src/storage/impl/file_system_access.dart";
+import "package:willshex_storage/src/storage/impl/storage_impl.dart";
+import "package:willshex_storage/storage.dart";
 
 ///
 /// @author William Shakour (billy1380)
@@ -202,7 +202,7 @@ class WriteEngine {
       for (final FileSystemEntity file in files) {
         if (file is File) {
           String name = path.basename(file.path);
-          if (RegExp(r'_\d+$').hasMatch(name)) continue;
+          if (RegExp(r"_\d+$").hasMatch(name)) continue;
 
           Index<String>? index = await IndexHelper.loadIndex<T, String>(
             storage: store,

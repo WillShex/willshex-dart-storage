@@ -6,9 +6,9 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-part 'image.sc.dart';
+part "image.sc.dart";
 
 class Image extends DataType {
   String? name;
@@ -28,8 +28,13 @@ class Image extends DataType {
           sc: imageStorageClass,
         );
 
-  Image.json(Map<String, dynamic> json) : super.json(json);
-  Image.string(String string) : super.string(string);
+  Image.json(Map<String, dynamic> json) : super.json(json) {
+    sc = imageStorageClass;
+  }
+
+  Image.string(String string) : super.string(string) {
+    sc = imageStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

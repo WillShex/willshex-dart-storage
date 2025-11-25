@@ -1,7 +1,7 @@
-import 'package:test/test.dart';
-import 'package:willshex_storage/src/storage/impl/index/index.dart';
+import "package:test/test.dart";
+import "package:willshex_storage/src/storage/impl/index/index.dart";
 
-import 'mocks.dart';
+import "mocks.dart";
 
 void main() {
   group("Index Tests", () {

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rectangle_placement.dart';
+part of "rectangle_placement.dart";
 
 // **************************************************************************
 // DataTypeGenerator

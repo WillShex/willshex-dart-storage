@@ -6,12 +6,12 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-import 'image.dart';
-import 'placement.dart';
+import "image.dart";
+import "placement.dart";
 
-part 'image_placement.sc.dart';
+part "image_placement.sc.dart";
 
 class ImagePlacement extends Placement {
   Image? image;
@@ -34,8 +34,13 @@ class ImagePlacement extends Placement {
     super.sc = imagePlacementStorageClass;
   }
 
-  ImagePlacement.json(Map<String, dynamic> json) : super.json(json);
-  ImagePlacement.string(String string) : super.string(string);
+  ImagePlacement.json(Map<String, dynamic> json) : super.json(json) {
+    sc = imagePlacementStorageClass;
+  }
+
+  ImagePlacement.string(String string) : super.string(string) {
+    sc = imagePlacementStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

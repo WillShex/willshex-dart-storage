@@ -6,9 +6,9 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-part 'placement.sc.dart';
+part "placement.sc.dart";
 
 class Placement extends DataType {
   int? x;
@@ -26,8 +26,12 @@ class Placement extends DataType {
           sc: placementStorageClass,
         );
 
-  Placement.json(Map<String, dynamic> json) : super.json(json);
-  Placement.string(String string) : super.string(string);
+  Placement.json(Map<String, dynamic> json) : super.json(json) {
+    sc = placementStorageClass;
+  }
+  Placement.string(String string) : super.string(string) {
+    sc = placementStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

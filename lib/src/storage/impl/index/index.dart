@@ -6,9 +6,9 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:fs_shim/fs_shim.dart';
-import 'package:meta/meta.dart';
-import 'package:willshex/src/abstract_tree.dart';
+import "package:fs_shim/fs_shim.dart";
+import "package:meta/meta.dart";
+import "package:willshex/src/abstract_tree.dart";
 
 @internal
 class Index<T> extends AbstractTree<T> {

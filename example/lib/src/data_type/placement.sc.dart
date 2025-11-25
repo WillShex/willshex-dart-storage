@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'placement.dart';
+part of "placement.dart";
 
 // **************************************************************************
 // DataTypeGenerator

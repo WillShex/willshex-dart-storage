@@ -1,12 +1,12 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:logging/logging.dart';
-import 'package:test/test.dart';
-import 'package:universal_file/universal_file.dart';
-import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
-import 'package:willshex_storage/storage.dart';
+import "package:logging/logging.dart";
+import "package:test/test.dart";
+import "package:universal_file/universal_file.dart";
+import "package:willshex_storage/src/storage/impl/storage_impl.dart";
+import "package:willshex_storage/storage.dart";
 
-import 'fixtures.dart';
+import "fixtures.dart";
 
 void main() {
   setupLogging();
@@ -143,6 +143,6 @@ void main() {
 void setupLogging() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
-    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+    print("${rec.level.name}: ${rec.time}: ${rec.message}");
   });
 }

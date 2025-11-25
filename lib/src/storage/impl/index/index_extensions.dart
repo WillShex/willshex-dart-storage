@@ -6,12 +6,12 @@
 //  Copyright © 2024 WillShex Limited. All rights reserved.
 //
 
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:fs_shim/fs_shim.dart';
+import "package:fs_shim/fs_shim.dart";
 
-import 'index.dart';
-import 'pair.dart';
+import "index.dart";
+import "pair.dart";
 
 extension IndexScanningEx<T> on Index<T> {
   Future<void> scan(bool Function(T item) callback) async {

@@ -6,9 +6,9 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-part 'rectangle.sc.dart';
+part "rectangle.sc.dart";
 
 class Rectangle extends DataType {
   int? width;
@@ -24,8 +24,13 @@ class Rectangle extends DataType {
           sc: rectangleStorageClass,
         );
 
-  Rectangle.json(Map<String, dynamic> json) : super.json(json);
-  Rectangle.string(String string) : super.string(string);
+  Rectangle.json(Map<String, dynamic> json) : super.json(json) {
+    sc = rectangleStorageClass;
+  }
+
+  Rectangle.string(String string) : super.string(string) {
+    sc = rectangleStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

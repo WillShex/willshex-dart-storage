@@ -1,11 +1,11 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:logging/logging.dart';
-import 'package:test/test.dart';
-import 'package:universal_file/universal_file.dart';
-import 'package:willshex_storage/storage.dart';
+import "package:logging/logging.dart";
+import "package:test/test.dart";
+import "package:universal_file/universal_file.dart";
+import "package:willshex_storage/storage.dart";
 
-import 'fixtures.dart';
+import "fixtures.dart";
 
 void main() {
   setupLogging();

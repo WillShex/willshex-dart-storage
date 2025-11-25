@@ -6,11 +6,11 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-import 'texture_pack_region_image.dart';
+import "texture_pack_region_image.dart";
 
-part 'texture_pack.sc.dart';
+part "texture_pack.sc.dart";
 
 class TexturePack extends DataType {
   List<TexturePackRegionImage>? images;
@@ -28,8 +28,12 @@ class TexturePack extends DataType {
           sc: texturePackStorageClass,
         );
 
-  TexturePack.json(Map<String, dynamic> json) : super.json(json);
-  TexturePack.string(String string) : super.string(string);
+  TexturePack.json(Map<String, dynamic> json) : super.json(json) {
+    sc = texturePackStorageClass;
+  }
+  TexturePack.string(String string) : super.string(string) {
+    sc = texturePackStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

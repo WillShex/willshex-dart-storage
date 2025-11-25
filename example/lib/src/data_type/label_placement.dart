@@ -6,12 +6,12 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-import 'label.dart';
-import 'placement.dart';
+import "label.dart";
+import "placement.dart";
 
-part 'label_placement.sc.dart';
+part "label_placement.sc.dart";
 
 class LabelPlacement extends Placement {
   Label? label;
@@ -34,8 +34,12 @@ class LabelPlacement extends Placement {
     super.sc = labelPlacementStorageClass;
   }
 
-  LabelPlacement.json(Map<String, dynamic> json) : super.json(json);
-  LabelPlacement.string(String string) : super.string(string);
+  LabelPlacement.json(Map<String, dynamic> json) : super.json(json) {
+    sc = labelPlacementStorageClass;
+  }
+  LabelPlacement.string(String string) : super.string(string) {
+    sc = labelPlacementStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

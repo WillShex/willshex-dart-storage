@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'layout.dart';
+part of "layout.dart";
 
 // **************************************************************************
 // DataTypeGenerator

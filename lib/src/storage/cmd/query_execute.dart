@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'dart:async';
+import "dart:async";
 
 typedef ListFunction<T> = Future<List<T>> Function();
 typedef FirstFunction<T> = Future<T> Function();

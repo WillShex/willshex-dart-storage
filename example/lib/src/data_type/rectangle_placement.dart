@@ -6,12 +6,12 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-import 'placement.dart';
-import 'rectangle.dart';
+import "placement.dart";
+import "rectangle.dart";
 
-part 'rectangle_placement.sc.dart';
+part "rectangle_placement.sc.dart";
 
 class RectanglePlacement extends Placement {
   Rectangle? rectangle;
@@ -34,8 +34,12 @@ class RectanglePlacement extends Placement {
     super.sc = rectanglePlacementStorageClass;
   }
 
-  RectanglePlacement.json(Map<String, dynamic> json) : super.json(json);
-  RectanglePlacement.string(String string) : super.string(string);
+  RectanglePlacement.json(Map<String, dynamic> json) : super.json(json) {
+    sc = rectanglePlacementStorageClass;
+  }
+  RectanglePlacement.string(String string) : super.string(string) {
+    sc = rectanglePlacementStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

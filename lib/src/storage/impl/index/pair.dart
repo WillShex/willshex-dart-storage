@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:meta/meta.dart';
+import "package:meta/meta.dart";
 
 @internal
 class Pair<K, V> implements Comparable<Pair<K, V>> {

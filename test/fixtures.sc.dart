@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fixtures.dart';
+part of "fixtures.dart";
 
 // **************************************************************************
 // DataTypeGenerator

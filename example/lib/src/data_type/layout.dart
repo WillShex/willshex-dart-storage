@@ -6,11 +6,11 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:willshex_storage/storage.dart';
+import "package:willshex_storage/storage.dart";
 
-import 'placement.dart';
+import "placement.dart";
 
-part 'layout.sc.dart';
+part "layout.sc.dart";
 
 class Layout extends DataType {
   List<Placement>? items;
@@ -32,8 +32,13 @@ class Layout extends DataType {
           sc: layoutStorageClass,
         );
 
-  Layout.json(Map<String, dynamic> json) : super.json(json);
-  Layout.string(String string) : super.string(string);
+  Layout.json(Map<String, dynamic> json) : super.json(json) {
+    sc = layoutStorageClass;
+  }
+
+  Layout.string(String string) : super.string(string) {
+    sc = layoutStorageClass;
+  }
 
   @override
   void fromJson(Map<String, dynamic> json) {

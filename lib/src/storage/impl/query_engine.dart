@@ -6,26 +6,26 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'dart:async';
-import 'dart:convert';
+import "dart:async";
+import "dart:convert";
 
-import 'package:fs_shim/fs_shim.dart';
-import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
-import 'package:path/path.dart';
-import 'package:willshex_storage/src/storage/impl/filter.dart';
-import 'package:willshex_storage/src/storage/impl/helper/index_helper.dart';
-import 'package:willshex_storage/src/storage/impl/helper/query_helper.dart';
-import 'package:willshex_storage/src/storage/impl/index/index.dart';
-import 'package:willshex_storage/src/storage/impl/index/key.dart';
-import 'package:willshex_storage/src/storage/impl/index/pair.dart';
-import 'package:willshex_storage/src/storage/impl/loader_impl.dart';
-import 'package:willshex_storage/src/storage/impl/order.dart';
-import 'package:willshex_storage/src/storage/impl/query_impl.dart';
-import 'package:willshex_storage/src/storage/impl/file_system_access.dart';
-import 'package:willshex_storage/src/storage/impl/storage_impl.dart';
-import 'package:willshex_storage/src/storage/impl/index/index_extensions.dart';
-import 'package:willshex_storage/storage.dart';
+import "package:fs_shim/fs_shim.dart";
+import "package:logging/logging.dart";
+import "package:meta/meta.dart";
+import "package:path/path.dart";
+import "package:willshex_storage/src/storage/impl/filter.dart";
+import "package:willshex_storage/src/storage/impl/helper/index_helper.dart";
+import "package:willshex_storage/src/storage/impl/helper/query_helper.dart";
+import "package:willshex_storage/src/storage/impl/index/index.dart";
+import "package:willshex_storage/src/storage/impl/index/key.dart";
+import "package:willshex_storage/src/storage/impl/index/pair.dart";
+import "package:willshex_storage/src/storage/impl/loader_impl.dart";
+import "package:willshex_storage/src/storage/impl/order.dart";
+import "package:willshex_storage/src/storage/impl/query_impl.dart";
+import "package:willshex_storage/src/storage/impl/file_system_access.dart";
+import "package:willshex_storage/src/storage/impl/storage_impl.dart";
+import "package:willshex_storage/src/storage/impl/index/index_extensions.dart";
+import "package:willshex_storage/storage.dart";
 
 ///
 /// @author William Shakour (billy1380)
@@ -196,10 +196,10 @@ class QueryEngine {
         final keyParts = <String>[];
 
         for (final String field in query.allGroups!) {
-          keyParts.add(object[field]?.toString() ?? 'null');
+          keyParts.add(object[field]?.toString() ?? "null");
         }
 
-        final groupKey = keyParts.join('-');
+        final groupKey = keyParts.join("-");
 
         if (!groupedObjects.containsKey(groupKey)) {
           groupedObjects[groupKey] = object;

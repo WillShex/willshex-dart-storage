@@ -6,8 +6,8 @@
 //  Copyright © 2018 WillShex Limited. All rights reserved.
 //
 
-import 'package:meta/meta.dart';
-import 'package:willshex/src/abstract_tree.dart';
+import "package:meta/meta.dart";
+import "package:willshex/src/abstract_tree.dart";
 
 @internal
 class KeyRegion implements Region<int> {
