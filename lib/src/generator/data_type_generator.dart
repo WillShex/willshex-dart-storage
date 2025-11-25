@@ -25,7 +25,7 @@ class DataTypeGenerator extends Generator {
         final constantName = '${camelCaseName}StorageClass';
 
         result.writeln(
-            'const Class<$className> $constantName = Class("$className", $className.new, $className.string, $className.json);');
+            'const Class<$className> $constantName = Class<$className>("$className", $className.new, $className.string, $className.json);');
         result.writeln();
         result.writeln('extension ${className}LoaderEx on Loader {');
         result.writeln(
