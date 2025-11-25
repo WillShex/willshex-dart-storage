@@ -22,7 +22,7 @@ class QueryHelper {
       dynamic value, value2;
       int result;
       if (order != null) {
-        for (Order item in order) {
+        for (final Order item in order) {
           value = o1[item.fieldName];
           value2 = o2[item.fieldName];
 
@@ -106,7 +106,7 @@ class QueryHelper {
     bool isMatch = true;
 
     if (filters != null) {
-      for (Filter filter in filters) {
+      for (final Filter filter in filters) {
         if (object.containsKey(filter.fieldName)) {
           isMatch = isMatch &&
               QueryHelper.isMatch(
@@ -170,7 +170,7 @@ class QueryHelper {
         if (against is Iterable) {
           Iterable<dynamic> iterable = against;
 
-          for (dynamic againsItem in iterable) {
+          for (final dynamic againsItem in iterable) {
             passed = isMatch(toCompare, FilterOperation.Equals, againsItem);
             if (passed) break;
           }

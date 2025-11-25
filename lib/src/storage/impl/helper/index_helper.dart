@@ -44,7 +44,7 @@ class IndexHelper {
     Index<I> index = Index<I>(colName);
 
     List<File> childFiles = [];
-    await for (FileSystemEntity entity in indexFolder.list()) {
+    await for (final FileSystemEntity entity in indexFolder.list()) {
       if (entity is File) {
         String name = entity.path.substring(indexFolder.path.length);
         if (name.startsWith("${colName}_") && RegExp(r"_\d+$").hasMatch(name)) {
@@ -134,7 +134,7 @@ class IndexHelper {
     final List<int> childIndices = [];
     final String colPrefix = colName;
 
-    for (final file in allFiles) {
+    for (final FileSystemEntity file in allFiles) {
       final String fileName =
           file.absolute.path.substring(indexFolder.absolute.path.length);
       if (!fileName.startsWith(colPrefix)) continue;

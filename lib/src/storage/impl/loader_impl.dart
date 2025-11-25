@@ -47,7 +47,7 @@ class LoaderImpl<L extends Loader> extends Queryable<DataType>
 
     List<int> ids = <int>[];
     Class<E>? type;
-    for (E entity in entities) {
+    for (final E entity in entities) {
       if (type == null) {
         type = entity.sc as Class<E>;
       }

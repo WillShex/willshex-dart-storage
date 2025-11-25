@@ -84,12 +84,12 @@ class QueryImpl<T extends DataType> extends SimpleQueryImpl<T>
 
   void addFilter(String condition, dynamic value) {
     late FilterOperation filterOperation;
-    String filterFieldName;
-    Object filterValue;
+    late final String filterFieldName;
+    late final dynamic filterValue;
 
     condition = condition.trim();
     bool foundOperation = false;
-    for (FilterOperation operation in FilterOperation.values) {
+    for (final FilterOperation operation in FilterOperation.values) {
       String? sign = fromFilterOperationToString(operation);
       if (condition.endsWith(sign!)) {
         filterOperation = operation;

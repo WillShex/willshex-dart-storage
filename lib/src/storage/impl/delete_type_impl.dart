@@ -40,7 +40,7 @@ class DeleteTypeImpl implements DeleteType {
   @override
   Future<void> entities<T extends DataType>(Iterable<T> entities) {
     List<int> ids = <int>[];
-    for (T entity in entities) {
+    for (final T entity in entities) {
       ids.add(entity.id!);
     }
 

@@ -31,7 +31,7 @@ class LoadEngine {
       File recordFileHandle;
       T? entity;
       Directory folder = await store.ensureFolder(type.simpleName);
-      for (int id in ids) {
+      for (final int id in ids) {
         entity = null;
 
         if (store.useCache) {

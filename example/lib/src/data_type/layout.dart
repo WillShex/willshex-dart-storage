@@ -42,7 +42,7 @@ class Layout extends DataType {
     if (json["items"] != null) {
       List<Placement> items = <Placement>[];
       Placement item;
-      for (Map<String, dynamic> jsonItem in json["items"]) {
+      for (final Map<String, dynamic> jsonItem in json["items"]) {
         item = new Placement()..fromJson(jsonItem);
         items.add(item);
       }
@@ -71,7 +71,7 @@ class Layout extends DataType {
 
     if (items != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Placement item in items!) {
+      for (final Placement item in items!) {
         jsonArray.add(item.toJson());
       }
       json["items"] = jsonArray;

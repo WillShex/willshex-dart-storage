@@ -38,7 +38,7 @@ class TexturePack extends DataType {
     if (json["images"] != null) {
       List<TexturePackRegionImage> images = <TexturePackRegionImage>[];
       TexturePackRegionImage item;
-      for (Map<String, dynamic> jsonItem in json["images"]) {
+      for (final Map<String, dynamic> jsonItem in json["images"]) {
         item = new TexturePackRegionImage()..fromJson(jsonItem);
         images.add(item);
       }
@@ -59,7 +59,7 @@ class TexturePack extends DataType {
 
     if (images != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (TexturePackRegionImage item in images!) {
+      for (final TexturePackRegionImage item in images!) {
         jsonArray.add(item.toJson());
       }
       json["images"] = jsonArray;

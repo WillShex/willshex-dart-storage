@@ -9,8 +9,8 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
-import 'package:universal_file/universal_file.dart';
 import 'package:path/path.dart' as path;
+import 'package:universal_file/universal_file.dart';
 import 'package:willshex_storage/src/storage/impl/helper/index_helper.dart';
 import 'package:willshex_storage/src/storage/impl/index/index.dart';
 import 'package:willshex_storage/src/storage/impl/index/key.dart';
@@ -33,7 +33,7 @@ class WriteEngine {
 
       List<T>? insert;
       List<T>? update;
-      for (T entity in entities) {
+      for (final T entity in entities) {
         if (type == null) {
           type = entity.sc as Class<T>;
         }
@@ -69,7 +69,7 @@ class WriteEngine {
       Directory folder = await store.ensureFolder(type.simpleName);
 
       List<T> entities = <T>[];
-      for (int id in ids) {
+      for (final int id in ids) {
         recordFileHandle = File("${folder.path}/${id.toString()}.json");
         if (await recordFileHandle.exists()) {
           T entity = type.instance();
@@ -82,7 +82,7 @@ class WriteEngine {
 
       await _updateIndices<T>(type, entities, false);
 
-      for (int id in ids) {
+      for (final int id in ids) {
         recordFileHandle = File("${folder.path}/${id.toString()}.json");
         if (await recordFileHandle.exists()) {
           await recordFileHandle.delete();
@@ -146,7 +146,7 @@ class WriteEngine {
     Directory folder = await store.ensureFolder(type.simpleName);
     int id = await _nextAutoIncrement(type, entities.length);
     id -= entities.length;
-    for (T entity in entities) {
+    for (final T entity in entities) {
       entity.id = id;
       await File("${folder.path}/${id.toString()}.json")
           .writeAsString(entity.toStorable());
@@ -169,7 +169,7 @@ class WriteEngine {
     Map<int, T> updated = <int, T>{};
     int autoInc;
     Directory folder = await store.ensureFolder(type.simpleName);
-    for (T entity in entities) {
+    for (final T entity in entities) {
       autoInc = await getAutoIncrement(type);
       if (entity.id! > autoInc) {
         await _setAutoIncrement(type, autoInc = entity.id!);
@@ -196,7 +196,7 @@ class WriteEngine {
 
     if (await indexFolder.exists()) {
       List<FileSystemEntity> files = await indexFolder.list().toList();
-      for (FileSystemEntity file in files) {
+      for (final FileSystemEntity file in files) {
         if (file is File) {
           String name = path.basename(file.path);
           if (RegExp(r'_\d+$').hasMatch(name)) continue;
@@ -212,7 +212,7 @@ class WriteEngine {
             bool isCompound =
                 name.contains("_") && !RegExp(r"_\d+$").hasMatch(name);
 
-            for (final entity in entities) {
+            for (final T entity in entities) {
               String? point;
               if (name == Key.indexName) {
                 point = entity.id.toString();
@@ -221,9 +221,9 @@ class WriteEngine {
                 List<String> values = [];
                 bool skip = false;
 
-                for (final fieldName in fieldNames) {
-                  final Object? fieldValue = entity.toJson()[fieldName];
-                  Object? normalizedValue = fieldValue;
+                for (final String fieldName in fieldNames) {
+                  final fieldValue = entity.toJson()[fieldName];
+                  dynamic normalizedValue = fieldValue;
                   if (fieldValue is Map && fieldValue.containsKey("id")) {
                     normalizedValue = fieldValue["id"];
                   }
@@ -241,7 +241,7 @@ class WriteEngine {
                 }
               } else {
                 final Object? fieldValue = entity.toJson()[name];
-                Object? normalizedValue = fieldValue;
+                dynamic normalizedValue = fieldValue;
                 if (fieldValue is Map && fieldValue.containsKey("id")) {
                   normalizedValue = fieldValue["id"];
                 }

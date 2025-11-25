@@ -42,7 +42,7 @@ class DeleterImpl implements Deleter {
     Class<T>? type;
 
     if (entities.isNotEmpty) {
-      for (T t in entities) {
+      for (final T t in entities) {
         if (type == null) {
           type = t.sc as Class<T>;
         }

@@ -50,7 +50,7 @@ class Scene extends DataType {
     if (json["layouts"] != null) {
       List<Layout> layouts = <Layout>[];
       Layout item;
-      for (Map<String, dynamic> jsonItem in json["layouts"]) {
+      for (final Map<String, dynamic> jsonItem in json["layouts"]) {
         item = new Layout()..fromJson(jsonItem);
         layouts.add(item);
       }
@@ -59,7 +59,7 @@ class Scene extends DataType {
     if (json["images"] != null) {
       List<Image> images = <Image>[];
       Image item;
-      for (Map<String, dynamic> jsonItem in json["images"]) {
+      for (final Map<String, dynamic> jsonItem in json["images"]) {
         item = new Image()..fromJson(jsonItem);
         images.add(item);
       }
@@ -68,7 +68,7 @@ class Scene extends DataType {
     if (json["labels"] != null) {
       List<Label> labels = <Label>[];
       Label item;
-      for (Map<String, dynamic> jsonItem in json["labels"]) {
+      for (final Map<String, dynamic> jsonItem in json["labels"]) {
         item = new Label()..fromJson(jsonItem);
         labels.add(item);
       }
@@ -77,7 +77,7 @@ class Scene extends DataType {
     if (json["texturePacks"] != null) {
       List<TexturePack> texturePacks = <TexturePack>[];
       TexturePack item;
-      for (Map<String, dynamic> jsonItem in json["texturePacks"]) {
+      for (final Map<String, dynamic> jsonItem in json["texturePacks"]) {
         item = new TexturePack()..fromJson(jsonItem);
         texturePacks.add(item);
       }
@@ -86,7 +86,7 @@ class Scene extends DataType {
     if (json["rectangles"] != null) {
       List<Rectangle> rectangles = <Rectangle>[];
       Rectangle item;
-      for (Map<String, dynamic> jsonItem in json["rectangles"]) {
+      for (final Map<String, dynamic> jsonItem in json["rectangles"]) {
         item = new Rectangle()..fromJson(jsonItem);
         rectangles.add(item);
       }
@@ -107,7 +107,7 @@ class Scene extends DataType {
 
     if (layouts != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Layout item in layouts!) {
+      for (final Layout item in layouts!) {
         jsonArray.add(item.toJson());
       }
       json["layouts"] = jsonArray;
@@ -115,7 +115,7 @@ class Scene extends DataType {
 
     if (images != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Image item in images!) {
+      for (final Image item in images!) {
         jsonArray.add(item.toJson());
       }
       json["images"] = jsonArray;
@@ -123,7 +123,7 @@ class Scene extends DataType {
 
     if (labels != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Label item in labels!) {
+      for (final Label item in labels!) {
         jsonArray.add(item.toJson());
       }
       json["labels"] = jsonArray;
@@ -131,7 +131,7 @@ class Scene extends DataType {
 
     if (texturePacks != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (TexturePack item in texturePacks!) {
+      for (final TexturePack item in texturePacks!) {
         jsonArray.add(item.toJson());
       }
       json["texturePacks"] = jsonArray;
@@ -139,7 +139,7 @@ class Scene extends DataType {
 
     if (rectangles != null) {
       List<Map<String, dynamic>> jsonArray = <Map<String, dynamic>>[];
-      for (Rectangle item in rectangles!) {
+      for (final Rectangle item in rectangles!) {
         jsonArray.add(item.toJson());
       }
       json["rectangles"] = jsonArray;

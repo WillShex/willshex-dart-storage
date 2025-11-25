@@ -85,7 +85,7 @@ class QueryEngine {
       }
 
       if (candidateIds == null) {
-        for (final filter in query.allFilters!) {
+        for (final Filter filter in query.allFilters!) {
           String indexName = filter.fieldName;
           if (indexName == "id") indexName = Key.indexName;
 
@@ -108,7 +108,7 @@ class QueryEngine {
                 Pair<String, int> pair = Pair.fromString<String, int>(point);
 
                 final Object filterValue = filter.value;
-                Object comparisonValue = filterValue;
+                dynamic comparisonValue = filterValue;
                 if (filterValue is DataType) {
                   comparisonValue = filterValue.id ?? filterValue;
                 } else if (filterValue is Iterable) {
@@ -140,7 +140,7 @@ class QueryEngine {
     if (candidateIds != null) {
       Map<int, T> loaded =
           await loader.createLoadEngine().load(query.dataClass!, candidateIds);
-      for (T entity in loaded.values) {
+      for (final T entity in loaded.values) {
         objects.add(entity.toJson());
       }
     } else {
@@ -153,7 +153,7 @@ class QueryEngine {
               !query.isDistinct &&
               (query.allOrders == null || query.allOrders!.isEmpty);
 
-      await for (FileSystemEntity record in records) {
+      await for (final FileSystemEntity record in records) {
         Map<String, dynamic> object;
 
         if (record is File && record.path.endsWith(".json")) {
@@ -191,10 +191,10 @@ class QueryEngine {
     if (query.allGroups?.isNotEmpty ?? false) {
       final groupedObjects = <String, Map<String, dynamic>>{};
 
-      for (final object in objects) {
+      for (final Map<String, dynamic> object in objects) {
         final keyParts = <String>[];
 
-        for (final field in query.allGroups!) {
+        for (final String field in query.allGroups!) {
           keyParts.add(object[field]?.toString() ?? 'null');
         }
 
@@ -210,7 +210,7 @@ class QueryEngine {
       final distinctKeys = <String>{};
 
       final distinctObjects = <Map<String, dynamic>>[];
-      for (final object in objects) {
+      for (final Map<String, dynamic> object in objects) {
         final objectForDistinct = Map<String, dynamic>.from(object);
 
         objectForDistinct.remove("id");
@@ -255,7 +255,7 @@ class QueryEngine {
       Map<int, T> loaded = await loader.createLoadEngine().load(
           query.dataClass!, objects.map((Map<String, dynamic> f) => f["id"]));
 
-      for (Map<String, dynamic> object in objects) {
+      for (final Map<String, dynamic> object in objects) {
         if (loaded.containsKey(object["id"])) {
           matched.add(loaded[object["id"]]!);
         }
@@ -268,7 +268,7 @@ class QueryEngine {
   bool _matchesFilter(dynamic value, dynamic filterValue, FilterOperation op) {
     if (op == FilterOperation.In) {
       if (filterValue is Iterable) {
-        for (var item in filterValue) {
+        for (final item in filterValue) {
           if (_matchesFilter(value, item, FilterOperation.Equals)) {
             return true;
           }
@@ -331,7 +331,7 @@ class QueryEngine {
       Stream<FileSystemEntity> records = Directory("${folder.path}").list();
 
       bool indexable = true;
-      await for (FileSystemEntity record in records) {
+      await for (final FileSystemEntity record in records) {
         if (record is File && record.path.endsWith(".json")) {
           String content = await record.readAsString();
           T entity = type.instance()..fromString(content);
@@ -347,7 +347,7 @@ class QueryEngine {
               List<String> values = [];
               bool skip = false;
 
-              for (String fieldName in fieldNames) {
+              for (final String fieldName in fieldNames) {
                 var value = entity.toJson()[fieldName];
                 if (value is Map && value.containsKey("id")) {
                   value = value["id"];
@@ -400,7 +400,7 @@ class QueryEngine {
 
   String? _getCompoundIndexName(List<Filter> filters) {
     List<String> eqFields = [];
-    for (final filter in filters) {
+    for (final Filter filter in filters) {
       if (filter.operation == FilterOperation.Equals) {
         eqFields.add(filter.fieldName);
       }
@@ -416,15 +416,15 @@ class QueryEngine {
         filters.where((f) => f.operation == FilterOperation.Equals).toList();
     eqFilters.sort((a, b) => a.fieldName.compareTo(b.fieldName));
 
-    for (final filter in eqFilters) {
+    for (final Filter filter in eqFilters) {
       final Object filterValue = filter.value;
-      String valueStr;
+      late final String value;
       if (filterValue is DataType) {
-        valueStr = "${filterValue.id}";
+        value = "${filterValue.id}";
       } else {
-        valueStr = "$filterValue";
+        value = "$filterValue";
       }
-      parts.add(valueStr);
+      parts.add(value);
     }
     return parts.join("&");
   }
