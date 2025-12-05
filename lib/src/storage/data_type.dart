@@ -62,7 +62,7 @@ abstract class DataType extends Jsonable with Storable {
     }
 
     if (created != null) {
-      json["created"] = created?.toIso8601String();
+      json["created"] = created?.millisecondsSinceEpoch;
     }
 
     if (deleted != null) {
