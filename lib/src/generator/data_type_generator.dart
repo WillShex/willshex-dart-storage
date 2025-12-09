@@ -5,7 +5,11 @@ import "package:source_gen/source_gen.dart";
 import "package:willshex_storage/storage.dart";
 
 Builder dataTypeGenerator(BuilderOptions options) {
-  return PartBuilder([const DataTypeGenerator()], ".sc.dart");
+  return PartBuilder(
+    [const DataTypeGenerator()],
+    ".sc.dart",
+    formatOutput: (code) => code,
+  );
 }
 
 class DataTypeGenerator extends Generator {
