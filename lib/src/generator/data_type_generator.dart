@@ -8,7 +8,7 @@ Builder dataTypeGenerator(BuilderOptions options) {
   return PartBuilder(
     [const DataTypeGenerator()],
     ".sc.dart",
-    formatOutput: (code) => code,
+    formatOutput: (code, _) => code,
   );
 }
 
@@ -18,7 +18,8 @@ class DataTypeGenerator extends Generator {
   @override
   FutureOr<String> generate(LibraryReader library, BuildStep buildStep) async {
     final result = StringBuffer();
-    final dataTypeChecker = TypeChecker.fromRuntime(DataType);
+    final dataTypeChecker = TypeChecker.fromUrl(
+        "package:willshex_storage/src/storage/data_type.dart#DataType");
 
     for (final classElement in library.classes) {
       if (dataTypeChecker.isAssignableFrom(classElement) &&
