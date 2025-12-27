@@ -55,4 +55,12 @@ class DeleterImpl implements Deleter {
       await store.createWriteEngine().delete(type!, ids);
     }
   }
+
+  Future<void> all<T extends DataType>(Class<T> type) async {
+    await store.createWriteEngine().deleteAll(type);
+  }
+
+  Future<void> drop<T extends DataType>(Class<T> type) async {
+    await store.createWriteEngine().drop(type);
+  }
 }

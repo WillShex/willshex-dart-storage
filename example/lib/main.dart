@@ -169,16 +169,34 @@ Future<Null> main(List<String> args) async {
   print("Reversed (width desc): ${reversed.map((e) => e.width).toList()}");
 
   printTestTitle("delete single entity");
-  DataTypes.store.delete.entity(image);
+  await DataTypes.store.delete.entity(image);
   print("done");
 
   printTestTitle("delete multiple entity");
-  DataTypes.store.delete.entities(images.values);
+  await DataTypes.store.delete.entities(images.values);
 
   // Clean up new tests
-  DataTypes.store.delete.entity(img1);
-  DataTypes.store.delete.entity(img2);
-  DataTypes.store.delete.entity(scene);
+  await DataTypes.store.delete.entity(img1);
+  await DataTypes.store.delete.entity(img2);
+  await DataTypes.store.delete.entity(scene);
+
+  printTestTitle("18) delete all images");
+  await insertImages(5);
+  int countBefore = await DataTypes.store.load.image.count;
+  print("Count before delete all: $countBefore");
+  await DataTypes.store.delete.image.all();
+  int countAfter = await DataTypes.store.load.image.count;
+  print("Count after delete all: $countAfter");
+
+  printTestTitle("19) drop (delete all and reset ids)");
+  await insertImages(5);
+  int countBeforeDrop = await DataTypes.store.load.image.count;
+  print("Count before drop: $countBeforeDrop");
+  await DataTypes.store.delete.image.drop();
+  int countAfterDrop = await DataTypes.store.load.image.count;
+  print("Count after drop: $countAfterDrop");
+  Image newImage = await insertImage();
+  print("New image id after drop (should be 1): ${newImage.id}");
 
   printTestTitle("done");
 

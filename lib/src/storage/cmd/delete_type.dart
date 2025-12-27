@@ -17,4 +17,8 @@ abstract class DeleteType implements DeleteIds {
   Future<void> entity<T extends DataType>(T entity);
 
   Future<void> entities<T extends DataType>(Iterable<T> entities);
+
+  Future<void> all();
+
+  Future<void> drop();
 }

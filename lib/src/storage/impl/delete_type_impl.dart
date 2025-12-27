@@ -46,4 +46,14 @@ class DeleteTypeImpl implements DeleteType {
 
     return this.deleter.ids(type, ids);
   }
+
+  @override
+  Future<void> all() {
+    return deleter.all(type);
+  }
+
+  @override
+  Future<void> drop() {
+    return deleter.drop(type);
+  }
 }

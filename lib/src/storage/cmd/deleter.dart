@@ -19,4 +19,8 @@ abstract class Deleter {
   Future<void> entity<T extends DataType>(T entity);
 
   Future<void> entities<T extends DataType>(Iterable<T> entities);
+
+  Future<void> all<T extends DataType>(Class<T> type);
+
+  Future<void> drop<T extends DataType>(Class<T> type);
 }

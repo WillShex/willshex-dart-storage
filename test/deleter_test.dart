@@ -55,5 +55,27 @@ void main() {
       final count = await cached.load.testEntity.count;
       expect(count, 2);
     });
+
+    test("Deleter All (Preserves Auto Increment)", () async {
+      await cached.delete.testEntity.all();
+
+      final count = await cached.load.testEntity.count;
+      expect(count, 0);
+
+      TestEntity newItem = TestEntity(name: "D", value: 40);
+      await cached.save.entity(newItem);
+      expect(newItem.id, 4);
+    });
+
+    test("Deleter Drop (Resets Auto Increment)", () async {
+      await cached.delete.testEntity.drop();
+
+      final count = await cached.load.testEntity.count;
+      expect(count, 0);
+
+      TestEntity newItem = TestEntity(name: "E", value: 50);
+      await cached.save.entity(newItem);
+      expect(newItem.id, 1);
+    });
   });
 }

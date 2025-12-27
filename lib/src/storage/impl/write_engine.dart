@@ -96,6 +96,47 @@ class WriteEngine {
     });
   }
 
+  Future<void> drop<T extends DataType>(Class<T> type) {
+    return Future<void>(() async {
+      Directory parent = await store.folder;
+      Directory folder = fs.directory("${parent.path}/${type.simpleName}");
+
+      if (await folder.exists()) {
+        await folder.delete(recursive: true);
+      }
+
+      if (store.useCache) {
+        store.ensureCacheType(type).clear();
+      }
+    });
+  }
+
+  Future<void> deleteAll<T extends DataType>(Class<T> type) {
+    return Future<void>(() async {
+      Directory folder = await store.ensureFolder(type.simpleName);
+      List<int> ids = <int>[];
+
+      if (await folder.exists()) {
+        List<FileSystemEntity> files = await folder.list().toList();
+        for (final FileSystemEntity file in files) {
+          if (file is File) {
+            String name = path.basename(file.path);
+            if (name.endsWith(".json") && !name.startsWith("_")) {
+              int? id = int.tryParse(name.substring(0, name.length - 5));
+              if (id != null) {
+                ids.add(id);
+              }
+            }
+          }
+        }
+      }
+
+      if (ids.isNotEmpty) {
+        await delete(type, ids);
+      }
+    });
+  }
+
   Future<void> compact<T extends DataType>(Class<T> type) {
     return Future<void>(() async {});
   }
