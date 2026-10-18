@@ -10,9 +10,11 @@ import "dart:async";
 
 import "package:fs_shim/fs_shim.dart";
 import "package:meta/meta.dart";
+import "package:path/path.dart" as path;
 import "package:willshex_storage/src/storage/impl/compactor_impl.dart";
 import "package:willshex_storage/src/storage/impl/deleter_impl.dart";
 import "package:willshex_storage/src/storage/impl/loader_impl.dart";
+import "package:willshex_storage/src/storage/impl/read_write_lock.dart";
 import "package:willshex_storage/src/storage/impl/saver_impl.dart";
 import "package:willshex_storage/src/storage/impl/file_system_access.dart";
 import "package:willshex_storage/src/storage/impl/write_engine.dart";
@@ -30,6 +32,7 @@ class StorageImpl<S extends Storage> extends Storage {
   bool? _useCache;
   Map<String, Map<int, dynamic>>? c;
   Map<String, Future<void>>? _indexBuilds;
+  Map<String, ReadWriteLock>? _fileLocks;
 
   bool get useCache {
     return _useCache ?? false;
@@ -39,6 +42,29 @@ class StorageImpl<S extends Storage> extends Storage {
 
   Map<String, Future<void>> get indexBuilds =>
       _indexBuilds ??= <String, Future<void>>{};
+
+  Map<String, ReadWriteLock> get fileLocks =>
+      _fileLocks ??= <String, ReadWriteLock>{};
+
+  /// many reads of a file can run together, but a write waits for them and
+  /// blocks them, so a read never sees a half written record
+  Future<T> readAccess<T>(String filePath, Future<T> Function() action) =>
+      _access(filePath, (lock) => lock.read(action));
+
+  Future<T> writeAccess<T>(String filePath, Future<T> Function() action) =>
+      _access(filePath, (lock) => lock.write(action));
+
+  Future<T> _access<T>(
+      String filePath, Future<T> Function(ReadWriteLock lock) run) {
+    String key = path.normalize(filePath);
+    ReadWriteLock lock = fileLocks.putIfAbsent(key, ReadWriteLock.new);
+
+    return run(lock).whenComplete(() {
+      if (lock.isIdle && identical(fileLocks[key], lock)) {
+        fileLocks.remove(key);
+      }
+    });
+  }
 
   StorageImpl(this._pathProvider);
 

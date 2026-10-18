@@ -169,7 +169,8 @@ class QueryEngine {
             }
           }
 
-          object = jsonDecode(await record.readAsString());
+          object = jsonDecode(
+              await store.readAccess(record.path, () => record.readAsString()));
 
           if (QueryHelper.isMatchAll(object, query.allFilters)) {
             if (canTerminateEarly && matchedCount >= query.startAt) {
@@ -354,7 +355,8 @@ class QueryEngine {
       bool indexable = true;
       await for (final FileSystemEntity record in records) {
         if (record is File && record.path.endsWith(".json")) {
-          String content = await record.readAsString();
+          String content =
+              await store.readAccess(record.path, () => record.readAsString());
           T entity = type.instance()..fromString(content);
           if (entity.id != null) {
             String? point;

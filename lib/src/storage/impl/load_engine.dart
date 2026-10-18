@@ -42,9 +42,16 @@ class LoadEngine {
         if (entity == null) {
           recordFileHandle = fs.file("${folder.path}/${id.toString()}.json");
 
-          if (await recordFileHandle.exists()) {
-            (entity = type.instance())
-                .fromString(await recordFileHandle.readAsString());
+          String? content = await store.readAccess(recordFileHandle.path, () async {
+            if (await recordFileHandle.exists()) {
+              return await recordFileHandle.readAsString();
+            }
+
+            return null;
+          });
+
+          if (content != null) {
+            (entity = type.instance()).fromString(content);
 
             if (entity.id != null) {
               if (store.useCache) {

@@ -27,6 +27,17 @@ class WriteEngine {
 
   WriteEngine(this.store);
 
+  Future<String?> _readFile(File file) => store.readAccess(file.path, () async {
+        if (await file.exists()) {
+          return await file.readAsString();
+        }
+
+        return null;
+      });
+
+  Future<void> _writeFile(String filePath, String content) => store.writeAccess(
+      filePath, () => fs.file(filePath).writeAsString(content));
+
   Future<Map<int, T>> save<T extends DataType>(final Iterable<T> entities) {
     return Future<Map<int, T>>(() async {
       Class<T>? type;
@@ -72,9 +83,10 @@ class WriteEngine {
       List<T> entities = <T>[];
       for (final int id in ids) {
         recordFileHandle = fs.file("${folder.path}/${id.toString()}.json");
-        if (await recordFileHandle.exists()) {
+        String? content = await _readFile(recordFileHandle);
+        if (content != null) {
           T entity = type.instance();
-          entity.fromString(await recordFileHandle.readAsString());
+          entity.fromString(content);
           if (entity.id != null) {
             entities.add(entity);
           }
@@ -85,9 +97,11 @@ class WriteEngine {
 
       for (final int id in ids) {
         recordFileHandle = fs.file("${folder.path}/${id.toString()}.json");
-        if (await recordFileHandle.exists()) {
-          await recordFileHandle.delete();
-        }
+        await store.writeAccess(recordFileHandle.path, () async {
+          if (await recordFileHandle.exists()) {
+            await recordFileHandle.delete();
+          }
+        });
 
         if (store.useCache) {
           store.ensureCache().remove(id.toString());
@@ -165,17 +179,16 @@ class WriteEngine {
   Future<void> _setCounter<T extends DataType>(
       Class<T> type, String name, int value) async {
     Directory folder = await store.ensureFolder(type.simpleName);
-    File counterFileHandle = fs.file("${folder.path}/_.$name");
-    await counterFileHandle.writeAsString(value.toString());
+    await _writeFile("${folder.path}/_.$name", value.toString());
   }
 
   Future<int> _getCounter<T extends DataType>(
       Class<T> type, String name) async {
     int counter;
     Directory folder = await store.ensureFolder(type.simpleName);
-    File counterFileHandle = fs.file("${folder.path}/_.$name");
-    if (await counterFileHandle.exists()) {
-      counter = int.parse(await counterFileHandle.readAsString());
+    String? content = await _readFile(fs.file("${folder.path}/_.$name"));
+    if (content != null) {
+      counter = int.parse(content);
     } else {
       counter = 1;
     }
@@ -190,9 +203,8 @@ class WriteEngine {
     id -= entities.length;
     for (final T entity in entities) {
       entity.id = id;
-      await fs
-          .file("${folder.path}/${id.toString()}.json")
-          .writeAsString(entity.toStorable());
+      await _writeFile(
+          "${folder.path}/${id.toString()}.json", entity.toStorable());
       inserted[id] = entity;
 
       if (store.useCache) {
@@ -218,9 +230,8 @@ class WriteEngine {
         await _setAutoIncrement(type, autoInc = entity.id!);
       }
 
-      await fs
-          .file("${folder.path}/${entity.id.toString()}.json")
-          .writeAsString(entity.toStorable());
+      await _writeFile(
+          "${folder.path}/${entity.id.toString()}.json", entity.toStorable());
       updated[entity.id!] = entity;
 
       if (store.useCache) {
