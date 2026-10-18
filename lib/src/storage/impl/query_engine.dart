@@ -321,6 +321,26 @@ class QueryEngine {
 
   Future<void> _ensureIndex<T extends DataType>(
       Class<T> type, String indexName) async {
+    final String key =
+        "${(await store.ensureFolder(type.simpleName)).path}/.index/$indexName";
+
+    final Future<void>? building = store.indexBuilds[key];
+    if (building != null) {
+      return building;
+    }
+
+    final Future<void> build = _buildIndex(type, indexName);
+    store.indexBuilds[key] = build;
+
+    try {
+      await build;
+    } finally {
+      store.indexBuilds.remove(key);
+    }
+  }
+
+  Future<void> _buildIndex<T extends DataType>(
+      Class<T> type, String indexName) async {
     Directory indexFolder = fs.directory(
         "${(await store.ensureFolder(type.simpleName)).path}/.index/");
     File indexFile = fs.file("${indexFolder.path}/$indexName");

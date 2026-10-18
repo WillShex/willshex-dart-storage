@@ -13,6 +13,7 @@ import "dart:math";
 import "package:fs_shim/fs_shim.dart";
 import "package:logging/logging.dart";
 import "package:meta/meta.dart";
+import "package:path/path.dart";
 import "package:willshex_storage/src/storage/impl/index/index.dart";
 import "package:willshex_storage/src/storage/impl/index/key.dart";
 import "package:willshex_storage/src/storage/impl/index/pair.dart";
@@ -34,9 +35,9 @@ class IndexHelper {
     required String colName,
   }) async {
     Directory indexFolder = fs.directory(
-        "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
+        "${(await storage.ensureFolder(type.simpleName)).path}/.index");
 
-    File indexFile = fs.file("${indexFolder.path}$colName");
+    File indexFile = fs.file("${indexFolder.path}/$colName");
 
     if (!await indexFile.exists()) {
       return null;
@@ -47,7 +48,7 @@ class IndexHelper {
     List<File> childFiles = [];
     await for (final FileSystemEntity entity in indexFolder.list()) {
       if (entity is File) {
-        String name = entity.path.substring(indexFolder.path.length);
+        String name = basename(entity.path);
         if (name.startsWith("${colName}_") && RegExp(r"_\d+$").hasMatch(name)) {
           childFiles.add(entity);
         }
@@ -55,8 +56,8 @@ class IndexHelper {
     }
 
     childFiles.sort((a, b) {
-      String aName = a.path.substring(indexFolder.path.length);
-      String bName = b.path.substring(indexFolder.path.length);
+      String aName = basename(a.path);
+      String bName = basename(b.path);
       return aName.compareTo(bName);
     });
 
@@ -84,10 +85,9 @@ class IndexHelper {
     String? path,
   }) async {
     Directory indexFolder = fs.directory(
-        "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
+        "${(await storage.ensureFolder(type.simpleName)).path}/.index");
 
-    File pointsFile =
-        fs.file("${indexFolder.absolute.path}${colName}${path ?? ""}");
+    File pointsFile = fs.file("${indexFolder.path}/${colName}${path ?? ""}");
 
     if (!await pointsFile.exists()) {
       return null;
@@ -137,7 +137,7 @@ class IndexHelper {
     final String colPrefix = colName;
 
     for (final FileSystemEntity file in allFiles) {
-      final String fileName = file.path.substring(indexFolder.path.length);
+      final String fileName = basename(file.path);
       if (!fileName.startsWith(colPrefix)) continue;
 
       final String pathCandidate = fileName.substring(colPrefix.length);
@@ -182,15 +182,14 @@ class IndexHelper {
     String? path,
   }) async {
     Directory indexFolder = fs.directory(
-        "${(await storage.ensureFolder(type.simpleName)).path}/.index/");
+        "${(await storage.ensureFolder(type.simpleName)).path}/.index");
 
     if (index.points != null) {
       if (!await indexFolder.exists()) {
         await indexFolder.create();
       }
 
-      File pointsFile =
-          fs.file("${indexFolder.absolute.path}${colName}${path ?? ""}");
+      File pointsFile = fs.file("${indexFolder.path}/${colName}${path ?? ""}");
       pointsFile = await pointsFile.create(
         recursive: true,
       );

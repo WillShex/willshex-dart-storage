@@ -29,12 +29,16 @@ class StorageImpl<S extends Storage> extends Storage {
   PathProvider _pathProvider;
   bool? _useCache;
   Map<String, Map<int, dynamic>>? c;
+  Map<String, Future<void>>? _indexBuilds;
 
   bool get useCache {
     return _useCache ?? false;
   }
 
   set useCache(bool value) => _useCache = value;
+
+  Map<String, Future<void>> get indexBuilds =>
+      _indexBuilds ??= <String, Future<void>>{};
 
   StorageImpl(this._pathProvider);
 
