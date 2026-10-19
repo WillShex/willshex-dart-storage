@@ -193,6 +193,14 @@ class QueryEngine {
     if (query.allGroups?.isNotEmpty ?? false) {
       final groupedObjects = <String, Map<String, dynamic>>{};
 
+      objects.sort((Map<String, dynamic> a, Map<String, dynamic> b) {
+        final int byCreated = _createdOf(a).compareTo(_createdOf(b));
+
+        return byCreated != 0
+            ? byCreated
+            : (a["id"] as num).compareTo(b["id"] as num);
+      });
+
       for (final Map<String, dynamic> object in objects) {
         final keyParts = <String>[];
 
@@ -202,9 +210,7 @@ class QueryEngine {
 
         final groupKey = keyParts.join("-");
 
-        if (!groupedObjects.containsKey(groupKey)) {
-          groupedObjects[groupKey] = object;
-        }
+        groupedObjects[groupKey] = object;
       }
 
       objects = groupedObjects.values.toList();
@@ -265,6 +271,20 @@ class QueryEngine {
     }
 
     return matched;
+  }
+
+  int _createdOf(Map<String, dynamic> object) {
+    final dynamic created = object["created"];
+
+    if (created is int) {
+      return created;
+    }
+
+    if (created is String) {
+      return DateTime.tryParse(created)?.millisecondsSinceEpoch ?? 0;
+    }
+
+    return 0;
   }
 
   bool _matchesFilter(dynamic value, dynamic filterValue, FilterOperation op) {

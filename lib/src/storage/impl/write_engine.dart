@@ -203,6 +203,7 @@ class WriteEngine {
     id -= entities.length;
     for (final T entity in entities) {
       entity.id = id;
+      entity.created ??= DateTime.now();
       await _writeFile(
           "${folder.path}/${id.toString()}.json", entity.toStorable());
       inserted[id] = entity;

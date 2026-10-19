@@ -236,6 +236,50 @@ void main() {
       expect(results.length, 3);
     });
 
+    test("Group keeps the most recently saved record of each group", () async {
+      for (final int value in [5, 3, 1]) {
+        await cached.save.entity(TestEntity(name: "g", value: value));
+      }
+      await cached.save.entity(TestEntity(name: "h", value: 9));
+      await cached.save.entity(TestEntity(name: "h", value: 7));
+
+      final results = await cached.load.testEntity
+          .filter("name in", ["g", "h"])
+          .group("name")
+          .order("name")
+          .list;
+
+      expect(results.map((e) => "${e.name}:${e.value}"), ["g:1", "h:7"]);
+    });
+
+    test("Group prefers the later created record over the higher id", () async {
+      final TestEntity later = TestEntity(name: "k", value: 1);
+      later.created = DateTime.utc(2030);
+      await cached.save.entity(later);
+
+      final TestEntity earlier = TestEntity(name: "k", value: 2);
+      earlier.created = DateTime.utc(2021);
+      await cached.save.entity(earlier);
+
+      final results =
+          await cached.load.testEntity.filter("name", "k").group("name").list;
+
+      expect(results.map((e) => e.value), [1]);
+    });
+
+    test("Saving stamps created on insert and keeps it on update", () async {
+      final TestEntity entity = TestEntity(name: "s", value: 1);
+      expect(entity.created, isNull);
+
+      await cached.save.entity(entity);
+      final DateTime? stamped = entity.created;
+      expect(stamped, isNotNull);
+
+      entity.value = 2;
+      await cached.save.entity(entity);
+      expect(entity.created, stamped);
+    });
+
     test("Test group by 'name' and 'value'", () async {
       await cached.save.entities([
         TestEntity(name: "a", value: 1),
