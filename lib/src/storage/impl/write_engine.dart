@@ -302,11 +302,22 @@ class WriteEngine {
                   normalizedValue = fieldValue["id"];
                 }
 
-                if (normalizedValue != null) {
-                  if (normalizedValue is List || normalizedValue is Map) {
-                    continue;
-                  }
+                if (normalizedValue != null &&
+                    normalizedValue is! List &&
+                    normalizedValue is! Map) {
                   point = "$normalizedValue:${entity.id}";
+                }
+              }
+
+              if (name != Key.indexName) {
+                final String suffix = ":${entity.id}";
+                final List<String> stale = index.points!
+                    .where((String p) => p != point && p.endsWith(suffix))
+                    .toList();
+
+                for (final String p in stale) {
+                  index.points!.remove(p);
+                  modified = true;
                 }
               }
 

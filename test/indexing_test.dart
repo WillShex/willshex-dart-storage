@@ -137,6 +137,56 @@ void main() {
       var results = await cached.load.type(testEntityStorageClass).list;
       expect(results.length, 0);
     });
+
+    test("Saving a changed value drops the old index entry", () async {
+      final saved = await cached.save.entity(TestEntity(name: "A", value: 10));
+
+      var results =
+          await cached.load.type(testEntityStorageClass).filter("value", 10).list;
+      expect(results.length, 1);
+
+      final entity = results.single..value = 20;
+      await cached.save.entity(entity);
+
+      final indexFile = File(
+          "${(await (cached as StorageImpl).ensureFolder("TestEntity")).path}/.index/value");
+      final points = (await indexFile.readAsString()).split("\n");
+      expect(points, isNot(contains("10:$saved")));
+      expect(points, contains("20:$saved"));
+
+      results =
+          await cached.load.type(testEntityStorageClass).filter("value", 10).list;
+      expect(results, isEmpty);
+
+      results =
+          await cached.load.type(testEntityStorageClass).filter("value", 20).list;
+      expect(results.length, 1);
+    });
+
+    test("A stale index entry never returns a record that no longer matches",
+        () async {
+      final uncached = StorageProvider.provide(path);
+
+      final id = await uncached.save.entity(TestEntity(name: "A", value: 10));
+      await uncached.save.entity(TestEntity(name: "B", value: 20));
+
+      var results = await uncached.load
+          .type(testEntityStorageClass)
+          .filter("value", 10)
+          .list;
+      expect(results.map((e) => e.name), ["A"]);
+
+      final record = File(
+          "${(await (uncached as StorageImpl).ensureFolder("TestEntity")).path}/$id.json");
+      await record.writeAsString(
+          (TestEntity(id: id, name: "A", value: 30)).toStorable());
+
+      results = await uncached.load
+          .type(testEntityStorageClass)
+          .filter("value", 10)
+          .list;
+      expect(results, isEmpty);
+    });
   });
 }
 

@@ -142,7 +142,11 @@ class QueryEngine {
       Map<int, T> loaded =
           await loader.createLoadEngine().load(query.dataClass!, candidateIds);
       for (final T entity in loaded.values) {
-        objects.add(entity.toJson());
+        final Map<String, dynamic> object = entity.toJson();
+
+        if (QueryHelper.isMatchAll(object, query.allFilters)) {
+          objects.add(object);
+        }
       }
     } else {
       Directory folder = await store.ensureFolder(query.dataClass!.simpleName);
