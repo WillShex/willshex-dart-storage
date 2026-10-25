@@ -56,6 +56,17 @@ void main() {
       expect(count, 2);
     });
 
+    test("A deleted entity is no longer loaded by id from the cache", () async {
+      final entity =
+          (await cached.load.testEntity.filter("name", "C").list).single;
+      expect(await cached.load.testEntity.id(entity.id!), isNotNull);
+
+      await cached.delete.entity(entity);
+
+      expect(await cached.load.testEntity.id(entity.id!), isNull);
+      expect(await cached.load.testEntity.ids([entity.id!]), isEmpty);
+    });
+
     test("Deleter All (Preserves Auto Increment)", () async {
       await cached.delete.testEntity.all();
 

@@ -104,7 +104,7 @@ class WriteEngine {
         });
 
         if (store.useCache) {
-          store.ensureCache().remove(id.toString());
+          store.ensureCacheType(type).remove(id);
         }
       }
     });
