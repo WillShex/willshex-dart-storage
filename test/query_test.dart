@@ -182,13 +182,14 @@ void main() {
       // Clear existing data to ensure clean state for this test
       // Or just append? The setUp adds 5 entities.
       // Let's add specific data for these tests.
+      final created = DateTime(2026, 1, 1);
       await cached.save.entities([
-        TestEntity(name: "a", value: 1),
-        TestEntity(name: "a", value: 1),
-        TestEntity(name: "a", value: 2),
-        TestEntity(name: "b", value: 2),
-        TestEntity(name: "b", value: 2),
-        TestEntity(name: "b", value: 3),
+        TestEntity(name: "a", value: 1, created: created),
+        TestEntity(name: "a", value: 1, created: created),
+        TestEntity(name: "a", value: 2, created: created),
+        TestEntity(name: "b", value: 2, created: created),
+        TestEntity(name: "b", value: 2, created: created),
+        TestEntity(name: "b", value: 3, created: created),
       ]);
 
       // Filter by name "a" or "b" to exclude the setUp data (A, B, C, D, E)

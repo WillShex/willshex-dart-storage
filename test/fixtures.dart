@@ -11,12 +11,14 @@ class TestEntity extends DataType {
   TestEntity? child;
 
   TestEntity({
-    int? id,
+    super.id,
+    super.created,
+    super.deleted,
     this.name,
     this.value,
     this.tags,
     this.child,
-  }) : super(sc: testEntityStorageClass, id: id);
+  }) : super(sc: testEntityStorageClass);
 
   TestEntity.json(Map<String, dynamic> json) : super.json(json) {
     sc = testEntityStorageClass;
