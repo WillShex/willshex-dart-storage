@@ -141,8 +141,10 @@ void main() {
     test("Saving a changed value drops the old index entry", () async {
       final saved = await cached.save.entity(TestEntity(name: "A", value: 10));
 
-      var results =
-          await cached.load.type(testEntityStorageClass).filter("value", 10).list;
+      var results = await cached.load
+          .type(testEntityStorageClass)
+          .filter("value", 10)
+          .list;
       expect(results.length, 1);
 
       final entity = results.single..value = 20;
@@ -154,12 +156,16 @@ void main() {
       expect(points, isNot(contains("10:$saved")));
       expect(points, contains("20:$saved"));
 
-      results =
-          await cached.load.type(testEntityStorageClass).filter("value", 10).list;
+      results = await cached.load
+          .type(testEntityStorageClass)
+          .filter("value", 10)
+          .list;
       expect(results, isEmpty);
 
-      results =
-          await cached.load.type(testEntityStorageClass).filter("value", 20).list;
+      results = await cached.load
+          .type(testEntityStorageClass)
+          .filter("value", 20)
+          .list;
       expect(results.length, 1);
     });
 

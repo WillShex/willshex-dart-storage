@@ -199,9 +199,13 @@ class WriteEngine {
       Class<T> type, List<T> entities) async {
     Map<int, T> inserted = <int, T>{};
     Directory folder = await store.ensureFolder(type.simpleName);
-    int id = await _nextAutoIncrement(type, entities.length);
-    id -= entities.length;
     for (final T entity in entities) {
+      int id = await _nextAutoIncrement(type, 1) - 1;
+
+      while (await fs.file("${folder.path}/${id.toString()}.json").exists()) {
+        id = await _nextAutoIncrement(type, 1) - 1;
+      }
+
       entity.id = id;
       entity.created ??= DateTime.now();
       await _writeFile(
@@ -211,8 +215,6 @@ class WriteEngine {
       if (store.useCache) {
         store.ensureCacheType(type)[id] = entity;
       }
-
-      id++;
     }
 
     await _updateIndices(type, entities, true);
@@ -227,8 +229,8 @@ class WriteEngine {
     Directory folder = await store.ensureFolder(type.simpleName);
     for (final T entity in entities) {
       autoInc = await getAutoIncrement(type);
-      if (entity.id! > autoInc) {
-        await _setAutoIncrement(type, autoInc = entity.id!);
+      if (entity.id! >= autoInc) {
+        await _setAutoIncrement(type, autoInc = entity.id! + 1);
       }
 
       await _writeFile(

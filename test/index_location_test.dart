@@ -43,8 +43,10 @@ void main() {
         TestEntity(name: "C", value: 10),
       ]);
 
-      final results =
-          await store.load.type(testEntityStorageClass).filter("value", 10).list;
+      final results = await store.load
+          .type(testEntityStorageClass)
+          .filter("value", 10)
+          .list;
       expect(results.length, 2);
 
       final List<String> entries = await typeFolderEntries();

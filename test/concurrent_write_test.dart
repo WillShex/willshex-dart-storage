@@ -47,10 +47,8 @@ void main() {
 
       Storage store = StorageProvider.provide(() async => output.path);
 
-      await overlappingUpdates(
-          store,
-          (name) =>
-              File("${output.path}/TestEntity/$name").readAsString());
+      await overlappingUpdates(store,
+          (name) => File("${output.path}/TestEntity/$name").readAsString());
     });
 
     test("a read during an update always sees a whole record", () async {
